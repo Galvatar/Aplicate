@@ -9,7 +9,7 @@ export default function Sidebar() {
     const [guestMode, setGuestMode] = useState(false);
 
     return (
-        <div className="flex flex-col w-full font-jakarta h-screen max-w-85 bg-surface-container-low justify-between">
+        <div className="flex fixed flex-col w-full font-jakarta h-screen max-w-85 bg-surface-container-low justify-between">
             {/** Top half */}
             <div className="flex flex-col w-full px-5 py-8 gap-12">
                 {/** Title */}

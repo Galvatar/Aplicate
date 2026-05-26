@@ -1,10 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import MomentumCard from "./components/momentumCard";
+import SignalCard from "./components/signalCard";
 
 export default function Home() {
   const [username, setUsername] = useState("Guest");
-  const [interviewsCount, setInterviewsCount] = useState(0);
+  const [weekInterviewsCount, setWeekInterviewsCount] = useState(0);
+  const [applicationsCount, setApplicationsCount] = useState(14);
+  const [weekApplicationsCount, setWeekApplicationsCount] = useState(2);
+  const [interviewsCount, setInterviewsCount] = useState(3);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const today = new Date();
   const daysOfTheWeek = [
@@ -31,6 +36,14 @@ export default function Home() {
     "December",
   ];
 
+  function GetPadded(count: number): string {
+    if (count >= 10) {
+      return String(count);
+    } else {
+      return String(count).padStart(2, '0');
+    }
+  }
+
   function GetGreeting(hour: number): string {
     if (hour < 12) {
       return "morning";
@@ -52,7 +65,7 @@ export default function Home() {
       </h1>
       <h2 className="text-on-surface-variant max-w-xl">
         Keep working at it. You have{" "}
-        <span className="text-secondary-fixed-dim">{interviewsCount} interviews</span> scheduled
+        <span className="text-secondary-fixed-dim">{weekInterviewsCount} interviews</span> scheduled
         for next week. Take a moment to breathe before reviewing your board.
       </h2>
       <h3 className="flex -mt-1 font-bold text-outline text-xs items-center gap-1">
@@ -60,6 +73,85 @@ export default function Home() {
         </svg>
         Progress saved to this browser.
       </h3>
+      {/** Cards */}
+      <div className="flex gap-8 mt-10">
+        {/** Active pipeline */}
+        <div className="flex w-full relative flex-col gap-3 hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
+          <div className="flex w-full justify-between items-start">
+            <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
+              Active Pipeline
+            </h1>
+            <div className="flex text-primary w-10 h-10 rounded-full bg-surface-container items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M160-120q-33 0-56.5-23.5T80-200v-440q0-33 23.5-56.5T160-720h160v-80q0-33 23.5-56.5T400-880h160q33 0 56.5 23.5T640-800v80h160q33 0 56.5 23.5T880-640v440q0 33-23.5 56.5T800-120H160Zm0-80h640v-440H160v440Zm240-520h160v-80H400v80ZM160-200v-440 440Z"/>
+              </svg>
+            </div>
+          </div>
+          <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700" />
+          <div className="flex gap-3 items-end">
+            <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
+              {applicationsCount}
+            </h1>
+            {weekApplicationsCount > 0 && 
+              <h2 className="flex gap-1 text-sm text-secondary-fixed-dim items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z"/>
+                </svg>
+                +{weekApplicationsCount} this week
+              </h2>
+            }
+          </div>
+        </div>
+        {/** Next steps */}
+        <div className="flex w-full relative flex-col gap-3 hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
+          <div className="flex w-full justify-between items-start">
+            <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
+              Next Steps
+            </h1>
+            <div className="flex text-secondary-fixed-dim w-10 h-10 rounded-full bg-surface-container items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/>
+              </svg>
+            </div>
+          </div>
+          <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all duration-700" />
+          <div className="flex gap-3 items-end">
+            <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
+              {GetPadded(interviewsCount)}
+            </h1>
+            <h2 className="flex gap-1 text-sm text-outline items-center">
+              Interviews pending
+            </h2>
+          </div>
+        </div>
+      </div>
+      {/** Momentum */}
+      <div className="flex flex-col mt-10 gap-3">
+        {/** Title */}
+        <div className="flex justify-between items-center">
+          <h1 className="font-headline-lg-mobile font-semibold text-headline-lg-mobile text-on-surface">
+            Momentum
+          </h1>
+          <button className="rounded-full px-2 py-1 text-primary-fixed-dim hover:text-primary-fixed text-sm font-semibold transition-colors duration-500">
+            View Details
+          </button>
+        </div>
+        <MomentumCard applications={42} interviews={8} offers={0} />
+      </div>
+      {/** Recent signals */}
+      <div className="flex flex-col mt-10 gap-3">
+        {/** Title */}
+        <div className="flex justify-between items-center">
+          <h1 className="font-headline-lg-mobile font-semibold text-headline-lg-mobile text-on-surface">
+            Recent Signals
+          </h1>
+        </div>
+        <div className="flex flex-col">
+          <SignalCard title="Technical interview scheduled with" company="Stripe" timestamp={new Date('2026-05-25')} />
+          <SignalCard title="Technical interview scheduled with" company="Stripe" timestamp={new Date('2026-05-25')} />
+          <SignalCard title="Technical interview scheduled with" company="Stripe" timestamp={new Date('2026-05-25')} />
+        </div>
+      </div>
+      <button className="w-fit text-xs font-semibold px-5 py-3 border border-surface-container rounded-full text-on-surface hover:bg-surface-bright/20 transition-colors duration-500">
+        View History
+      </button>
     </div>
   );
 }
