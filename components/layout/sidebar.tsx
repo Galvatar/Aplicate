@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useModal } from "../ui/modal";
+import NewApplication from "./components/newApplication";
 
 export default function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
     const [guestMode, setGuestMode] = useState(false);
+    const modal = useModal();
 
     return (
         <div className="flex fixed flex-col w-full font-jakarta h-screen max-w-85 bg-surface-container-low justify-between">
@@ -30,7 +33,9 @@ export default function Sidebar() {
                         </h1>
                     }
                 </div>
-                <button className="py-3 px-3 text-sm font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200">
+                <button 
+                    onClick={() => modal.show(<NewApplication />)}
+                    className="py-3 px-3 text-sm font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200">
                     + New Application
                 </button>
                 {/** Content links */}

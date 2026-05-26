@@ -45,7 +45,7 @@ export default function SignalCard({
   }
 
   return (
-    <div className="flex rounded-xl border-b border-surface-container justify-between p-5 hover:bg-surface-container-lowest/50">
+    <div className="flex rounded-xl border-b border-surface-container justify-between p-5 hover:bg-surface-container-lowest/50 transition-colors duration-500">
       <div className="flex flex-col gap-2">
         <h1 className="text-on-surface">
           {title} <b>{company}</b>
