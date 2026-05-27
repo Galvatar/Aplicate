@@ -55,13 +55,13 @@ export function ModalProvider({ children }: { children: ReactNode }) {
       {children}
       {isOpen && (
         <div
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-surface/50 backdrop-blur-xs transition-opacity duration-300 ease-out ${
+          className={`fixed p-10 inset-0 z-50 flex items-center justify-center bg-surface/50 backdrop-blur-xs transition-opacity duration-300 ease-out ${
             isVisible ? "opacity-100" : "opacity-0"
           }`}
           onClick={hide}
         >
           <div
-            className={`flex flex-col items-center relative w-full transition-all duration-300 ease-out transform ${
+            className={`flex flex-col items-center h-full h-max-3/4 overflow-scroll relative w-full transition-all duration-300 ease-out transform ${
               isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
             }`}
             onClick={(e) => e.stopPropagation()}

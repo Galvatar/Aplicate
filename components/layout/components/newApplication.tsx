@@ -8,11 +8,14 @@ export default function NewApplication() {
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [location, setLocation] = useState("");
+  const [url, setUrl] = useState("");
+  const [notes, setNotes] = useState("");
   const [source, setSource] = useState("");
   const [employmentType, setEmploymentType] = useState("full-time");
 
   return (
-    <div className="font-jakarta flex flex-col w-full max-w-160 rounded-xl border border-outline-variant/10 bg-surface-container text-on-background">
+    <div className="font-jakarta flex flex-col relative h-full w-full max-w-160 rounded-xl border border-outline-variant/10 bg-surface-container text-on-background">
+      {/** Title */}
       <div className="flex justify-between items-center p-8 border-b border-outline-variant/10">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold">New Application</h1>
@@ -33,9 +36,10 @@ export default function NewApplication() {
           </svg>
         </div>
       </div>
-      <form className="flex flex-col p-8 gap-8">
+      {/** Form data */}
+      <form className="flex flex-col overflow-scroll items-center p-8 gap-8">
         {/** First line */}
-        <div className="flex gap-5">
+        <div className="flex w-full gap-5">
           {/** Company */}
           <div className="flex w-full flex-col gap-3">
             <h1 className="font-bold text-sm">Company</h1>
@@ -82,7 +86,7 @@ export default function NewApplication() {
           </div>
         </div>
         {/** Second line */}
-        <div className="flex gap-5">
+        <div className="flex w-full gap-5">
           {/** Location */}
           <div className="flex w-full flex-col gap-3">
             <h1 className="font-bold text-sm">Location</h1>
@@ -128,6 +132,7 @@ export default function NewApplication() {
             </div>
           </div>
         </div>
+        {/** Employment type */}
         <div className="flex w-full flex-col gap-3">
           <h1 className="font-bold text-sm">Employment Type</h1>
           <div className="flex flex-wrap gap-3">
@@ -175,7 +180,75 @@ export default function NewApplication() {
             </button>
           </div>
         </div>
+        {/** Posting URL */}
+        <div className="flex w-full flex-col gap-3">
+          <h1 className="font-bold text-sm">Posting URL</h1>
+          <div className="flex bg-surface-container-highest px-5 py-3 rounded-lg gap-2">
+            <svg
+              className="text-on-surface-variant/50"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="currentColor"
+            >
+              <path d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z" />
+            </svg>
+            <input
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://"
+              className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+            />
+          </div>
+        </div>
+        {/** Notes */}
+        <div className="flex w-full flex-col gap-3">
+          <h1 className="font-bold text-sm">Notes</h1>
+          <div className="flex gap-2 bg-surface-container-highest px-5 py-3 rounded-lg">
+            <svg className="text-on-surface-variant/50" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/>
+            </svg>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Add any additional notes..."
+              rows={4}
+              className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold resize-none w-full bg-surface-container-highest"
+            />
+          </div>
+        </div>
+        {/** Email sync */}
+        <div className="flex group gap-4 bg-surface-container-lowest/50 rounded-lg p-5 border border-outline-variant/5 hover:bg-surface-container-lowest transition-colors cursor-pointer">
+            <div className="h-fit p-2 bg-surface-container-high rounded-full text-secondary-fixed-dim">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/>
+                </svg>
+            </div>
+            <div className="flex flex-col gap-0">
+                <h1 className="text-on-background text-sm font-bold">
+                    Automate tracking
+                </h1>
+                <h2 className="text-on-surface-variant mt-1 text-xs font-semibold">
+                    Connect your inbox to automatically sync status updates and interview invites for this application.
+                </h2>
+            </div>
+            <svg className="text-on-surface-variant/30 group-hover:text-primary transition-colors" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+            </svg>
+        </div>
+        <h4 className="flex text-on-surface-variant gap-2 text-xs items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 -960 960 960" width="12px" fill="currentColor"><path d="M440-280h80v-240h-80v240Zm68.5-331.5Q520-623 520-640t-11.5-28.5Q497-680 480-680t-28.5 11.5Q440-657 440-640t11.5 28.5Q463-600 480-600t28.5-11.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+            </svg>
+            Applications added in guest mode are stored locally in your browser.
+        </h4>
       </form>
+      {/** Buttons */}
+      <div className="flex justify-end items-center p-8 border-t border-outline-variant/10 gap-4">
+        <button className="px-6 py-2.5 rounded-lg text-sm font-bold text-on-surface-variant hover:text-on-background hover:bg-surface-container-high transition-all">
+            Cancel
+        </button>
+        <button className="px-8 py-2.5 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary-fixed-dim hover:shadow-[0_0_20px_rgba(191,194,255,0.15)] transition-all">
+            Save Application
+        </button>
+      </div>
     </div>
   );
 }
