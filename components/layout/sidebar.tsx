@@ -8,7 +8,7 @@ import NewApplication from "./components/newApplication";
 export default function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
-    const [guestMode, setGuestMode] = useState(false);
+    const [guestMode, setGuestMode] = useState(true);
     const modal = useModal();
 
     return (
