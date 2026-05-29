@@ -1,17 +1,27 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useModal } from "../ui/modal";
 import NewApplication from "./components/newApplication";
+import { signOut } from "@/lib/auth";
+import { useUser } from "@/hooks/use-user";
 
 export default function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
     const [guestMode, setGuestMode] = useState(true);
     const modal = useModal();
+    const { user } = useUser();
 
-    if (pathname === "/signup") return (<></>)
+    useEffect(() => {
+      setGuestMode(user == null)
+    }, [user])
+
+    if (pathname === "/signup"
+        || pathname === "/login"
+    ) return (<></>)
+    
 
     return (
         <div className="flex flex-col w-full font-jakarta h-screen max-w-85 bg-surface-container-low justify-between">
@@ -107,7 +117,7 @@ export default function Sidebar() {
                 </div>
                 {guestMode ? 
                     <div 
-                        onClick={() => router.replace('/home')}
+                        onClick={() => router.replace('/signup')}
                         className="flex font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M160-160v-80h109q-51-44-80-106t-29-134q0-112 68-197.5T400-790v84q-70 25-115 86.5T240-480q0 54 21.5 99.5T320-302v-98h80v240H160Zm440 0q-50 0-85-35t-35-85q0-48 33-82.5t81-36.5q17-36 50.5-58.5T720-480q53 0 91.5 34.5T858-360q42 0 72 29t30 70q0 42-29 71.5T860-160H600Zm116-360q-7-41-27-76t-49-62v98h-80v-240h240v80H691q43 38 70.5 89T797-520h-81ZM600-240h260q8 0 14-6t6-14q0-8-6-14t-14-6h-70v-50q0-29-20.5-49.5T720-400q-29 0-49.5 20.5T650-330v10h-50q-17 0-28.5 11.5T560-280q0 17 11.5 28.5T600-240Zm120-80Z"/>
                         </svg>
@@ -117,7 +127,7 @@ export default function Sidebar() {
                     </div>
                 :
                     <div 
-                        onClick={() => router.replace('/home')}
+                        onClick={async () => await signOut()}
                         className="flex font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
                         </svg>

@@ -5,6 +5,20 @@
   --foreground: #171717;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #333539 inset !important;
+  -webkit-text-fill-color: #e2e2e7 !important;
+  caret-color: #e2e2e7 !important;
+  border: none !important;
+  outline: none !important;
+}
+
+input:-webkit-autofill::first-line {
+  color: #e2e2e7 !important;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

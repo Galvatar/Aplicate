@@ -1,10 +1,14 @@
 "use client";
 
 import { useModal } from "@/components/ui/modal";
+import { useApplications } from "@/hooks/use-applications";
+import { useUser } from "@/hooks/use-user";
+import { Application } from "@/lib/types";
 import { useState } from "react";
 
 export default function NewApplication() {
   const modal = useModal();
+  const storage = useApplications();
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [location, setLocation] = useState("");
@@ -12,6 +16,26 @@ export default function NewApplication() {
   const [notes, setNotes] = useState("");
   const [source, setSource] = useState("");
   const [employmentType, setEmploymentType] = useState("full-time");
+  const [preregister, setPreregister] = useState(false);
+  
+  const { user } = useUser();
+
+  async function handleSubmit() {
+    const newApp: Application = {
+        id: crypto.randomUUID(),
+        userId: user?.id ?? "",
+        title: role,
+        employmentType: employmentType,
+        company: company,
+        status: preregister ? "preregistered" : "applied",
+        applied: new Date(),
+        lastUpdate: new Date(),
+        journey: preregister ? "preregistered" : "applied",
+        notes: notes
+    }
+    await storage.createApplication(newApp);
+    modal.hide()
+  }
 
   return (
     <div className="font-jakarta flex flex-col relative h-full w-full max-w-160 rounded-xl border border-outline-variant/10 bg-surface-container text-on-background">
@@ -37,7 +61,12 @@ export default function NewApplication() {
         </div>
       </div>
       {/** Form data */}
-      <form className="flex flex-col overflow-scroll items-center p-8 gap-8">
+      <form 
+        onSubmit={(e) => {
+            e.preventDefault()
+            handleSubmit()
+        }}
+        className="flex flex-col overflow-scroll items-center p-8 gap-8">
         {/** First line */}
         <div className="flex w-full gap-5">
           {/** Company */}
@@ -131,6 +160,18 @@ export default function NewApplication() {
               />
             </div>
           </div>
+        </div>
+        <div className="flex w-full items-center gap-3">
+            <input
+                id="terms-checkbox"
+                type="checkbox"
+                checked={preregister}
+                onChange={(e) => setPreregister(e.target.checked)}
+                className="w-5 h-5 rounded cursor-pointer appearance-none accent-primary border border-outline-variant checked:bg-secondary-fixed-dim transition-colors"
+            />
+            <label htmlFor="terms-checkbox" className="text-sm text-on-surface-variant cursor-pointer">
+                This is a pre-registration
+            </label>
         </div>
         {/** Employment type */}
         <div className="flex w-full flex-col gap-3">
@@ -242,10 +283,14 @@ export default function NewApplication() {
       </form>
       {/** Buttons */}
       <div className="flex justify-end items-center p-8 border-t border-outline-variant/10 gap-4">
-        <button className="px-6 py-2.5 rounded-lg text-sm font-bold text-on-surface-variant hover:text-on-background hover:bg-surface-container-high transition-all">
+        <button 
+            onClick={() => modal.hide()}
+            className="px-6 py-2.5 rounded-lg text-sm font-bold text-on-surface-variant hover:text-on-background hover:bg-surface-container-high transition-all">
             Cancel
         </button>
-        <button className="px-8 py-2.5 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary-fixed-dim hover:shadow-[0_0_20px_rgba(191,194,255,0.15)] transition-all">
+        <button 
+            onClick={() => handleSubmit()}
+            className="px-8 py-2.5 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary-fixed-dim hover:shadow-[0_0_20px_rgba(191,194,255,0.15)] transition-all">
             Save Application
         </button>
       </div>

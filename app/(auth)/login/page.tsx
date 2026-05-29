@@ -1,39 +1,32 @@
 'use client'
 
-import { signInWithGoogle, signUp } from "@/lib/auth";
+import { signIn, signInWithGoogle } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function SignupPage() {
+export default function LoginPage() {
     const router = useRouter();
-    const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [passwordValidation, setPasswordValidation] = useState("");
     const [error, setError] = useState("");
     const [disableSubmit, setDisableSubmit] = useState(true);
     const [disableGoogle, setDisableGoogle] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-      if (fullName !== ""
-        && email !== ""
+        if (email !== ""
         && password !== ""
-        && passwordValidation !== ""
-      ) {
-        setDisableSubmit(false)
-      }
-    }, [fullName, email, password, passwordValidation])
+        ) {
+            setDisableSubmit(false)
+        }
+    }, [email, password])
     
 
     async function handleSubmit() {
         setError("");
         setDisableSubmit(true);
         setDisableGoogle(true);
-        if (password !== passwordValidation) {
-            setError("Passwords do not match.")
-            return;
-        }
-        const error = await signUp(fullName, email, password, passwordValidation);
+        const error = await signIn(email, password);
         if (error !== "") {
             setError(error);
         } else {
@@ -48,40 +41,20 @@ export default function SignupPage() {
             <div className="w-20 h-20 rounded-xl overflow-hidden shadow-lg border border-outline-variant/30 flex items-center justify-center bg-surface-container">
                 <img src={'/logo.png'} alt="FlowSpace logo" className="opacity-90" />
             </div>
-            <h1 className="text-primary text-3xl font-bold text-center">
-                FlowSpace
+            <h1 className="text-on-surface text-3xl font-bold text-center">
+                Welcome back
             </h1>
             <h2 className="text-on-surface-variant text-sm font-medium text-center max-w-xs">
-                Your journey to employment starts here.
+                Enter your details to access your workspace.
             </h2>
             <div className="glass-panel w-full max-w-md rounded-xl p-8 md:p-10 shadow-xl relative overflow-hidden bg-surface-container-low border-outline-variant/30">
                 <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-                <h2 className="text-on-surface text-3xl font-semibold mb-8 text-center relative z-10">
-                    Create Account
-                </h2>
                 <form 
                     onSubmit={(e) => {
                         e.preventDefault()
                         handleSubmit()
                     }}
                     className="space-y-6 relative z-10">
-                    {/** Full name */}
-                    <div className="space-y-2">
-                        <label className="block text-on-surface-variant font-semibold">
-                            Full Name
-                        </label>
-                        <div className="relative">
-                            <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant/50" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/>
-                            </svg>
-                            <input
-                                type="text"
-                                value={fullName}
-                                onChange={(e) => setFullName(e.target.value)}
-                                placeholder="Jane Doe"
-                                className="w-full outline-none input-field rounded-lg py-3 pl-10 pr-4 placeholder-on-surface-variant/40 bg-surface-container-highest border-transparent text-on-surface"
-                            />
-                        </div>
-                    </div>
                     {/** Email */}
                     <div className="space-y-2">
                         <label className="block text-on-surface-variant font-semibold">
@@ -101,33 +74,34 @@ export default function SignupPage() {
                     </div>
                     {/** Password */}
                     <div className="space-y-2">
-                        <label className="block text-on-surface-variant font-semibold">
+                        <label className="flex items-center text-on-surface-variant font-semibold justify-between">
                             Password
+                            <button className="text-sm text-primary-fixed-dim hover:text-primary-container transition-colors">
+                                Forgot Password?
+                            </button>
                         </label>
                         <div className="relative">
                             <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant/50" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm296.5-143.5Q560-327 560-360t-23.5-56.5Q513-440 480-440t-56.5 23.5Q400-393 400-360t23.5 56.5Q447-280 480-280t56.5-23.5ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/>
                             </svg>
+                            {visible ?
+                            <svg 
+                                onClick={() => {
+                                    setVisible(false)
+                                }}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant/50" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m644-428-58-58q9-47-27-88t-93-32l-58-58q17-8 34.5-12t37.5-4q75 0 127.5 52.5T660-500q0 20-4 37.5T644-428Zm128 126-58-56q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-62-62q41-17 84-25.5t90-8.5q151 0 269 83.5T920-500q-23 59-60.5 109.5T772-302Zm20 246L624-222q-35 11-70.5 16.5T480-200q-151 0-269-83.5T40-500q21-53 53-98.5t73-81.5L56-792l56-56 736 736-56 56ZM222-624q-29 26-53 57t-41 67q50 101 143.5 160.5T480-280q20 0 39-2.5t39-5.5l-36-38q-11 3-21 4.5t-21 1.5q-75 0-127.5-52.5T300-500q0-11 1.5-21t4.5-21l-84-82Zm319 93Zm-151 75Z"/>
+                            </svg>
+                            :
+                            <svg 
+                                onClick={() => {
+                                    setVisible(true)
+                                }}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant/50" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M607.5-372.5Q660-425 660-500t-52.5-127.5Q555-680 480-680t-127.5 52.5Q300-575 300-500t52.5 127.5Q405-320 480-320t127.5-52.5Zm-204-51Q372-455 372-500t31.5-76.5Q435-608 480-608t76.5 31.5Q588-545 588-500t-31.5 76.5Q525-392 480-392t-76.5-31.5ZM214-281.5Q94-363 40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200q-146 0-266-81.5ZM480-500Zm207.5 160.5Q782-399 832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280q113 0 207.5-59.5Z"/>
+                            </svg>
+                            }
                             <input
-                                type="password"
+                                type={!visible ? "password" : "text"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="•••••••"
-                                className="w-full input-field outline-none rounded-lg py-3 pl-10 pr-4 placeholder-on-surface-variant/40 bg-surface-container-highest border-transparent text-on-surface"
-                            />
-                        </div>
-                    </div>
-                    {/** Password Confirmation*/}
-                    <div className="space-y-2">
-                        <label className="block text-on-surface-variant font-semibold">
-                            Confirm Password
-                        </label>
-                        <div className="relative">
-                            <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant/50" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm296.5-143.5Q560-327 560-360t-23.5-56.5Q513-440 480-440t-56.5 23.5Q400-393 400-360t23.5 56.5Q447-280 480-280t56.5-23.5ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/>
-                            </svg>
-                            <input
-                                type="password"
-                                value={passwordValidation}
-                                onChange={(e) => setPasswordValidation(e.target.value)}
                                 placeholder="•••••••"
                                 className="w-full input-field outline-none rounded-lg py-3 pl-10 pr-4 placeholder-on-surface-variant/40 bg-surface-container-highest border-transparent text-on-surface"
                             />
@@ -137,9 +111,7 @@ export default function SignupPage() {
                         disabled={disableSubmit}
                         className="flex w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary-container rounded-lg py-3 px-4 justify-center items-center gap-2 font-semibold bg-primary-container hover:bg-primary text-on-primary-container transition-colors"
                         type="submit">
-                        Create Account
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/>
-                        </svg>
+                        Log in
                     </button>
                     {error !== "" &&
                     <h4 className="bg-red-300 text-sm font-semibold border border-red-500 text-red-700 rounded-lg p-3">
@@ -165,7 +137,7 @@ export default function SignupPage() {
                     }}
                     className="w-full font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent text-lg rounded-lg py-3 px-4 border border-outline-variant/50 flex justify-center items-center gap-2 mt-5 hover:bg-surface-container-lowest transition-colors duration-300">
                     <img src={'/google.png'} alt="Google log" className="w-5 h-5" />
-                    Signup with Google
+                    Sign in with Google
                 </button>
                 <button 
                     onClick={() => {
@@ -176,12 +148,12 @@ export default function SignupPage() {
                 </button>
                 <div className="flex gap-2 w-full items-center justify-center mt-5">
                     <h1>
-                        Already have an account?
+                        Don't have an account?
                     </h1>
                     <button 
-                        onClick={() => router.replace('/login')}
-                        className="text-primary-fixed-dim hover:text-primary-fixed">
-                        Log In
+                        onClick={() => router.replace('/signup')}
+                        className="text-primary-fixed-dim hover:text-primary-fixed transition-colors">
+                        Sign up
                     </button>
                 </div>
             </div>

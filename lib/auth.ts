@@ -1,13 +1,36 @@
 import { supabase } from "./supabase/client"
 
+const getAuthErrorMessage = (error: string): string => {
+  const errorMap: Record<string, string> = {
+    'Invalid login credentials': 'Email or password is incorrect',
+    'Email not confirmed': 'Please verify your email before signing in',
+    'User already registered': 'This email is already registered',
+    'Password should be at least 6 characters': 'Password must be at least 6 characters',
+    'invalid_grant': 'Invalid email or password',
+    'weak_password': 'Password is too weak. Use uppercase, lowercase, numbers, and symbols',
+    'email_not_confirmed': 'Please check your email to verify your account',
+  };
+
+  for (const [key, message] of Object.entries(errorMap)) {
+    if (error.toLowerCase().includes(key.toLowerCase())) {
+      return message;
+    }
+  }
+
+  return error || 'An authentication error occurred';
+};
+
 export const signIn = async (
     email: string,
     password: string
-) => {
+): Promise<string> => {
     const { error } = await supabase.auth.signInWithPassword({
         email, password
     })
-    if (error) throw error;
+    if (error) {
+        return getAuthErrorMessage(error.message);
+    }
+    return "";
 }
 
 export const signUp = async (
@@ -15,18 +38,21 @@ export const signUp = async (
     email: string,
     password: string,
     passwordValidation: string
-) => {
+): Promise<string> => {
     if (password !== passwordValidation) throw new Error("Password does not match");
     const nameParts = fullName.split(" ");
     const { error } = await supabase.auth.signUp({
         email, 
         password,
         options: { data: {
-            firstName: nameParts[0],
-            lastName: nameParts[1]
+            first_name: nameParts[0],
+            last_name: nameParts[1]
         }}
     })
-    if (error) throw error;
+     if (error) {
+        return getAuthErrorMessage(error.message);
+    }
+    return "";
 }
 
 export const signInWithGoogle = async () => {
@@ -37,4 +63,9 @@ export const signInWithGoogle = async () => {
     }
   })
   if (error) throw error
+}
+
+export const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
 }

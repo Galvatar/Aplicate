@@ -12,7 +12,7 @@ export class SupabaseApplicationStore implements ApplicationStoreInterface {
     async getApplications(): Promise<Application[]> {
         const { data, error } = await this.client
             .from('Applications')
-            .select('id, applied, lastUpdate, title, company, role, foundOn, status, location, journey')
+            .select('id, applied, lastUpdate, title, company, employmentType, foundOn, status, location, journey')
 
         if (error) throw error;
         return data as Application[] || [];

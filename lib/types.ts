@@ -4,9 +4,10 @@ export interface SankeyData {
 
 export interface Application {
     id: string
+    userId: string
     title: string
     company: string
-    role?: string
+    employmentType?: string
     foundOn?: string
     status: string
     location?: string

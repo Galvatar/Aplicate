@@ -1,109 +1,98 @@
 "use client";
 
 import Dropdown from "@/components/ui/dropdown";
+import { useApplications } from "@/hooks/use-applications";
 import { timeAgo } from "@/lib/timeAgo";
-import { useState } from "react";
+import { Application } from "@/lib/types";
+import { useEffect, useState } from "react";
 
 export default function Statistics() {
   const [search, setSearch] = useState("");
-  const [activeCount, setActiveCount] = useState(24);
-
   const [statusFilter, setStatusFilter] = useState("All");
   const [dateAppliedFilter, setDateAppliedFilter] = useState("All Time");
   const [employmentTypeFilter, setEmploymentTypeFilter] = useState("All");
   const [lastUpdateFilter, setLastUpdateFilter] = useState("All Time");
+  const [applications, setApplications] = useState([] as Application[]);
 
   const statusOptions = ["All", "Applied", "Screening", "Interview", "Offer", "Rejected"];
   const dateAppliedOptions = ["All Time", "Last 7 Days", "Last 30 Days", "Last 90 Days", "Last Year"];
   const employmentTypeOptions = ["All", "Full-time", "Part-time", "Contract", "Temporary", "Internship"];
   const lastUpdateOptions = ["All Time", "Last 7 Days", "Last 30 Days", "Last 90 Days", "Last Year"];
+  
+  const { loading, getApplications } = useApplications();
+  const activeApplications = applications.filter(app => app.status !== "rejected");
+  const filteredApplications = applications.filter(app => {
+    // Search filter
+    const searchLower = search.toLowerCase();
+    const matchesSearch = !search || 
+      app.company.toLowerCase().includes(searchLower) || 
+      app.title.toLowerCase().includes(searchLower);
 
-  const initialApplications = [
-    {
-      id: "1",
-      title: "Senior Frontend Engineer",
-      company: "Acme Corp",
-      role: "Frontend",
-      foundOn: "LinkedIn",
-      status: "Applied",
-      location: "San Francisco, CA",
-      applied: new Date("2024-05-15"),
-      lastUpdate: new Date("2024-05-20"),
-      journey: "Applied",
-      notes: "Great company, modern tech stack",
-      pay: 150000,
-    },
-    {
-      id: "2",
-      title: "Full Stack Developer",
-      company: "TechStart Inc",
-      role: "Full Stack",
-      foundOn: "Indeed",
-      status: "Screening",
-      location: "Remote",
-      applied: new Date("2024-05-10"),
-      lastUpdate: new Date("2024-05-22"),
-      journey: "Applied,Screening",
-      notes: "Remote position, flexible hours",
-      pay: 130000,
-    },
-    {
-      id: "3",
-      title: "Product Engineer",
-      company: "Innovation Labs",
-      role: "Backend",
-      foundOn: "Company Website",
-      status: "Interview",
-      location: "New York, NY",
-      applied: new Date("2024-05-01"),
-      lastUpdate: new Date("2024-05-23"),
-      journey: "Applied,Screening,Interview",
-      notes: "Second round interview scheduled",
-      pay: 140000,
-    },
-    {
-      id: "4",
-      title: "React Developer",
-      company: "WebFlow Studios",
-      role: "Frontend",
-      foundOn: "LinkedIn",
-      status: "Rejected",
-      location: "Los Angeles, CA",
-      applied: new Date("2024-04-28"),
-      lastUpdate: new Date("2024-05-18"),
-      journey: "Applied,Rejected",
-      notes: "Not selected, lack of experience",
-      pay: 120000,
-    },
-    {
-      id: "5",
-      title: "Software Architect",
-      company: "Enterprise Solutions",
-      role: "Full Stack",
-      foundOn: "Recruiter",
-      status: "Offer",
-      location: "Boston, MA",
-      applied: new Date("2024-04-20"),
-      lastUpdate: new Date("2024-05-24"),
-      journey: "Applied,Screening,Interview,Offer",
-      notes: "Offer accepted! Start date June 1st",
-      pay: 160000,
-    },
-    {
-      id: "6",
-      title: "DevOps Engineer",
-      company: "CloudTech Systems",
-      role: "DevOps",
-      foundOn: "Indeed",
-      status: "Applied",
-      location: "Remote",
-      applied: new Date("2024-05-22"),
-      lastUpdate: new Date("2024-05-22"),
-      journey: "Applied",
-      notes: "Applied yesterday",
-      pay: 135000,
-    },
-  ];
+    // Status filter
+    const matchesStatus = statusFilter === "All" || 
+    app.status.toLowerCase() === statusFilter.toLowerCase();
+
+    // Date Applied filter
+    let matchesDateApplied = true;
+    if (dateAppliedFilter !== "All Time") {
+      const appDate = new Date(app.applied);
+      const now = new Date();
+      const daysDiff = (now.getTime() - appDate.getTime()) / (1000 * 60 * 60 * 24);
+      
+      switch(dateAppliedFilter) {
+        case "Last 7 Days":
+          matchesDateApplied = daysDiff <= 7;
+          break;
+        case "Last 30 Days":
+          matchesDateApplied = daysDiff <= 30;
+          break;
+        case "Last 90 Days":
+          matchesDateApplied = daysDiff <= 90;
+          break;
+        case "Last Year":
+          matchesDateApplied = daysDiff <= 365;
+          break;
+      }
+    }
+
+    const matchesEmploymentType = employmentTypeFilter === "All" || 
+      app.employmentType?.toLowerCase() === employmentTypeFilter.toLowerCase();
+
+    // Last Update filter
+    let matchesLastUpdate = true;
+    if (lastUpdateFilter !== "All Time") {
+      const lastUpdateDate = new Date(app.lastUpdate);
+      const now = new Date();
+      const daysDiff = (now.getTime() - lastUpdateDate.getTime()) / (1000 * 60 * 60 * 24);
+      
+      switch(lastUpdateFilter) {
+        case "Last 7 Days":
+          matchesLastUpdate = daysDiff <= 7;
+          break;
+        case "Last 30 Days":
+          matchesLastUpdate = daysDiff <= 30;
+          break;
+        case "Last 90 Days":
+          matchesLastUpdate = daysDiff <= 90;
+          break;
+        case "Last Year":
+          matchesLastUpdate = daysDiff <= 365;
+          break;
+      }
+    }
+
+    return matchesSearch && matchesStatus && matchesDateApplied && matchesLastUpdate && matchesEmploymentType;
+  });
+
+  useEffect(() => {
+    if (loading) return
+    getApplications().then(setApplications)
+  }, [loading])
+
+  async function fetchApplications() {
+    const apps = await getApplications();
+    setApplications(apps);
+  }
 
   const months = [
     "Jan",
@@ -134,7 +123,7 @@ export default function Statistics() {
         </div>
         <div className="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-lg border border-outline-variant/20">
           <h1 className="text-secondary font-bold">
-            {activeCount}
+            {activeApplications.length}
           </h1>
           <h2 className="text-on-surface-variant text-xs font-semibold uppercase tracking-widest">
             Active
@@ -196,11 +185,11 @@ export default function Statistics() {
           }
         />
         <h2 className="col-span-1 lg:col-span-2 xl:col-span-3 2xl:col-span-4 text-center text-on-surface-variant text-sm font-semibold">
-          Showing 12 of 48 applications
+          Showing {filteredApplications.length} of {applications.length} applications
         </h2>
       </div>
       {/** Applications */}
-      <div className="glass-card rounded-3xl">
+      <div className="rounded-3xl border border-outline-variant/10 overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-surface-container-high/50">
@@ -220,7 +209,7 @@ export default function Statistics() {
             </tr>
           </thead>
           <tbody className="divide-y divide-outline-variant/50">
-            {initialApplications.map((application, idx) => (
+            {filteredApplications.map((application, idx) => (
               <tr key={idx} className="hover:bg-surface-container/30 transition-colors group">
                 <td className="py-6 px-8">
                   <div className="flex items-center gap-4">
@@ -238,7 +227,7 @@ export default function Statistics() {
                   </div>
                 </td>
                 <td className="p-6 text-on-surface-variant">
-                  {months[application.applied.getMonth()]} {application.applied.getDate()}, {application.applied.getFullYear()}
+                  {months[new Date(application.applied).getMonth()]} {new Date(application.applied).getDate()}, {new Date(application.applied).getFullYear()}
                 </td>
                 <td className="p-6 text-on-surface-variant">
                   {timeAgo(application.lastUpdate)}

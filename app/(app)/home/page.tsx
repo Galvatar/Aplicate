@@ -1,18 +1,28 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MomentumCard from "./components/momentumCard";
 import SignalCard from "./components/signalCard";
-import { fetchHtmlFromUrl } from "@/lib/api";
+import { useUser } from "@/hooks/use-user";
+import { Application } from "@/lib/types";
+import { useApplications } from "@/hooks/use-applications";
 
 export default function Home() {
-  const [username, setUsername] = useState("Guest");
-  const [weekInterviewsCount, setWeekInterviewsCount] = useState(0);
-  const [applicationsCount, setApplicationsCount] = useState(14);
-  const [weekApplicationsCount, setWeekApplicationsCount] = useState(2);
-  const [interviewsCount, setInterviewsCount] = useState(3);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const today = new Date();
+  const [username, setUsername] = useState("Guest");
+  const [applications, setApplications] = useState([] as Application[]);
+  const weekApplications = applications.filter(app => {
+    const appDate = new Date(app.applied);
+    const weekAgo = new Date(today);
+    weekAgo.setDate(today.getDate() - 7);
+    return appDate >= weekAgo && appDate <= today;
+  });
+  const interviewApplications = applications.filter(app => app.status === "interview")
+  const offerApplication = applications.filter(app => app.status === "offer")
+
+  const { user } = useUser();
+  const { getApplications, loading} = useApplications();
+
   const daysOfTheWeek = [
     "Sunday",
     "Monday",
@@ -36,6 +46,34 @@ export default function Home() {
     "November",
     "December",
   ];
+
+  useEffect(() => {
+    if (user == null) {
+      setUsername("Guest");
+    } else {
+      const fullName = user.user_metadata?.full_name as string || "";
+      if (fullName == "") {
+        setUsername("User");
+      }
+      
+      const names = fullName.split(" ");
+      const firstLetter = names[0].substring(0, 1);
+      const lastLetters = names[0].substring(1, names[0].length);
+      const firstName = firstLetter.concat(lastLetters);
+      setUsername(firstName);
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (loading) return
+    getApplications().then(setApplications)
+  }, [loading])
+
+  async function fetchApplications() {
+    const apps = await getApplications();
+    setApplications(apps);
+  }
+
 
   function GetPadded(count: number): string {
     if (count >= 10) {
@@ -67,14 +105,15 @@ export default function Home() {
       </h1>
       <h2 className="text-on-surface-variant max-w-xl">
         Keep working at it. You have{" "}
-        <span className="text-secondary-fixed-dim">{weekInterviewsCount} interviews</span> scheduled
+        <span className="text-secondary-fixed-dim">{weekApplications.length} interviews</span> scheduled
         for next week. Take a moment to breathe before reviewing your board.
       </h2>
+      {user == null &&
       <h3 className="flex -mt-1 font-bold text-outline text-xs items-center gap-1">
         <svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 -960 960 960" width="12px" fill="currentColor"><path d="M792-56 686-160H260q-92 0-156-64T40-380q0-77 47.5-137T210-594q3-8 6-15.5t6-16.5L56-792l56-56 736 736-56 56ZM260-240h346L284-562q-2 11-3 21t-1 21h-20q-58 0-99 41t-41 99q0 58 41 99t99 41Zm185-161Zm419 191-58-56q17-14 25.5-32.5T840-340q0-42-29-71t-71-29h-60v-80q0-83-58.5-141.5T480-720q-27 0-52 6.5T380-693l-58-58q35-24 74.5-36.5T480-800q117 0 198.5 81.5T760-520q69 8 114.5 59.5T920-340q0 39-15 72.5T864-210ZM593-479Z"/>
         </svg>
         Progress saved to this browser.
-      </h3>
+      </h3>}
       {/** Cards */}
       <div className="flex gap-8 mt-10">
         {/** Active pipeline */}
@@ -91,13 +130,13 @@ export default function Home() {
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700" />
           <div className="flex gap-3 items-end">
             <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
-              {applicationsCount}
+              {applications.length}
             </h1>
-            {weekApplicationsCount > 0 && 
+            {weekApplications.length > 0 && 
               <h2 className="flex gap-1 text-sm text-secondary-fixed-dim items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z"/>
                 </svg>
-                +{weekApplicationsCount} this week
+                +{weekApplications.length} this week
               </h2>
             }
           </div>
@@ -116,7 +155,7 @@ export default function Home() {
           <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all duration-700" />
           <div className="flex gap-3 items-end">
             <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
-              {GetPadded(interviewsCount)}
+              {GetPadded(interviewApplications.length)}
             </h1>
             <h2 className="flex gap-1 text-sm text-outline items-center">
               Interviews pending
@@ -135,7 +174,7 @@ export default function Home() {
             View Details
           </button>
         </div>
-        <MomentumCard applications={42} interviews={8} offers={0} />
+        <MomentumCard applications={applications.length} interviews={interviewApplications.length} offers={0} />
       </div>
       {/** Recent signals */}
       <div className="flex flex-col mt-10 gap-3">

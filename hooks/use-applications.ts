@@ -5,15 +5,17 @@ import { useUser } from "./use-user";
 import { useMemo } from "react";
 import { supabase } from "@/lib/supabase/client";
 
-export const useApplications = async () => {
-    const { user } = useUser();
+export const useApplications = () => {
+    const { user, loading } = useUser();
     const store = useMemo(() => {
-        return user 
-        ? new SupabaseApplicationStore(supabase) 
-        : new LocalApplicationStore()
-    }, [user])
+        if (loading) return new LocalApplicationStore()
+        return user
+            ? new SupabaseApplicationStore(supabase)
+            : new LocalApplicationStore()
+    }, [user, loading])
 
     return {
+        loading,
         getApplications: () => store.getApplications(),
         getApplication: (id: string) => store.getApplication(id),
         createApplication: (application: Application) => store.createApplication(application),
