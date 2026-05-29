@@ -1,8 +1,9 @@
-"use client";
+'use client'
 
 import { useState } from "react";
 import MomentumCard from "./components/momentumCard";
 import SignalCard from "./components/signalCard";
+import { fetchHtmlFromUrl } from "@/lib/api";
 
 export default function Home() {
   const [username, setUsername] = useState("Guest");
@@ -56,7 +57,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
-      <h3 className="text-outline text-sm">
+      <h3 
+        className="text-outline text-sm">
         {daysOfTheWeek[today.getDay()]}, {months[today.getMonth()]}{" "}
         {today.getDate()}
       </h3>

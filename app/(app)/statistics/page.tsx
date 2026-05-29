@@ -3,11 +3,11 @@
 import { useState } from "react";
 import StatCard from "./components/statCard";
 import ApplicationFlow from "./components/sankeyDiagram";
+import Dropdown from "@/components/ui/dropdown";
 
 export default function Statistics() {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Last 90 Days");
-
   const options = ["Last 30 Days", "Last 90 Days", "Last Year", "All Time"];
 
   return (
@@ -24,53 +24,15 @@ export default function Statistics() {
           </h2>
         </div>
         <div className="relative">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant text-sm hover:bg-surface-container transition-colors duration-300"
-          >
-            <svg
-              className="text-outline"
-              xmlns="http://www.w3.org/2000/svg"
-              height="20px"
-              viewBox="0 -960 960 960"
-              width="20px"
-              fill="currentColor"
-            >
-              <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
-            </svg>
-            {selected}
-            <svg
-              className={`text-outline transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="currentColor"
-            >
-              <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
-            </svg>
-          </button>
-
-          {isOpen && (
-            <div className="absolute top-full right-0 mt-2 bg-surface-container-low border border-outline-variant/20 rounded-lg shadow-lg z-10">
-              {options.map((option) => (
-                <button
-                  key={option}
-                  onClick={() => {
-                    setSelected(option);
-                    setIsOpen(false);
-                  }}
-                  className={`block w-full rounded-lg text-left px-4 py-2 text-sm transition-colors duration-200 ${
-                    selected === option
-                      ? "bg-surface-container-high text-on-surface"
-                      : "text-on-surface-variant hover:bg-surface-container-lowest"
-                  }`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          )}
+          <Dropdown
+            options={options}
+            selected={selected}
+            onSelect={setSelected}
+            icon={
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/>
+              </svg>
+            }
+          />
         </div>
       </div>
       {/** Analytics */}

@@ -39,8 +39,15 @@ export default function RootLayout({
     >
       <body className="min-h-full flex">
         <ModalProvider>
-          <Sidebar />
-          <div className="flex-1 ml-85">{children}</div>
+          <div className="flex h-screen w-screen overflow-hidden">
+            <Sidebar />
+            <div className="flex-1 flex flex-col h-full overflow-y-auto bg-background pb-12">
+              <div className="flex-1">
+                {children}
+              </div>
+              <div className="h-0 w-full shrink-0" aria-hidden="true" />
+            </div>
+          </div>
         </ModalProvider>
       </body>
     </html>

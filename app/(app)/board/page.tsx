@@ -153,7 +153,7 @@ export default function Board() {
             step.
           </h2>
         </div>
-        <div className="flex relative gap-3">
+        <div className="flex gap-3">
           <button className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant font-bold text-sm hover:bg-surface-container transition-colors duration-300">
             <svg
               className="text-outline"
@@ -182,7 +182,7 @@ export default function Board() {
           </button>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start content-start">
+      <div className="flex-1 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start content-start">
         {Object.entries(lists).map(([listKey, applications]) => (
           <ListCard
             key={listKey}

@@ -127,7 +127,7 @@ export default function InteractiveApplicationFlow({
   }, [data.nodes]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-6 bg-[#090D14] rounded-2xl border border-slate-800/40 shadow-2xl relative overflow-hidden font-sans select-none">
+    <div className="w-full max-w-5xl mx-auto p-6 bg-[#090D14] rounded-2xl border border-slate-800/40 shadow-2xl relative font-sans select-none">
       <div className="flex items-center justify-between mb-6 px-2">
         <h2 className="text-xl font-semibold text-slate-200">
           Application Flow

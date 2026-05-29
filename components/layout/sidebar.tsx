@@ -11,8 +11,10 @@ export default function Sidebar() {
     const [guestMode, setGuestMode] = useState(true);
     const modal = useModal();
 
+    if (pathname === "/signup") return (<></>)
+
     return (
-        <div className="flex fixed flex-col w-full font-jakarta h-screen max-w-85 bg-surface-container-low justify-between">
+        <div className="flex flex-col w-full font-jakarta h-screen max-w-85 bg-surface-container-low justify-between">
             {/** Top half */}
             <div className="flex flex-col w-full px-5 py-8 gap-12">
                 {/** Title */}
@@ -34,7 +36,9 @@ export default function Sidebar() {
                     }
                 </div>
                 <button 
-                    onClick={() => modal.show(<NewApplication />)}
+                    onClick={async () => {
+                        modal.show(<NewApplication />)}
+                    }
                     className="py-3 px-3 text-sm font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200">
                     + New Application
                 </button>
@@ -62,6 +66,18 @@ export default function Sidebar() {
                         </svg>
                         <h1>
                             My Board
+                        </h1>
+                    </div>
+                    <div 
+                        onClick={() => router.replace('/applications')}
+                        className={`flex rounded-lg py-4 
+                        ${pathname !== "/applications" ? 'hover:bg-surface-container-lowest font-semibold text-on-surface-variant' 
+                        : 'text-primary font-bold bg-surface-container-high border-r-2 border-primary'}
+                        gap-3 px-5 transition-all`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z"/>
+                        </svg>
+                        <h1>
+                            Applications
                         </h1>
                     </div>
                     <div 
