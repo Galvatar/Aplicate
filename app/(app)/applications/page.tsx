@@ -13,7 +13,6 @@ export default function Statistics() {
   const [employmentTypeFilter, setEmploymentTypeFilter] = useState("All");
   const [lastUpdateFilter, setLastUpdateFilter] = useState("All Time");
   const [applications, setApplications] = useState([] as Application[]);
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   
   const { getApplications, loading } = useApplications();
 
@@ -320,11 +319,9 @@ export default function Statistics() {
                 </td>
                 <td className="py-6 px-8 text-right relative">
                   <button
-                    onClick={() =>
-                      setOpenMenuId(
-                        openMenuId === application.id ? null : application.id,
-                      )
-                    }
+                    onClick={() => {
+
+                    }}
                     className="p-2 text-on-surface-variant hover:text-primary transition-colors"
                   >
                     <svg
@@ -337,29 +334,6 @@ export default function Statistics() {
                       <path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z" />
                     </svg>
                   </button>
-                  {openMenuId === application.id && (
-                    <div className="absolute right-0 top-full mt-1 bg-surface-container-high rounded-lg shadow-lg border border-outline-variant/20 z-50 min-w-max">
-                      <button
-                        onClick={() => {
-                          // TODO: Implement edit
-                          setOpenMenuId(null);
-                        }}
-                        className="block w-full text-left px-4 py-2 text-on-surface hover:bg-surface-container-highest transition-colors text-sm"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={async () => {
-                          await storage.deleteApplication(application.id);
-                          setOpenMenuId(null);
-                          getApplications();
-                        }}
-                        className="block w-full text-left px-4 py-2 text-error hover:bg-surface-container-highest transition-colors text-sm border-t border-outline-variant/20"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
                 </td>
               </tr>
             ))}

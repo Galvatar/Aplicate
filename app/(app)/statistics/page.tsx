@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import StatCard from "./components/statCard";
 import ApplicationFlow from "./components/sankeyDiagram";
 import Dropdown from "@/components/ui/dropdown";
-import { Application } from "@/lib/types";
+import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
 
 type RangeMode = "current" | "previous";
@@ -63,6 +63,15 @@ export default function Statistics() {
     selected,
     "previous",
   );
+  const currentInterviewRate = currentApplications.filter(a => a.journey.includes(Status.Interview));
+  const previousInterviewRate = previousApplications.filter(a => a.journey.includes(Status.Interview));
+
+  function findPercentage(n1: number, n2: number) {
+    if (n1 == 0 || n2 == 0) return 0;
+    return Math.round(((n1/(
+            n2 == 0 ? 1 : n2
+          ))-1)*100)
+  }
 
   useEffect(() => {
     if (loading) return;
@@ -118,8 +127,8 @@ export default function Statistics() {
               </svg>
             </div>
           }
-          stat="142"
-          change={12}
+          stat={`${currentApplications.length}`}
+          change={findPercentage(currentApplications.length, previousApplications.length)}
         />
         <StatCard
           title="Interview Rate"
@@ -136,8 +145,11 @@ export default function Statistics() {
               </svg>
             </div>
           }
-          stat="34%"
-          change={5}
+          stat={`${findPercentage(currentInterviewRate.length, currentApplications.length)}%`}
+          change={findPercentage(
+            currentInterviewRate.length/currentApplications.length,
+            previousInterviewRate.length/previousApplications.length
+          )}
         />
         <StatCard
           title="Active Offers"
