@@ -1,4 +1,4 @@
-import { Application } from "@/lib/types";
+import { Application, Status } from "@/lib/types";
 import ApplicationCard from "./applicationCard";
 
 interface ListCardProps {
@@ -26,7 +26,11 @@ export default function ListCard({
         <div className="w-2 h-2 rounded-full bg-outline" />
         <div className="flex gap-2 text-sm font-bold">
           <h1 className="text-on-surface-variant uppercase tracking-wider">
-            {title}
+            {title === Status.PreRegister ?
+              <h2>{title.slice(0,3)}-{title.slice(3)}</h2>
+              :
+              <h2>{title}</h2>
+            }
           </h1>
           <h2 className="bg-surface-container px-2 py-0.5 rounded-full text-outline">
             {applications.length}

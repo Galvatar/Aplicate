@@ -24,6 +24,9 @@ export default function ApplicationCard({
     "Dec",
   ];
 
+  const applied = new Date(application.applied);
+  const lastUpdate = new Date(application.lastUpdate);
+
   return (
     <div
       draggable
@@ -37,18 +40,19 @@ export default function ApplicationCard({
       <h3 className="text-on-surface-variant font-semibold text-sm">
         {application.company}
       </h3>
+      {application.location &&
       <h4 className="w-fit px-2 py-1 rounded-md bg-surface-variant/50 text-on-surface-variant text-[11px]">
         {application.location}
-      </h4>
+      </h4>}
       <div className="flex items-center justify-between text-[10px] text-outline uppercase tracking-tight">
         <span>
-          Applied: {months[application.applied.getMonth()]}{" "}
-          {application.applied.getDate()}, {application.applied.getFullYear()}
+          Applied: {months[applied.getMonth()]}{" "}
+          {applied.getDate()}, {applied.getFullYear()}
         </span>
         <span>
-          Last Update: {months[application.lastUpdate.getMonth()]}{" "}
-          {application.lastUpdate.getDate()},{" "}
-          {application.lastUpdate.getFullYear()}
+          Last Update: {months[lastUpdate.getMonth()]}{" "}
+          {lastUpdate.getDate()},{" "}
+          {lastUpdate.getFullYear()}
         </span>
       </div>
     </div>

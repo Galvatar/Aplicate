@@ -1,105 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ListCard from "./components/listCard";
-import { Application } from "@/lib/types";
+import { Application, Status } from "@/lib/types";
+import { useApplications } from "@/hooks/use-applications";
 
 export default function Board() {
-  const initialApplications = [
-    {
-      id: "1",
-      title: "Senior Frontend Engineer",
-      company: "Acme Corp",
-      role: "Frontend",
-      foundOn: "LinkedIn",
-      status: "Applied",
-      location: "San Francisco, CA",
-      applied: new Date("2024-05-15"),
-      lastUpdate: new Date("2024-05-20"),
-      journey: "Applied",
-      notes: "Great company, modern tech stack",
-      pay: 150000,
-    },
-    {
-      id: "2",
-      title: "Full Stack Developer",
-      company: "TechStart Inc",
-      role: "Full Stack",
-      foundOn: "Indeed",
-      status: "Screening",
-      location: "Remote",
-      applied: new Date("2024-05-10"),
-      lastUpdate: new Date("2024-05-22"),
-      journey: "Applied,Screening",
-      notes: "Remote position, flexible hours",
-      pay: 130000,
-    },
-    {
-      id: "3",
-      title: "Product Engineer",
-      company: "Innovation Labs",
-      role: "Backend",
-      foundOn: "Company Website",
-      status: "Interview",
-      location: "New York, NY",
-      applied: new Date("2024-05-01"),
-      lastUpdate: new Date("2024-05-23"),
-      journey: "Applied,Screening,Interview",
-      notes: "Second round interview scheduled",
-      pay: 140000,
-    },
-    {
-      id: "4",
-      title: "React Developer",
-      company: "WebFlow Studios",
-      role: "Frontend",
-      foundOn: "LinkedIn",
-      status: "Rejected",
-      location: "Los Angeles, CA",
-      applied: new Date("2024-04-28"),
-      lastUpdate: new Date("2024-05-18"),
-      journey: "Applied,Rejected",
-      notes: "Not selected, lack of experience",
-      pay: 120000,
-    },
-    {
-      id: "5",
-      title: "Software Architect",
-      company: "Enterprise Solutions",
-      role: "Full Stack",
-      foundOn: "Recruiter",
-      status: "Offer",
-      location: "Boston, MA",
-      applied: new Date("2024-04-20"),
-      lastUpdate: new Date("2024-05-24"),
-      journey: "Applied,Screening,Interview,Offer",
-      notes: "Offer accepted! Start date June 1st",
-      pay: 160000,
-    },
-    {
-      id: "6",
-      title: "DevOps Engineer",
-      company: "CloudTech Systems",
-      role: "DevOps",
-      foundOn: "Indeed",
-      status: "Applied",
-      location: "Remote",
-      applied: new Date("2024-05-22"),
-      lastUpdate: new Date("2024-05-22"),
-      journey: "Applied",
-      notes: "Applied yesterday",
-      pay: 135000,
-    },
-  ];
+  const { getApplications, updateApplication, loading } = useApplications();
+  const [initialApplications, setInitialApplications] = useState([] as Application[]);
 
-  const [lists, setLists] = useState({
-    "Pre-Register": initialApplications,
-    Applied: [],
-    Screening: [],
-    Interview: [],
-    Offer: [],
-    Rejected: [],
-  });
+  const [lists, setLists] = useState<Record<string, Application[]>>({});
+
+  useEffect(() => {
+    const dict: Record<string, Application[]> = {};
+    Object.keys(Status).map((key) => {
+      dict[key] = [];
+    })
+    initialApplications.map((app) => {
+      dict[app.status].push(app);
+    })
+    setLists(dict);
+  }, [initialApplications])
+
+  useEffect(() => {
+    if (loading) return
+    getApplications().then(setInitialApplications)
+  }, [loading])
 
   const handleDragStart = (
     e: React.DragEvent,
@@ -127,6 +53,7 @@ export default function Board() {
     const application = sourceList.find((app) => app.id === applicationId);
 
     if (!application) return;
+    updateStatus(application, targetListKey)
 
     setLists((prev) => ({
       ...prev,
@@ -139,6 +66,18 @@ export default function Board() {
       ],
     }));
   };
+
+  async function updateStatus(application: Application, status: string) {
+    const stat = Status[status as keyof typeof Status];
+    application.status = stat;
+    const index = application.journey.indexOf(status);
+    if (index != -1) {
+      application.journey = application.journey.slice(0, index+status.length)
+    } else {
+      application.journey = application.journey.concat(`,${status}`);
+    }
+    await updateApplication(application);
+  }
 
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">

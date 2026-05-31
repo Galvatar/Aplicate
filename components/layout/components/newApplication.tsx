@@ -3,7 +3,7 @@
 import { useModal } from "@/components/ui/modal";
 import { useApplications } from "@/hooks/use-applications";
 import { useUser } from "@/hooks/use-user";
-import { Application } from "@/lib/types";
+import { Application, Status } from "@/lib/types";
 import { useState } from "react";
 
 export default function NewApplication() {
@@ -27,14 +27,14 @@ export default function NewApplication() {
         title: role,
         employmentType: employmentType,
         company: company,
-        status: preregister ? "preregistered" : "applied",
+        status: preregister ? Status.PreRegister : Status.Apply,
         applied: new Date(),
         lastUpdate: new Date(),
-        journey: preregister ? "preregistered" : "applied",
+        journey: preregister ? Status.PreRegister : Status.Apply,
         notes: notes
     }
     await storage.createApplication(newApp);
-    modal.hide()
+    modal.hideWithRefresh()
   }
 
   return (

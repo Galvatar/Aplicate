@@ -1,14 +1,73 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StatCard from "./components/statCard";
 import ApplicationFlow from "./components/sankeyDiagram";
 import Dropdown from "@/components/ui/dropdown";
+import { Application } from "@/lib/types";
+import { useApplications } from "@/hooks/use-applications";
+
+type RangeMode = "current" | "previous";
+
+function getRangeMonths(selected: string) {
+  switch (selected) {
+    case "Last 30 Days":
+      return 1;
+    case "Last 90 Days":
+      return 3;
+    case "Last Year":
+      return 12;
+    case "All Time":
+    default:
+      return null;
+  }
+}
+
+function filterApplicationsBySelectedPeriod(
+  applications: Application[],
+  selected: string,
+  mode: RangeMode,
+) {
+  const months = getRangeMonths(selected);
+  if (months === null) return mode === "current" ? applications : [];
+
+  const now = new Date();
+  const start = new Date(now);
+  const end = new Date(now);
+
+  if (mode === "current") {
+    start.setMonth(start.getMonth() - months);
+  } else {
+    start.setMonth(start.getMonth() - months * 2);
+    end.setMonth(end.getMonth() - months);
+  }
+
+  return applications.filter((application) => {
+    const appliedAt = new Date(application.applied);
+    return appliedAt >= start && appliedAt < end;
+  });
+}
 
 export default function Statistics() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("Last 90 Days");
+  const [selected, setSelected] = useState("Last 30 Days");
+  const [applications, setApplications] = useState([] as Application[]);
   const options = ["Last 30 Days", "Last 90 Days", "Last Year", "All Time"];
+  const { getApplications, loading } = useApplications();
+  const currentApplications = filterApplicationsBySelectedPeriod(
+    applications,
+    selected,
+    "current",
+  );
+  const previousApplications = filterApplicationsBySelectedPeriod(
+    applications,
+    selected,
+    "previous",
+  );
+
+  useEffect(() => {
+    if (loading) return;
+    getApplications().then(setApplications);
+  }, [loading]);
 
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
@@ -29,7 +88,14 @@ export default function Statistics() {
             selected={selected}
             onSelect={setSelected}
             icon={
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
               </svg>
             }
           />

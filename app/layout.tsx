@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: "FlowSpace",
   description: "Your personal job application tracker",
   icons: {
-    icon: "/logo.png",
+    icon: "/icon.png",
   },
 };
 

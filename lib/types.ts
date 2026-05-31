@@ -9,7 +9,7 @@ export interface Application {
     company: string
     employmentType?: string
     foundOn?: string
-    status: string
+    status: Status
     location?: string
     applied: Date
     lastUpdate: Date
@@ -17,4 +17,9 @@ export interface Application {
     notes?: string
     jobDescription?: string
     pay?: number
+}
+
+export enum Status {
+    PreRegister = "PreRegister", Apply = "Apply", Assessment = "Assessment",
+    Interview = "Interview", Offer = "Offer", Rejected = "Rejected"
 }

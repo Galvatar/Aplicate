@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import MomentumCard from "./components/momentumCard";
 import SignalCard from "./components/signalCard";
 import { useUser } from "@/hooks/use-user";
-import { Application } from "@/lib/types";
+import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
 
 export default function Home() {
@@ -17,8 +17,8 @@ export default function Home() {
     weekAgo.setDate(today.getDate() - 7);
     return appDate >= weekAgo && appDate <= today;
   });
-  const interviewApplications = applications.filter(app => app.status === "interview")
-  const offerApplication = applications.filter(app => app.status === "offer")
+  const interviewApplications = applications.filter(app => app.status === Status.Interview)
+  const offerApplication = applications.filter(app => app.status === Status.Offer)
 
   const { user } = useUser();
   const { getApplications, loading} = useApplications();
@@ -68,12 +68,6 @@ export default function Home() {
     if (loading) return
     getApplications().then(setApplications)
   }, [loading])
-
-  async function fetchApplications() {
-    const apps = await getApplications();
-    setApplications(apps);
-  }
-
 
   function GetPadded(count: number): string {
     if (count >= 10) {
