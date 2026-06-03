@@ -3,7 +3,7 @@ export interface SankeyData {
 }
 
 export interface Application {
-    id: string
+    id?: string
     userId: string
     title: string
     company: string
@@ -16,7 +16,8 @@ export interface Application {
     journey: string
     notes?: string
     jobDescription?: string
-    pay?: number
+    pay?: string
+    url?: string
 }
 
 export enum Status {

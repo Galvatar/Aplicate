@@ -63,14 +63,27 @@ export default function Statistics() {
     selected,
     "previous",
   );
-  const currentInterviewRate = currentApplications.filter(a => a.journey.includes(Status.Interview));
-  const previousInterviewRate = previousApplications.filter(a => a.journey.includes(Status.Interview));
+  const currentInterviewRate = currentApplications.filter((a) =>
+    a.journey.includes(Status.Interview),
+  );
+  const previousInterviewRate = previousApplications.filter((a) =>
+    a.journey.includes(Status.Interview),
+  );
+  const currentOffers = currentApplications.filter(
+    (a) => a.status === Status.Offer,
+  );
+  const previousOffers = previousApplications.filter(
+    (a) => a.status === Status.Offer,
+  );
 
-  function findPercentage(n1: number, n2: number) {
-    if (n1 == 0 || n2 == 0) return 0;
-    return Math.round(((n1/(
-            n2 == 0 ? 1 : n2
-          ))-1)*100)
+  function getRate(partial: number, total: number) {
+    if (total === 0) return 0;
+    return Math.round((partial / total) * 100);
+  }
+
+  function findPercentage(currentValue: number, previousValue: number) {
+    if (previousValue === 0) return currentValue === 0 ? 0 : 100;
+    return Math.round((currentValue / previousValue - 1) * 100);
   }
 
   useEffect(() => {
@@ -128,7 +141,10 @@ export default function Statistics() {
             </div>
           }
           stat={`${currentApplications.length}`}
-          change={findPercentage(currentApplications.length, previousApplications.length)}
+          change={findPercentage(
+            currentApplications.length,
+            previousApplications.length,
+          )}
         />
         <StatCard
           title="Interview Rate"
@@ -145,10 +161,10 @@ export default function Statistics() {
               </svg>
             </div>
           }
-          stat={`${findPercentage(currentInterviewRate.length, currentApplications.length)}%`}
+          stat={`${getRate(currentInterviewRate.length, currentApplications.length)}%`}
           change={findPercentage(
-            currentInterviewRate.length/currentApplications.length,
-            previousInterviewRate.length/previousApplications.length
+            getRate(currentInterviewRate.length, currentApplications.length),
+            getRate(previousInterviewRate.length, previousApplications.length),
           )}
         />
         <StatCard
@@ -166,13 +182,13 @@ export default function Statistics() {
               </svg>
             </div>
           }
-          stat="3"
-          change={0}
+          stat={`${currentOffers.length}`}
+          change={findPercentage(currentOffers.length, previousOffers.length)}
         />
       </div>
 
       {/** Sankey Diagram */}
-      <ApplicationFlow />
+      <ApplicationFlow applications={currentApplications} />
     </div>
   );
 }

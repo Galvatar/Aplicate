@@ -4,9 +4,11 @@ import Dropdown from "@/components/ui/dropdown";
 import { useApplications } from "@/hooks/use-applications";
 import { timeAgo } from "@/lib/timeAgo";
 import { Application, Status } from "@/lib/types";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Statistics() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [dateAppliedFilter, setDateAppliedFilter] = useState("All Time");
@@ -285,12 +287,13 @@ export default function Statistics() {
           <tbody className="divide-y divide-outline-variant/50">
             {filteredApplications.map((application, idx) => (
               <tr
+                onClick={() => router.replace(`/job/${application.id!}`)}
                 key={idx}
                 className="hover:bg-surface-container/30 transition-colors group"
               >
                 <td className="py-6 px-8">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-on-tertiary flex items-center justify-center text-primary-fixed-dim font-bold text-lg">
+                    <div className="min-w-12 h-12 rounded-xl bg-on-tertiary flex items-center justify-center text-primary-fixed-dim font-bold text-lg">
                       {application.company.charAt(0)}
                     </div>
                     <div className="flex flex-col">

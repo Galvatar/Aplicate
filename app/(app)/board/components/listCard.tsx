@@ -27,9 +27,9 @@ export default function ListCard({
         <div className="flex gap-2 text-sm font-bold">
           <h1 className="text-on-surface-variant uppercase tracking-wider">
             {title === Status.PreRegister ?
-              <h2>{title.slice(0,3)}-{title.slice(3)}</h2>
+              <p>{title.slice(0,3)}-{title.slice(3)}</p>
               :
-              <h2>{title}</h2>
+              <p>{title}</p>
             }
           </h1>
           <h2 className="bg-surface-container px-2 py-0.5 rounded-full text-outline">
@@ -49,7 +49,7 @@ export default function ListCard({
           <ApplicationCard
             key={application.id}
             application={application}
-            onDragStart={onCardDragStart?.(application.id)}
+            onDragStart={onCardDragStart?.(application.id!)}
           />
         ))}
       </div>

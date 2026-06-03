@@ -52,15 +52,16 @@ export default function Home() {
       setUsername("Guest");
     } else {
       const fullName = user.user_metadata?.full_name as string || "";
+      const firstName = user.user_metadata?.first_name as string || "";
       if (fullName == "") {
-        setUsername("User");
+        if (firstName == "") {
+          setUsername("User");
+        }
+        setUsername(upperCase(firstName));
+      } else {
+        const names = fullName.split(" ");
+        setUsername(upperCase(names[0]));
       }
-      
-      const names = fullName.split(" ");
-      const firstLetter = names[0].substring(0, 1);
-      const lastLetters = names[0].substring(1, names[0].length);
-      const firstName = firstLetter.concat(lastLetters);
-      setUsername(firstName);
     }
   }, [user])
 
@@ -75,6 +76,12 @@ export default function Home() {
     } else {
       return String(count).padStart(2, '0');
     }
+  }
+
+  function upperCase(word: string): string {
+    const firstLetter = word.substring(0, 1);
+    const lastLetters = word.substring(1, word.length);
+    return firstLetter.concat(lastLetters);
   }
 
   function GetGreeting(hour: number): string {

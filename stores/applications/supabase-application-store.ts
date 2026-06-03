@@ -19,12 +19,16 @@ export class SupabaseApplicationStore implements ApplicationStoreInterface {
     }
 
     async getApplication(id: string): Promise<Application | undefined> {
+        console.log(id);
         const { data, error } = await this.client
             .from('Applications')
             .select('*')
             .eq('id', id)
             .single()
-        if (error) return undefined;
+        if (error) {
+            console.error("Supabase fetch failed for ID:", id, error); 
+            return undefined;
+        }
         return data as Application;
     }
 
