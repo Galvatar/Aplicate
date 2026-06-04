@@ -49,7 +49,7 @@ export default function SignupPage() {
                 <img src={'/logo.png'} alt="FlowSpace logo" className="opacity-90" />
             </div>
             <h1 className="text-primary text-3xl font-bold text-center">
-                FlowSpace
+                Aplicate
             </h1>
             <h2 className="text-on-surface-variant text-sm font-medium text-center max-w-xs">
                 Your journey to employment starts here.

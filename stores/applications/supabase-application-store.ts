@@ -41,6 +41,7 @@ export class SupabaseApplicationStore implements ApplicationStoreInterface {
     }
 
     async updateApplication(update: Application): Promise<void> {
+        update.lastUpdate = new Date();
         const { data, error } = await this.client
             .from('Applications')
             .update(update)

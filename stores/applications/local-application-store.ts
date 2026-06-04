@@ -24,6 +24,7 @@ export class LocalApplicationStore implements ApplicationStoreInterface {
     }
 
     async updateApplication(update: Application): Promise<void> {
+        update.lastUpdate = new Date();
         const data = localStorage.getItem('applications');
         if (!data) return;
         var applications = JSON.parse(data) as Application[];

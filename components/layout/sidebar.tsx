@@ -29,11 +29,11 @@ export default function Sidebar() {
             <div className="flex flex-col w-full px-5 py-8 gap-12">
                 {/** Title */}
                 <div className="flex gap-3 items-center">
-                    <img className="w-8 rounded-lg"
+                    <img className="flex items-center justify-center p-1 w-10 rounded-lg bg-surface-container-lowest"
                         src="/logo.png" alt="logo" />
                     <div className="flex flex-col">
                         <h1 className="font-extrabold text-2xl text-primary">
-                            FlowSpace
+                            Aplicate
                         </h1>
                         <h2>
                             Your Career Companion
