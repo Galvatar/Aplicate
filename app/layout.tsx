@@ -20,7 +20,7 @@ const jakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "FlowSpace",
+  title: "Aplicate",
   description: "Your personal job application tracker",
   icons: {
     icon: "/icon.png",

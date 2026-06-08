@@ -30,7 +30,7 @@ export default function JobPage() {
     }
     
     return (
-        <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
+        <div className="flex w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
             <div className="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12 flex flex-col min-h-full">
                 <button 
                     onClick={() => router.replace('/applications')}
@@ -41,7 +41,7 @@ export default function JobPage() {
                 </button>
                 <div className="flex mb-8 items-center">
                     <div className="w-fit min-w-12 h-12 rounded-xl bg-on-tertiary flex items-center justify-center text-primary-fixed-dim font-bold text-lg">
-                      {application.company.charAt(0)}
+                        {application.company.charAt(0)}
                     </div>
                     <div className="flex flex-col">
                         <h2 className="text-on-surface mb-2">
@@ -58,11 +58,31 @@ export default function JobPage() {
                         </h3>
                     </div>
                 </div>
-                <div
-                    dangerouslySetInnerHTML={{
-                        __html: application?.jobDescription || "No job description for this application.",
-                    }}
-                />
+                <div className="lg:col-span-8 flex flex-col h-full min-h-150 bg-surface-container-lowest rounded-3xl border border-outline-variant/5 relative overflow-hidden group transition-all duration-500 hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary/10 via-tertiary/10 to-transparent"></div>
+                    <div className="p-8 md:p-12 flex-1 flex flex-col h-full">
+                        <div className="flex justify-between items-center mb-8 border-b border-outline-variant/10 pb-4">
+                            <h3 className="w-full text-on-surface-variant tracking-widest uppercase flex items-center justify-between gap-2 font-semibold">
+                                <div className="flex gap-2">
+                                    <svg className="material-symbols-outlined text-body-md"
+                                        xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v120h-80v-80H520v-200H240v640h240v80H240Zm280-400Zm241 199-19-18 37 37-18-19Z"/>
+                                    </svg>
+                                    Research &amp; Notes
+                                </div>
+                                <span className="normal-case text-outline">Saved locally for guest users</span>
+                            </h3>
+                        </div>
+                        <div
+                            className="pl-6 space-y-2 mb-6 text-on-surface-variant outline-none font-body-lg leading-[1.8]"
+                            dangerouslySetInnerHTML={{
+                                __html: application?.jobDescription || "No job description for this application.",
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className="flex flex-col">
+
             </div>
         </div>
     )

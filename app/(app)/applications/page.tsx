@@ -6,6 +6,7 @@ import { timeAgo } from "@/lib/timeAgo";
 import { Application, Status } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Table from "./components/table";
 
 export default function Statistics() {
   const router = useRouter();
@@ -132,21 +133,6 @@ export default function Statistics() {
     getApplications().then(setApplications)
   }, [loading])
 
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
       {/** Title */}
@@ -266,82 +252,7 @@ export default function Statistics() {
       </div>
       {/** Applications */}
       <div className="rounded-3xl border border-outline-variant/10 overflow-hidden">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-surface-container-high/50">
-              <th className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm">
-                Company & role
-              </th>
-              <th className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm">
-                Date Applied
-              </th>
-              <th className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm">
-                Last Update
-              </th>
-              <th className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm">
-                Status
-              </th>
-              <th className="py-5 px-8 text-right" />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-outline-variant/50">
-            {filteredApplications.map((application, idx) => (
-              <tr
-                onClick={() => router.replace(`/job/${application.id!}`)}
-                key={idx}
-                className="hover:bg-surface-container/30 transition-colors group"
-              >
-                <td className="py-6 px-8">
-                  <div className="flex items-center gap-4">
-                    <div className="min-w-12 h-12 rounded-xl bg-on-tertiary flex items-center justify-center text-primary-fixed-dim font-bold text-lg">
-                      {application.company.charAt(0)}
-                    </div>
-                    <div className="flex flex-col">
-                      <h4 className="font-bold text-on-surface group-hover:text-primary transition-colors">
-                        {application.company}
-                      </h4>
-                      <h5 className="text-on-surface-variant/80 text-sm font-semibold">
-                        {application.title}
-                      </h5>
-                    </div>
-                  </div>
-                </td>
-                <td className="p-6 text-on-surface-variant">
-                  {months[new Date(application.applied).getMonth()]}{" "}
-                  {new Date(application.applied).getDate()},{" "}
-                  {new Date(application.applied).getFullYear()}
-                </td>
-                <td className="p-6 text-on-surface-variant">
-                  {timeAgo(application.lastUpdate)}
-                </td>
-                <td className="p-6">
-                  <div className="px-3 py-1 rounded-full bg-secondary-container text-secondary font-bold tracking-tight inline-flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                    {application.status}
-                  </div>
-                </td>
-                <td className="py-6 px-8 text-right relative">
-                  <button
-                    onClick={() => {
-
-                    }}
-                    className="p-2 text-on-surface-variant hover:text-primary transition-colors"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="24px"
-                      viewBox="0 -960 960 960"
-                      width="24px"
-                      fill="currentColor"
-                    >
-                      <path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z" />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <Table applications={applications} />
       </div>
     </div>
   );
