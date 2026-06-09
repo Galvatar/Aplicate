@@ -64,10 +64,8 @@ export default function Table({ applications }: TableProps) {
 
     const handleSort = (columnName: string) => {
         if (sortColumn === columnName) {
-            // Toggles direction ONLY if clicking the column that is already active
             setSortAscending(prev => !prev);
         } else {
-            // Swapping columns: Force the new column to start fresh as ascending
             setSortColumn(columnName);
             setSortAscending(true); 
         }

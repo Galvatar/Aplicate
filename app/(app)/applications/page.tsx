@@ -9,133 +9,27 @@ import { useEffect, useState } from "react";
 import Table from "./components/table";
 
 export default function Statistics() {
-  const router = useRouter();
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
-  const [dateAppliedFilter, setDateAppliedFilter] = useState("All Time");
-  const [employmentTypeFilter, setEmploymentTypeFilter] = useState("All");
-  const [lastUpdateFilter, setLastUpdateFilter] = useState("All Time");
   const [applications, setApplications] = useState([] as Application[]);
   
   const { getApplications, loading } = useApplications();
 
-  const statusOptions = [
-    "All",
-    "Applied",
-    "Screening",
-    "Interview",
-    "Offer",
-    "Rejected",
-  ];
-  const dateAppliedOptions = [
-    "All Time",
-    "Last 7 Days",
-    "Last 30 Days",
-    "Last 90 Days",
-    "Last Year",
-  ];
-  const employmentTypeOptions = [
-    "All",
-    "Full-time",
-    "Part-time",
-    "Contract",
-    "Temporary",
-    "Internship",
-  ];
-  const lastUpdateOptions = [
-    "All Time",
-    "Last 7 Days",
-    "Last 30 Days",
-    "Last 90 Days",
-    "Last Year",
-  ];
+  const activeApplications = applications
+    .filter((app) => app.status !== Status.Rejected)
+    .filter((app) => {
+      if (search === "") return true;
 
-  const storage = useApplications();
-  const activeApplications = applications.filter(
-    (app) => app.status !== Status.Rejected,
-  );
-  const filteredApplications = applications.filter((app) => {
-    // Search filter
-    const searchLower = search.toLowerCase();
-    const matchesSearch =
-      !search ||
-      app.company.toLowerCase().includes(searchLower) ||
-      app.title.toLowerCase().includes(searchLower);
+      const searchLower = search.toLowerCase().trim();
+      const companyMatch = app.company?.toLowerCase().includes(searchLower);
+      const titleMatch = app.title?.toLowerCase().includes(searchLower);
 
-    // Status filter
-    const matchesStatus =
-      statusFilter === "All" ||
-      app.status.toLowerCase() === statusFilter.toLowerCase();
-
-    // Date Applied filter
-    let matchesDateApplied = true;
-    if (dateAppliedFilter !== "All Time") {
-      const appDate = new Date(app.applied);
-      const now = new Date();
-      const daysDiff =
-        (now.getTime() - appDate.getTime()) / (1000 * 60 * 60 * 24);
-
-      switch (dateAppliedFilter) {
-        case "Last 7 Days":
-          matchesDateApplied = daysDiff <= 7;
-          break;
-        case "Last 30 Days":
-          matchesDateApplied = daysDiff <= 30;
-          break;
-        case "Last 90 Days":
-          matchesDateApplied = daysDiff <= 90;
-          break;
-        case "Last Year":
-          matchesDateApplied = daysDiff <= 365;
-          break;
-      }
-    }
-
-    const matchesEmploymentType =
-      employmentTypeFilter === "All" ||
-      app.employmentType?.toLowerCase() === employmentTypeFilter.toLowerCase();
-
-    // Last Update filter
-    let matchesLastUpdate = true;
-    if (lastUpdateFilter !== "All Time") {
-      const lastUpdateDate = new Date(app.lastUpdate);
-      const now = new Date();
-      const daysDiff =
-        (now.getTime() - lastUpdateDate.getTime()) / (1000 * 60 * 60 * 24);
-
-      switch (lastUpdateFilter) {
-        case "Last 7 Days":
-          matchesLastUpdate = daysDiff <= 7;
-          break;
-        case "Last 30 Days":
-          matchesLastUpdate = daysDiff <= 30;
-          break;
-        case "Last 90 Days":
-          matchesLastUpdate = daysDiff <= 90;
-          break;
-        case "Last Year":
-          matchesLastUpdate = daysDiff <= 365;
-          break;
-      }
-    }
-
-    return (
-      matchesSearch &&
-      matchesStatus &&
-      matchesDateApplied &&
-      matchesLastUpdate &&
-      matchesEmploymentType
-    );
-  });
+      return companyMatch || titleMatch;
+    });
 
   useEffect(() => {
     if (loading) return
     getApplications().then(setApplications)
   }, [loading])
-
-  // useEffect(() => {
-  //   console.log(applications)
-  // }, [applications])
 
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
@@ -176,87 +70,12 @@ export default function Statistics() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search applications, roles, or companies..."
-          className="w-full bg-surface-container text-on-surface border-none rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-50"
+          className="w-full bg-surface-container text-on-surface outline-none border-none rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-50"
         />
-      </div>
-      {/** Filters */}
-      <div className="glass-card rounded-2xl p-4 mb-8 items-center gap-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-        <Dropdown
-          options={statusOptions}
-          selected={statusFilter}
-          onSelect={setStatusFilter}
-          label="Status"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="currentColor"
-            >
-              <path d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z" />
-            </svg>
-          }
-        />
-        <Dropdown
-          options={dateAppliedOptions}
-          selected={dateAppliedFilter}
-          onSelect={setDateAppliedFilter}
-          label="Date Applied"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="currentColor"
-            >
-              <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
-            </svg>
-          }
-        />
-        <Dropdown
-          options={lastUpdateOptions}
-          selected={lastUpdateFilter}
-          onSelect={setLastUpdateFilter}
-          label="Last Update"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="currentColor"
-            >
-              <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
-            </svg>
-          }
-        />
-        <Dropdown
-          options={employmentTypeOptions}
-          selected={employmentTypeFilter}
-          onSelect={setEmploymentTypeFilter}
-          label="Employment Type"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="currentColor"
-            >
-              <path d="M160-120q-33 0-56.5-23.5T80-200v-440q0-33 23.5-56.5T160-720h160v-80q0-33 23.5-56.5T400-880h160q33 0 56.5 23.5T640-800v80h160q33 0 56.5 23.5T880-640v440q0 33-23.5 56.5T800-120H160Zm0-80h640v-440H160v440Zm240-520h160v-80H400v80ZM160-200v-440 440Z" />
-            </svg>
-          }
-        />
-        <h2 className="col-span-1 lg:col-span-2 xl:col-span-3 2xl:col-span-4 text-center text-on-surface-variant text-sm font-semibold">
-          Showing {filteredApplications.length} of {applications.length}{" "}
-          applications
-        </h2>
       </div>
       {/** Applications */}
-      <div className="rounded-3xl border border-outline-variant/10 overflow-hidden">
-      <Table applications={applications} />
+      <div className="mt-5 rounded-3xl border border-outline-variant/10 overflow-hidden">
+        <Table applications={activeApplications} />
       </div>
     </div>
   );

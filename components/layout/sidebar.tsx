@@ -49,8 +49,10 @@ export default function Sidebar() {
                     onClick={async () => {
                         modal.show(<NewApplication />)}
                     }
-                    className="py-3 px-3 text-sm font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200">
-                    + New Application
+                    className="flex items-center justify-center py-3 px-3 font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200 gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                    </svg>
+                    New Application
                 </button>
                 {/** Content links */}
                 <div className="flex flex-col gap-3">
