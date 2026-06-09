@@ -1,5 +1,6 @@
 "use client"
 
+import Rating from "@/components/ui/rating";
 import { timeAgo } from "@/lib/timeAgo";
 import { Application } from "@/lib/types"
 import { useRouter } from "next/navigation";
@@ -27,8 +28,22 @@ export default function Table({ applications }: TableProps) {
                     } else {
                         return new Date(a.lastUpdate).getTime() - new Date(b.lastUpdate).getTime()
                     }
+                case "status":
+                    if (sortAscending) {
+                        return a.status.localeCompare(b.status);
+                    } else {
+                        return b.status.localeCompare(a.status);
+                    }
+                case "rating":
+                    if (sortAscending) {
+                        return a.rating - b.rating;
+                    } else {
+                        return b.rating - a.rating;
+                    }
+
+                default:
+                    return 0;
             }
-            return -1
         });
     }, [applications, sortColumn, sortAscending]);
     const router = useRouter();
@@ -47,6 +62,17 @@ export default function Table({ applications }: TableProps) {
         "Dec",
     ];
 
+    const handleSort = (columnName: string) => {
+        if (sortColumn === columnName) {
+            // Toggles direction ONLY if clicking the column that is already active
+            setSortAscending(prev => !prev);
+        } else {
+            // Swapping columns: Force the new column to start fresh as ascending
+            setSortColumn(columnName);
+            setSortAscending(true); 
+        }
+    };
+
     return (
         <table className="w-full text-left border-collapse">
             <thead>
@@ -57,8 +83,7 @@ export default function Table({ applications }: TableProps) {
                     </th>
                     <th 
                         onClick={() => {
-                            setSortColumn("apply");
-                            setSortAscending(!sortAscending);
+                            handleSort("apply")
                         }}
                         className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm">
                         <span className="flex items-center">
@@ -71,8 +96,7 @@ export default function Table({ applications }: TableProps) {
                     </th>
                     <th 
                         onClick={() => {
-                            setSortColumn("update");
-                            setSortAscending(!sortAscending);
+                            handleSort("update")
                         }}
                         className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm">
                         <span className="flex items-center">
@@ -83,16 +107,39 @@ export default function Table({ applications }: TableProps) {
                             </svg>
                         </span>
                     </th>
-                    <th className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm">
-                        Status
+                    <th 
+                        onClick={() => {
+                            handleSort("status")
+                        }}
+                        className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm">
+                        <span className="flex items-center">
+                            Status
+                            <svg 
+                                className={`${sortColumn === "status" ? 'opacity-100' : 'opacity-0'} ${sortAscending ? 'rotate-0' : 'rotate-180'}`}
+                                xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/>
+                            </svg>
+                        </span>
+                    </th>
+                    <th 
+                        onClick={() => {
+                            handleSort("rating")
+                        }}
+                        className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm">
+                        <span className="flex items-center">
+                            Rating
+                            <svg 
+                                className={`${sortColumn === "rating" ? 'opacity-100' : 'opacity-0'} ${!sortAscending ? 'rotate-0' : 'rotate-180'}`}
+                                xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/>
+                            </svg>
+                        </span>
                     </th>
                 </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/50">
-            {sortedApplications.map((application, idx) => (
+            {sortedApplications.map((application) => (
                 <tr
                 onClick={() => router.replace(`/job/${application.id!}`)}
-                key={idx}
+                key={application.id}
                 className="hover:bg-surface-container/30 transition-colors group"
                 >
                     <td className="py-6 px-8">
@@ -122,6 +169,11 @@ export default function Table({ applications }: TableProps) {
                         <div className="px-3 py-1 rounded-full bg-secondary-container text-secondary font-bold tracking-tight inline-flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
                         {application.status}
+                        </div>
+                    </td>
+                    <td className="p-6">
+                        <div className="max-w-50">
+                            <Rating editable={false} rating={application.rating} />
                         </div>
                     </td>
                 </tr>

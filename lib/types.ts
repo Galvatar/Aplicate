@@ -18,6 +18,11 @@ export interface Application {
     jobDescription?: string
     pay?: string
     url?: string
+    mainContact?: string
+    minPay?: number
+    maxPay?: number
+    currency?: string
+    rating: number
 }
 
 export enum Status {
