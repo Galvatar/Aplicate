@@ -11,11 +11,18 @@ import Table from "./components/table";
 export default function Statistics() {
   const [search, setSearch] = useState("");
   const [applications, setApplications] = useState([] as Application[]);
+  const [showRejected, setShowRejected] = useState(false);
   
   const { getApplications, loading } = useApplications();
 
-  const activeApplications = applications
-    .filter((app) => app.status !== Status.Rejected)
+  var activeApplications = applications
+      .filter((app) => app.status !== Status.Rejected);
+
+  if (showRejected) {
+    activeApplications = applications;
+  }
+  
+  const searchedApplications = activeApplications
     .filter((app) => {
       if (search === "") return true;
 
@@ -73,9 +80,25 @@ export default function Statistics() {
           className="w-full bg-surface-container text-on-surface outline-none border-none rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-50"
         />
       </div>
+      {/** Show rejected */}
+      <div className="flex w-full items-center gap-3">
+          <input
+            id="terms-checkbox"
+            type="checkbox"
+            checked={showRejected}
+            onChange={(e) => setShowRejected(e.target.checked)}
+            className="w-5 h-5 rounded cursor-pointer appearance-none accent-primary border border-outline-variant checked:bg-secondary-fixed-dim transition-colors"
+          />
+          <label
+            htmlFor="terms-checkbox"
+            className="text-sm text-on-surface-variant cursor-pointer"
+          >
+            Show Rejected applications
+          </label>
+        </div>
       {/** Applications */}
-      <div className="mt-5 rounded-3xl border border-outline-variant/10 overflow-hidden">
-        <Table applications={activeApplications} />
+      <div className="mt-5 rounded-3xl border border-outline-variant/10 overflow-hidden pb-20">
+        <Table applications={searchedApplications} />
       </div>
     </div>
   );

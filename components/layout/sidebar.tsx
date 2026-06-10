@@ -20,8 +20,21 @@ export default function Sidebar() {
 
     if (pathname === "/signup"
         || pathname === "/login"
+        || pathname.includes("/api")
     ) return (<></>)
     
+    const handleConnect = () => {
+        const client_id = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!;
+        const params = new URLSearchParams({
+            client_id: client_id,
+            redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/gmail/callback`,
+            response_type: 'code',
+            scope: 'https://www.googleapis.com/auth/gmail.readonly',
+            access_type: 'offline',
+            prompt: 'consent',
+        })
+        window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
+    }
 
     return (
         <div className="flex flex-col w-full font-jakarta h-screen max-w-85 bg-surface-container-low justify-between">
@@ -60,7 +73,7 @@ export default function Sidebar() {
                         onClick={() => router.replace('/home')}
                         className={`flex rounded-lg py-4 
                         ${pathname !== "/home" ? 'hover:bg-surface-container-lowest font-semibold text-on-surface-variant' 
-                        : 'text-primary font-bold bg-surface-container-high border-r-2 border-primary'}
+                        : 'text-primary font-bold bg-surface-container-high border-r-4 border-primary'}
                         gap-3 px-5 transition-all`}>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/>
                         </svg>
@@ -72,7 +85,7 @@ export default function Sidebar() {
                         onClick={() => router.replace('/board')}
                         className={`flex rounded-lg py-4 
                         ${pathname !== "/board" ? 'hover:bg-surface-container-lowest font-semibold text-on-surface-variant' 
-                        : 'text-primary font-bold bg-surface-container-high border-r-2 border-primary'}
+                        : 'text-primary font-bold bg-surface-container-high border-r-4 border-primary'}
                         gap-3 px-5 transition-all`}>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M120-840h320v320H120v-320Zm400 0h320v320H520v-320ZM120-440h320v320H120v-320Zm520 0h80v120h120v80H720v120h-80v-120H520v-80h120v-120Z"/>
                         </svg>
@@ -84,7 +97,7 @@ export default function Sidebar() {
                         onClick={() => router.replace('/applications')}
                         className={`flex rounded-lg py-4 
                         ${pathname !== "/applications" ? 'hover:bg-surface-container-lowest font-semibold text-on-surface-variant' 
-                        : 'text-primary font-bold bg-surface-container-high border-r-2 border-primary'}
+                        : 'text-primary font-bold bg-surface-container-high border-r-4 border-primary'}
                         gap-3 px-5 transition-all`}>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m600-120-240-84-186 72q-20 8-37-4.5T120-170v-560q0-13 7.5-23t20.5-15l212-72 240 84 186-72q20-8 37 4.5t17 33.5v560q0 13-7.5 23T812-192l-212 72Zm-40-98v-468l-160-56v468l160 56Zm80 0 120-40v-474l-120 46v468Zm-440-10 120-46v-468l-120 40v474Zm440-458v468-468Zm-320-56v468-468Z"/>
                         </svg>
@@ -96,7 +109,7 @@ export default function Sidebar() {
                         onClick={() => router.replace('/statistics')}
                         className={`flex rounded-lg py-4 
                         ${pathname !== "/statistics" ? 'hover:bg-surface-container-lowest font-semibold text-on-surface-variant' 
-                        : 'text-primary font-bold bg-surface-container-high border-r-2 border-primary'}
+                        : 'text-primary font-bold bg-surface-container-high border-r-4 border-primary'}
                         gap-3 px-5 transition-all`}>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M160-160v-320h160v320H160Zm240 0v-640h160v640H400Zm240 0v-440h160v440H640Z"/>
                         </svg>
@@ -109,12 +122,11 @@ export default function Sidebar() {
             {/** Footer */}
             <div className="flex-col w-full py-5 px-5 border-t border-surface-container-highest gap-3">
                 <div 
-                    onClick={() => router.replace('/home')}
+                    onClick={() => handleConnect()}
                     className="flex font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M513.5-254.5Q528-269 528-290t-14.5-35.5Q499-340 478-340t-35.5 14.5Q428-311 428-290t14.5 35.5Q457-240 478-240t35.5-14.5ZM442-394h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
-                    </svg>
+                    <img src={'/gmail-logo.png'} alt="Gmail icon" className="h-5 w-5" />
                     <h1>
-                        Help Center
+                        Connect Gmail
                     </h1>
                 </div>
                 {guestMode ? 

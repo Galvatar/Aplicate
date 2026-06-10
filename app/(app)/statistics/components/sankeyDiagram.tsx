@@ -1,10 +1,12 @@
+"use client";
+
 import { Application } from "@/lib/types";
 import React, { useState, useMemo } from "react";
 
 // ==========================================
 // TYPES & INTERFACES
 // ==========================================
-export type ColorTheme = "indigo" | "emerald" | "offer" | "slate";
+export type ColorTheme = "primary" | "secondary" | "tertiary" | "muted";
 export type RowType = "main" | "sub";
 export type ColumnIndex = 0 | 1 | 2 | 3 | 4;
 
@@ -58,44 +60,44 @@ const STAGE_CONFIG = [
     label: "Pre-register",
     column: 0,
     row: "main",
-    color: "indigo" as const,
+    color: "primary" as const,
   },
   {
     id: "applied",
     label: "Applied",
     column: 1,
     row: "main",
-    color: "emerald" as const,
+    color: "secondary" as const,
   },
   {
     id: "assessment",
     label: "Assessment",
     column: 2,
     row: "main",
-    color: "emerald" as const,
+    color: "secondary" as const,
   },
   {
     id: "interview",
     label: "Interview",
     column: 3,
     row: "main",
-    color: "emerald" as const,
+    color: "secondary" as const,
   },
   {
     id: "offer",
     label: "Offer",
     column: 4,
     row: "main",
-    color: "offer" as const,
+    color: "tertiary" as const,
   },
   {
     id: "rejected",
     label: "Rejected",
     column: 4,
     row: "sub",
-    color: "slate" as const,
+    color: "muted" as const,
   },
-] as const;
+ ] as const;
 
 const STAGE_ALIASES: Record<string, string> = {
   preregister: "preregister",
@@ -177,30 +179,37 @@ const LAYOUT_GRID: Record<ColumnIndex, Record<RowType, GridCoords>> = {
   4: { main: { x: 820, y: 50 }, sub: { x: 820, y: 470 } },
 };
 
+// ==========================================
+// ADAPTIVE SEMANTIC CSS MAPPINGS
+// ==========================================
 const THEME_MAP: Record<
   ColorTheme,
-  { bg: string; link: string; activeLink: string; glow?: boolean }
+  { bg: string; link: string; activeLink: string; glowColor: string; glow?: boolean }
 > = {
-  indigo: {
-    bg: "bg-[#141822] border-slate-800 text-indigo-200",
-    link: "stroke-[#2B2E3D]/60",
-    activeLink: "stroke-indigo-500/80",
+  primary: {
+    bg: "bg-surface-container border-outline-variant/40 text-primary",
+    link: "stroke-primary/20",
+    activeLink: "stroke-primary",
+    glowColor: "var(--md-primary)",
   },
-  emerald: {
-    bg: "bg-[#141822] border-slate-800 text-emerald-400/90",
-    link: "stroke-[#2D3A39]/60",
-    activeLink: "stroke-emerald-400/80",
+  secondary: {
+    bg: "bg-surface-container border-outline-variant/40 text-secondary",
+    link: "stroke-secondary/20",
+    activeLink: "stroke-secondary",
+    glowColor: "var(--md-secondary)",
   },
-  offer: {
-    bg: "bg-[#1B1F32] border-indigo-500/40 text-indigo-300 shadow-[0_0_20px_rgba(99,102,241,0.15)]",
-    link: "stroke-[#4C4F7A]/40",
-    activeLink: "stroke-indigo-400",
+  tertiary: {
+    bg: "bg-tertiary-container text-on-tertiary-container border-tertiary/30 shadow-md",
+    link: "stroke-tertiary/20",
+    activeLink: "stroke-tertiary",
+    glowColor: "var(--md-tertiary)",
     glow: true,
   },
-  slate: {
-    bg: "bg-[#11141B]/50 border-slate-900 text-slate-400 opacity-40",
-    link: "stroke-[#1B1E26]/60",
-    activeLink: "stroke-slate-500/70",
+  muted: {
+    bg: "bg-surface-container-low border-outline-variant/20 text-on-surface-variant/40 opacity-50",
+    link: "stroke-on-surface-variant/10",
+    activeLink: "stroke-on-surface-variant/40",
+    glowColor: "var(--md-outline)",
   },
 };
 
@@ -210,7 +219,6 @@ const THEME_MAP: Record<
 export default function InteractiveApplicationFlow({
   applications,
 }: DynamicApplicationFlowProps) {
-  // Track state of item currently under user cursor
   const [activeHover, setActiveHover] = useState<ActiveHover>(null);
 
   const sankeyData = useMemo(() => {
@@ -227,12 +235,12 @@ export default function InteractiveApplicationFlow({
   }, [sankeyData.nodes]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-6 bg-[#090D14] rounded-2xl border border-slate-800/40 shadow-2xl relative font-sans select-none">
+    <div className="w-full max-w-5xl mx-auto p-6 bg-surface-container-low rounded-2xl border border-outline-variant/40 shadow-xl relative font-sans select-none transition-colors duration-300">
       <div className="flex items-center justify-between mb-6 px-2">
-        <h2 className="text-xl font-semibold text-slate-200">
+        <h2 className="text-xl font-semibold text-on-surface">
           Application Flow
         </h2>
-        <span className="text-xs text-slate-500 animate-pulse">
+        <span className="text-xs text-on-surface-variant/70 animate-pulse">
           Hover over nodes or paths to inspect connections
         </span>
       </div>
@@ -242,7 +250,7 @@ export default function InteractiveApplicationFlow({
         style={{ aspectRatio: `${VB_WIDTH} / ${VB_HEIGHT}` }}
       >
         {sankeyData.nodes.length === 0 ? (
-          <div className="absolute inset-0 flex items-center justify-center rounded-2xl border border-dashed border-slate-800/50 text-sm text-slate-500">
+          <div className="absolute inset-0 flex items-center justify-center rounded-2xl border border-dashed border-outline-variant/60 text-sm text-on-surface-variant/80">
             No journey data for the selected period.
           </div>
         ) : null}
@@ -268,9 +276,8 @@ export default function InteractiveApplicationFlow({
             const controlOffset = (endX - startX) * 0.45;
             const pathData = `M ${startX} ${startY} C ${startX + controlOffset} ${startY}, ${endX - controlOffset} ${endY}, ${endX} ${endY}`;
 
-            const theme = THEME_MAP[targetNode.color] || THEME_MAP.slate;
+            const theme = THEME_MAP[targetNode.color] || THEME_MAP.muted;
 
-            // Compute isolation opacity rules based on active user context
             let isHighlighted = false;
             let isDimmed = false;
 
@@ -297,7 +304,7 @@ export default function InteractiveApplicationFlow({
                   isHighlighted ? theme.activeLink : theme.link
                 }`}
                 style={{
-                  opacity: isDimmed ? 0.08 : isHighlighted ? 1 : 0.75,
+                  opacity: isDimmed ? 0.06 : isHighlighted ? 1 : 0.65,
                 }}
                 strokeLinecap="round"
                 onMouseEnter={() =>
@@ -311,7 +318,7 @@ export default function InteractiveApplicationFlow({
                 filter={
                   isHighlighted &&
                   (theme.glow || link.glow || activeHover?.type === "link")
-                    ? "drop-shadow(0px 0px 12px rgba(99,102,241,0.6))"
+                    ? `drop-shadow(0px 0px 10px ${theme.glowColor})`
                     : undefined
                 }
               />
@@ -324,9 +331,8 @@ export default function InteractiveApplicationFlow({
           const coords = nodesMap.get(node.id);
           if (!coords) return null;
 
-          const theme = THEME_MAP[node.color] || THEME_MAP.slate;
+          const theme = THEME_MAP[node.color] || THEME_MAP.muted;
 
-          // Compute isolation state for boxes
           let isHighlighted = false;
           let isDimmed = false;
 
@@ -357,18 +363,18 @@ export default function InteractiveApplicationFlow({
               key={node.id}
               className={`absolute flex flex-col justify-center items-center border rounded-xl text-center cursor-pointer transition-all duration-300 backdrop-blur-sm ${
                 theme.bg
-              } ${isHighlighted ? "border-indigo-400/60 shadow-lg" : ""}`}
+              } ${isHighlighted ? "border-primary/60 shadow-lg" : ""}`}
               style={style}
               onMouseEnter={() => setActiveHover({ type: "node", id: node.id })}
               onMouseLeave={() => setActiveHover(null)}
             >
               <span
-                className={`font-semibold tracking-tight transition-transform ${node.row === "main" ? "text-3xl" : "text-xl"}`}
+                className={`font-semibold tracking-tight ${node.row === "main" ? "text-3xl" : "text-xl"}`}
               >
                 {node.value.toLocaleString()}
               </span>
               <span
-                className={`font-medium mt-1 ${node.row === "main" ? "text-xs text-slate-400" : "text-[11px] text-slate-500"}`}
+                className={`font-medium mt-1 ${node.row === "main" ? "text-xs text-on-surface-variant/80" : "text-[11px] text-on-surface-variant/60"}`}
               >
                 {node.label}
               </span>

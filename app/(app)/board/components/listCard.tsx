@@ -18,7 +18,7 @@ export default function ListCard({
 }: ListCardProps) {
   return (
     <div
-      className="flex flex-col w-full bg-neutral-950 backdrop-blur-sm rounded-2xl p-4 gap-4 border border-outline-variant/5"
+      className={`flex flex-col w-full bg-surface-container-lowest backdrop-blur-sm rounded-2xl p-4 gap-4 border border-outline-variant/5`}
       onDragOver={onDragOver}
       onDrop={onDrop}
     >

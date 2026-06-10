@@ -180,7 +180,7 @@ export default function SignupPage() {
                     </h1>
                     <button 
                         onClick={() => router.replace('/login')}
-                        className="text-primary-fixed-dim hover:text-primary-fixed">
+                        className="text-primary hover:underline font-bold transition-all">
                         Log In
                     </button>
                 </div>

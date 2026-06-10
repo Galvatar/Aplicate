@@ -1,6 +1,8 @@
 "use client"
 
+import KebabMenu from "@/components/ui/kebabMenu";
 import Rating from "@/components/ui/rating";
+import StatusLabel from "@/components/ui/statusLabel";
 import { timeAgo } from "@/lib/timeAgo";
 import { Application } from "@/lib/types"
 import { useRouter } from "next/navigation";
@@ -72,7 +74,7 @@ export default function Table({ applications }: TableProps) {
     };
 
     return (
-        <table className="w-full text-left border-collapse">
+        <table className="w-full h-fit text-left border-collapse">
             <thead>
                 <tr className="bg-surface-container-high/50">
                     <th 
@@ -131,6 +133,7 @@ export default function Table({ applications }: TableProps) {
                             </svg>
                         </span>
                     </th>
+                    <th className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm" />
                 </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/50">
@@ -142,7 +145,7 @@ export default function Table({ applications }: TableProps) {
                 >
                     <td className="py-6 px-8">
                         <div className="flex items-center gap-4">
-                        <div className="min-w-12 h-12 rounded-xl bg-on-tertiary flex items-center justify-center text-primary-fixed-dim font-bold text-lg">
+                        <div className="min-w-12 h-12 rounded-xl bg-on-tertiary flex items-center justify-center text-primary font-bold text-lg">
                             {application.company.charAt(0)}
                         </div>
                         <div className="flex flex-col">
@@ -164,15 +167,17 @@ export default function Table({ applications }: TableProps) {
                         {timeAgo(application.lastUpdate)}
                     </td>
                     <td className="p-6">
-                        <div className="px-3 py-1 rounded-full bg-secondary-container text-secondary font-bold tracking-tight inline-flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                        {application.status}
-                        </div>
+                        <StatusLabel status={application.status} />
                     </td>
                     <td className="p-6">
                         <div className="max-w-50">
                             <Rating editable={false} rating={application.rating} />
                         </div>
+                    </td>
+                    <td 
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-6">
+                        <KebabMenu application={application} />
                     </td>
                 </tr>
             ))}

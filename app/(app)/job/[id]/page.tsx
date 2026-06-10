@@ -1,6 +1,7 @@
 'use client'
 
 import KebabMenu from "@/components/ui/kebabMenu";
+import StatusLabel from "@/components/ui/statusLabel";
 import { useApplications } from "@/hooks/use-applications";
 import { Application } from "@/lib/types";
 import { useParams, useRouter } from "next/navigation"
@@ -130,10 +131,7 @@ export default function JobPage() {
             {/** Right side */}
             <div className="flex flex-col w-full max-w-1/4 items-end gap-5">
                 <div className="flex gap-3 my-15">
-                    <span className="flex gap-2 items-center px-4 py-2 border-secondary/30 border bg-secondary-container/30 rounded-full text-secondary font-bold">
-                        <span className="w-2 h-2 rounded-full bg-secondary" />
-                        Interviewing
-                    </span>
+                    <StatusLabel status={application.status} />
                     <div className="flex aspect-square rounded-full bg-surface-container-high items-center justify-center border border-surface-container-highest">
                         <KebabMenu application={application} />
                     </div>
@@ -156,7 +154,7 @@ export default function JobPage() {
                             <h4 className="text-on-surface font-semibold">
                                 Compensation
                             </h4>
-                            <h5 className="text-nowrap">
+                            <h5>
                                 {application.pay}
                             </h5>
                         </div>
@@ -197,6 +195,15 @@ export default function JobPage() {
                     ))
                     }
                 </div>
+                {/** Original application */}
+                {application.url && 
+                    <button 
+                        onClick={() => window.open(application.url, "_blank")}
+                        className="flex w-full items-center justify-center py-3 px-3 font-semibold rounded-xl bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200 gap-1">
+                        Application Page
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="m256-240-56-56 384-384H240v-80h480v480h-80v-344L256-240Z"/>
+                        </svg>
+                    </button>}
             </div>
         </div>
     )
