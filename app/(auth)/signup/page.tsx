@@ -164,7 +164,7 @@ export default function SignupPage() {
                         setDisableGoogle(false);
                     }}
                     className="w-full font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent text-lg rounded-lg py-3 px-4 border border-outline-variant/50 flex justify-center items-center gap-2 mt-5 hover:bg-surface-container-lowest transition-colors duration-300">
-                    <img src={'/google.png'} alt="Google log" className="w-5 h-5" />
+                    <img src="/google.png" alt="Google logo" className="w-5 h-5" />
                     Signup with Google
                 </button>
                 <button 
