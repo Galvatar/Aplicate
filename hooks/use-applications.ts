@@ -4,6 +4,7 @@ import { Application } from "@/lib/types";
 import { useUser } from "./use-user";
 import { useMemo } from "react";
 import { supabase } from "@/lib/supabase/client";
+import DeleteApplication from "@/components/layout/components/deleteApplication";
 
 export const useApplications = () => {
     const { user, loading } = useUser();
@@ -20,6 +21,7 @@ export const useApplications = () => {
         getApplication: (id: string) => store.getApplication(id),
         createApplication: (application: Application) => store.createApplication(application),
         updateApplication: (update: Application) => store.updateApplication(update),
-        deleteApplication: (id: string) => store.deleteApplication(id)
+        deleteApplication: (id: string) => store.deleteApplication(id),
+        deleteApplications: () => store.deleteApplications(),
     }
 }

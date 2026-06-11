@@ -19,7 +19,6 @@ export class SupabaseApplicationStore implements ApplicationStoreInterface {
     }
 
     async getApplication(id: string): Promise<Application | undefined> {
-        console.log(id);
         const { data, error } = await this.client
             .from('Applications')
             .select('*')
@@ -55,6 +54,15 @@ export class SupabaseApplicationStore implements ApplicationStoreInterface {
             .from('Applications')
             .delete()
             .eq('id', id)
+
+        if (error) throw error;
+    }
+
+    async deleteApplications(): Promise<void> {
+        const { data, error } = await this.client
+            .from('Applications')
+            .delete()
+            .eq('userId', (await this.client.auth.getUser()).data.user?.id)
 
         if (error) throw error;
     }

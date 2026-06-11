@@ -1,23 +1,8 @@
 import { useModal } from "@/components/ui/modal";
-import { useApplications } from "@/hooks/use-applications";
-import { Application } from "@/lib/types";
-import { useRouter } from "next/navigation";
+import DeleteAccountButton from "./deleteUserButton";
 
-interface DeleteApplicationProps {
-    app: Application
-}
-
-export default function DeleteApplication({ app }: DeleteApplicationProps) {
-    const { deleteApplication, loading } = useApplications();
+export default function DeleteUser() {
     const modal = useModal();
-    const router = useRouter()
-
-    async function handleDelete() {
-        if (loading) return;
-        if (app.id) await deleteApplication(app.id);
-        modal.hideWithRefresh();
-        router.replace('/applications');
-    }
 
     return (
         <div className="flex flex-col h-screen items-center justify-center">
@@ -35,10 +20,10 @@ export default function DeleteApplication({ app }: DeleteApplicationProps) {
                     </button>
                 </span>
                 <h1 className="font-bold text-2xl tracking-tight mt-5">
-                    Remove Application?
+                    Delete Account?
                 </h1>
                 <p className="mt-3">
-                    This will permanently remove the application for <b>{app.title}</b> at <b>{app.company}</b>. This action cannot be undone.
+                    This will permanently remove your account and all associated data, including any integrations and applications. This action cannot be undone.
                 </p>
                 <div className="flex gap-3 mt-8">
                     <button 
@@ -46,11 +31,7 @@ export default function DeleteApplication({ app }: DeleteApplicationProps) {
                         className="w-full py-3 font-bold  rounded-xl bg-surface-container-high hover:bg-surface-container-highest transition-colors">
                         Cancel
                     </button>
-                    <button 
-                        onClick={() => handleDelete()}
-                        className="w-full py-3 font-bold text-error-container  rounded-xl bg-error/80 hover:bg-error transition-colors">
-                        Remove
-                    </button>
+                    <DeleteAccountButton />
                 </div>
             </div>
         </div>

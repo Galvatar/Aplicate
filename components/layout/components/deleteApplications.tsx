@@ -1,22 +1,17 @@
 import { useModal } from "@/components/ui/modal";
 import { useApplications } from "@/hooks/use-applications";
-import { Application } from "@/lib/types";
 import { useRouter } from "next/navigation";
 
-interface DeleteApplicationProps {
-    app: Application
-}
-
-export default function DeleteApplication({ app }: DeleteApplicationProps) {
-    const { deleteApplication, loading } = useApplications();
+export default function DeleteApplications() {
+    const { deleteApplications, loading } = useApplications();
     const modal = useModal();
     const router = useRouter()
 
     async function handleDelete() {
         if (loading) return;
-        if (app.id) await deleteApplication(app.id);
+        await deleteApplications();
         modal.hideWithRefresh();
-        router.replace('/applications');
+        router.replace('/home');
     }
 
     return (
@@ -35,10 +30,10 @@ export default function DeleteApplication({ app }: DeleteApplicationProps) {
                     </button>
                 </span>
                 <h1 className="font-bold text-2xl tracking-tight mt-5">
-                    Remove Application?
+                    Delete Data?
                 </h1>
                 <p className="mt-3">
-                    This will permanently remove the application for <b>{app.title}</b> at <b>{app.company}</b>. This action cannot be undone.
+                    This will permanently remove all your applications. This action cannot be undone.
                 </p>
                 <div className="flex gap-3 mt-8">
                     <button 
@@ -49,7 +44,7 @@ export default function DeleteApplication({ app }: DeleteApplicationProps) {
                     <button 
                         onClick={() => handleDelete()}
                         className="w-full py-3 font-bold text-error-container  rounded-xl bg-error/80 hover:bg-error transition-colors">
-                        Remove
+                        Delete
                     </button>
                 </div>
             </div>

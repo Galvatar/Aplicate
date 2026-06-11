@@ -83,7 +83,7 @@ export default function EditApplication({ app }: EditApplicationProps) {
                 required
                 onChange={(e) => setApplication(prev => prev ? { ...prev, company: e.target.value } : prev)}
                 placeholder="e.g. Acme Corp"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function EditApplication({ app }: EditApplicationProps) {
                 required
                 onChange={(e) => setApplication(prev => prev ? { ...prev, title: e.target.value } : prev)}
                 placeholder="e.g. Product Designer"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function EditApplication({ app }: EditApplicationProps) {
                 value={application?.location}
                 onChange={(e) => setApplication(prev => prev ? { ...prev, location: e.target.value } : prev)}
                 placeholder="e.g. Remote, Sydney"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function EditApplication({ app }: EditApplicationProps) {
                 value={application?.foundOn}
                 onChange={(e) => setApplication(prev => prev ? { ...prev, foundOn: e.target.value } : prev)}
                 placeholder="e.g. LinkedIn, Referral"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -170,7 +170,7 @@ export default function EditApplication({ app }: EditApplicationProps) {
                 value={application?.mainContact}
                 onChange={(e) => setApplication(prev => prev ? { ...prev, mainContact: e.target.value } : prev)}
                 placeholder="e.g. admin@spotify.com"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -184,7 +184,7 @@ export default function EditApplication({ app }: EditApplicationProps) {
                 value={application?.pay}
                 onChange={(e) => setApplication(prev => prev ? { ...prev, pay: e.target.value } : prev)}
                 placeholder="e.g. $90k - $95k"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -273,7 +273,7 @@ export default function EditApplication({ app }: EditApplicationProps) {
               value={application?.url}
                 onChange={(e) => setApplication(prev => prev ? { ...prev, url: e.target.value } : prev)}
               placeholder="https://"
-              className="flex-1 min-w-0 border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+              className="flex-1 min-w-0 border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
             />
           </div>
         </div>

@@ -6,4 +6,5 @@ export interface ApplicationStoreInterface {
     createApplication(application: Application): Promise<void>;
     updateApplication(update: Application): Promise<void>;
     deleteApplication(id: string): Promise<void>;
+    deleteApplications(): Promise<void>;
 }

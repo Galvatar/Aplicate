@@ -6,6 +6,7 @@ import SignalCard from "./components/signalCard";
 import { useUser } from "@/hooks/use-user";
 import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const today = new Date();
@@ -19,6 +20,7 @@ export default function Home() {
   });
   const interviewApplications = applications.filter(app => app.status === Status.Interview)
   const offerApplication = applications.filter(app => app.status === Status.Offer)
+  const router = useRouter();
 
   const { user } = useUser();
   const { getApplications, loading} = useApplications();
@@ -70,14 +72,6 @@ export default function Home() {
     getApplications().then(setApplications)
   }, [loading])
 
-  function GetPadded(count: number): string {
-    if (count >= 10) {
-      return String(count);
-    } else {
-      return String(count).padStart(2, '0');
-    }
-  }
-
   function upperCase(word: string): string {
     const firstLetter = word.substring(0, 1);
     const lastLetters = word.substring(1, word.length);
@@ -101,12 +95,12 @@ export default function Home() {
         {daysOfTheWeek[today.getDay()]}, {months[today.getMonth()]}{" "}
         {today.getDate()}
       </h3>
-      <h1 className="text-4xl font-bold text-primary-fixed-dim tracking-tight">
+      <h1 className="text-4xl font-bold text-primary tracking-tight">
         Good {GetGreeting(today.getHours())}, {username}.
       </h1>
       <h2 className="text-on-surface-variant max-w-xl">
         Keep working at it. You have{" "}
-        <span className="text-secondary-fixed-dim">{weekApplications.length} interviews</span> scheduled
+        <span className="text-secondary">{weekApplications.length} interviews</span> scheduled
         for next week. Take a moment to breathe before reviewing your board.
       </h2>
       {user == null &&
@@ -156,7 +150,7 @@ export default function Home() {
           <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all duration-700" />
           <div className="flex gap-3 items-end">
             <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
-              {GetPadded(interviewApplications.length)}
+              {interviewApplications.length}
             </h1>
             <h2 className="flex gap-1 text-sm text-outline items-center">
               Interviews pending
@@ -171,7 +165,9 @@ export default function Home() {
           <h1 className="font-headline-lg-mobile font-semibold text-headline-lg-mobile text-on-surface">
             Momentum
           </h1>
-          <button className="rounded-full px-2 py-1 text-primary-fixed-dim hover:text-primary-fixed text-sm font-semibold transition-colors duration-500">
+          <button 
+            onClick={() => router.replace('/board')}
+            className="rounded-full px-2 py-1 text-primary hover:text-primary-fixed text-sm font-semibold transition-colors duration-500">
             View Details
           </button>
         </div>

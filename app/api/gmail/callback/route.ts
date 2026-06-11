@@ -25,24 +25,49 @@ export async function GET(req: NextRequest) {
   if (!user) return NextResponse.redirect(`${baseUrl}/home`);
 
   await supabase.from('GmailTokens').upsert({
-        user_id: user.id,
-        access_token: tokens.access_token,
-        refresh_token: tokens.refresh_token,
-        expires_at: new Date(Date.now() + tokens.expires_in * 1000).toISOString(),
+    user_id: user.id,
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token,
+    expires_at: new Date(Date.now() + tokens.expires_in * 1000).toISOString(),
+  })
+
+  await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/watch`, {
+    method: 'POST',
+    headers: { 
+        Authorization: `Bearer ${tokens.access_token}`,
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        topicName: 'projects/flowspace-497803/topics/gmail-notifications',
+        labelIds: ['INBOX']
     })
+  })
 
-    await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/watch`, {
-        method: 'POST',
-        headers: { 
-            Authorization: `Bearer ${tokens.access_token}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            topicName: 'projects/flowspace-497803/topics/gmail-notifications',
-            labelIds: ['INBOX']
-        })
-    })
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <title>Authentication Successful</title>
+    </head>
+    <body>
+      <p style="text-align: center; font-family: sans-serif; margin-top: 50px;">
+        Authentication successful! Closing window...
+      </p>
+      
+      <script>
+        // A. Tell the main app window that the login succeeded
+        if (window.opener) {
+          window.opener.postMessage({ type: 'GMAIL_CONNECTED' }, '*');
+        }
+        
+        // B. Instantly close this popup window
+        window.close();
+      </script>
+    </body>
+    </html>
+  `
 
-
-  return NextResponse.redirect(`${baseUrl}/home`);
+  return new NextResponse(htmlContent, {
+    headers: { 'Content-Type': 'text/html' },
+  })
 }

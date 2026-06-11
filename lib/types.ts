@@ -29,3 +29,13 @@ export enum Status {
     PreRegister = "PreRegister", Apply = "Apply", Assessment = "Assessment",
     Interview = "Interview", Offer = "Offer", Rejected = "Rejected"
 }
+
+export interface GmailToken {
+    id: string
+    user_id: string
+    access_token: string
+    refresh_token: string
+    expires_at: Date
+    created_at?: Date
+    last_history_id?: string
+}

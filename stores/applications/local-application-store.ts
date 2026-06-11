@@ -42,4 +42,8 @@ export class LocalApplicationStore implements ApplicationStoreInterface {
         var updatedApps = applications.filter(a => a.id !== id);
         localStorage.setItem('applications', JSON.stringify(updatedApps));
     }
+
+    async deleteApplications(): Promise<void> {
+        localStorage.removeItem("applications");
+    }
 }

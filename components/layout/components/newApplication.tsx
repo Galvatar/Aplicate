@@ -5,7 +5,7 @@ import Rating from "@/components/ui/rating";
 import { useApplications } from "@/hooks/use-applications";
 import { useUser } from "@/hooks/use-user";
 import { Application, Status } from "@/lib/types";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function NewApplication() {
   const modal = useModal();
@@ -21,26 +21,39 @@ export default function NewApplication() {
   const [mainContact, setMainContact] = useState("");
   const [pay, setPay] = useState("");
   const [rating, setRating] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const isSubmitting = useRef<boolean>(false);
 
   const { user } = useUser();
 
   async function handleSubmit() {
-    const newApp: Application = {
-      userId: user?.id ?? "",
-      title: role,
-      employmentType: employmentType,
-      company: company,
-      status: preregister ? Status.PreRegister : Status.Apply,
-      applied: new Date(),
-      lastUpdate: new Date(),
-      journey: preregister ? Status.PreRegister : Status.Apply,
-      notes: notes,
-      url: url,
-      mainContact: "",
-      rating: 0
-    };
-    await storage.createApplication(newApp);
-    modal.hideWithRefresh();
+    if (isSubmitting.current) return;
+    
+    isSubmitting.current = true;
+    setLoading(true);
+
+    try {
+      const newApp: Application = {
+        userId: user?.id ?? "",
+        title: role,
+        employmentType: employmentType,
+        company: company,
+        status: preregister ? Status.PreRegister : Status.Apply,
+        applied: new Date(),
+        lastUpdate: new Date(),
+        journey: preregister ? Status.PreRegister : Status.Apply,
+        notes: notes,
+        url: url,
+        mainContact: "",
+        rating: 0
+      };
+      
+      await storage.createApplication(newApp);
+      modal.hideWithRefresh();
+    } catch (error) {
+      isSubmitting.current = false;
+      setLoading(false);
+    }
   }
 
   return (
@@ -68,10 +81,6 @@ export default function NewApplication() {
       </div>
       {/** Form data */}
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
         className="flex flex-col overflow-scroll items-center p-8 gap-8"
       >
         {/** First line */}
@@ -94,7 +103,7 @@ export default function NewApplication() {
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
                 placeholder="e.g. Acme Corp"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -116,7 +125,7 @@ export default function NewApplication() {
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
                 placeholder="e.g. Product Designer"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -141,7 +150,7 @@ export default function NewApplication() {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="e.g. Remote, Sydney"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -163,7 +172,7 @@ export default function NewApplication() {
                 value={source}
                 onChange={(e) => setSource(e.target.value)}
                 placeholder="e.g. LinkedIn, Referral"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -180,7 +189,7 @@ export default function NewApplication() {
                 value={mainContact}
                 onChange={(e) => setMainContact(e.target.value)}
                 placeholder="e.g. admin@spotify.com"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -194,7 +203,7 @@ export default function NewApplication() {
                 value={pay}
                 onChange={(e) => setPay(e.target.value)}
                 placeholder="e.g. $90k - $95k"
-                className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+                className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
               />
             </div>
           </div>
@@ -228,55 +237,16 @@ export default function NewApplication() {
         <div className="flex w-full flex-col gap-3">
           <h1 className="font-bold text-sm">Employment Type</h1>
           <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => setEmploymentType("full-time")}
-              className={`w-fit py-2 px-4 rounded-full ${employmentType === "full-time" ? "bg-secondary-container/80 text-on-secondary-container" : "bg-surface-container-highest text-on-background"} text-sm font-semibold transition-colors duration-500`}
-            >
-              Full-time
-            </button>
-            <button
-              type="button"
-              onClick={() => setEmploymentType("contract")}
-              className={`w-fit py-2 px-4 rounded-full ${employmentType === "contract" ? "bg-secondary-container/80 text-on-secondary-container" : "bg-surface-container-highest text-on-background"} text-sm font-semibold transition-colors duration-500`}
-            >
-              Contract
-            </button>
-            <button
-              type="button"
-              onClick={() => setEmploymentType("freelance")}
-              className={`w-fit py-2 px-4 rounded-full ${employmentType === "freelance" ? "bg-secondary-container/80 text-on-secondary-container" : "bg-surface-container-highest text-on-background"} text-sm font-semibold transition-colors duration-500`}
-            >
-              Freelance
-            </button>
-            <button
-              type="button"
-              onClick={() => setEmploymentType("part-time")}
-              className={`w-fit py-2 px-4 rounded-full ${employmentType === "part-time" ? "bg-secondary-container/80 text-on-secondary-container" : "bg-surface-container-highest text-on-background"} text-sm font-semibold transition-colors duration-500`}
-            >
-              Part-time
-            </button>
-            <button
-              type="button"
-              onClick={() => setEmploymentType("casual")}
-              className={`w-fit py-2 px-4 rounded-full ${employmentType === "casual" ? "bg-secondary-container/80 text-on-secondary-container" : "bg-surface-container-highest text-on-background"} text-sm font-semibold transition-colors duration-500`}
-            >
-              Casual
-            </button>
-            <button
-              type="button"
-              onClick={() => setEmploymentType("graduate")}
-              className={`w-fit py-2 px-4 rounded-full ${employmentType === "graduate" ? "bg-secondary-container/80 text-on-secondary-container" : "bg-surface-container-highest text-on-background"} text-sm font-semibold transition-colors duration-500`}
-            >
-              Graduate
-            </button>
-            <button
-              type="button"
-              onClick={() => setEmploymentType("internship")}
-              className={`w-fit py-2 px-4 rounded-full ${employmentType === "internship" ? "bg-secondary-container/80 text-on-secondary-container" : "bg-surface-container-highest text-on-background"} text-sm font-semibold transition-colors duration-500`}
-            >
-              Internship
-            </button>
+            {["full-time", "contract", "freelance", "part-time", "casual", "graduate", "internship"].map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => setEmploymentType(type)}
+                className={`w-fit py-2 px-4 rounded-full ${employmentType === type ? "bg-secondary-container/80 text-on-secondary-container" : "bg-surface-container-highest text-on-background"} text-sm font-semibold transition-colors duration-500 capitalize`}
+              >
+                {type.replace("-", " ")}
+              </button>
+            ))}
           </div>
         </div>
         {/** Posting URL */}
@@ -299,7 +269,7 @@ export default function NewApplication() {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://"
-              className="flex-1 min-w-0 border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold"
+              className="flex-1 min-w-0 border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold"
             />
           </div>
         </div>
@@ -322,7 +292,7 @@ export default function NewApplication() {
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Add any additional notes..."
               rows={4}
-              className="border-0 outline-none text-on-background font-body-md placeholder:text-on-surface-variant/30 placeholder:font-semibold resize-none w-full bg-surface-container-highest"
+              className="border-0 outline-none text-on-background font-bold placeholder:text-on-surface-variant/30 placeholder:font-semibold resize-none w-full bg-surface-container-highest"
             />
           </div>
         </div>
@@ -375,16 +345,19 @@ export default function NewApplication() {
       {/** Buttons */}
       <div className="flex justify-end items-center p-8 border-t border-outline-variant/10 gap-4">
         <button
+          type="button"
           onClick={() => modal.hide()}
           className="px-6 py-2.5 rounded-lg text-sm font-bold text-on-surface-variant hover:text-on-background hover:bg-surface-container-high transition-all"
         >
           Cancel
         </button>
         <button
-          onClick={() => handleSubmit()}
-          className="px-8 py-2.5 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary-fixed-dim hover:shadow-[0_0_20px_rgba(191,194,255,0.15)] transition-all"
+          type="button"
+          disabled={loading}
+          onClick={handleSubmit}
+          className="px-8 py-2.5 disabled:opacity-50 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary-fixed-dim hover:shadow-[0_0_20px_rgba(191,194,255,0.15)] transition-all"
         >
-          Create Application
+          {loading ? "Creating..." : "Create Application"}
         </button>
       </div>
     </div>
