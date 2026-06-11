@@ -8,6 +8,8 @@ import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
 import { useRouter } from "next/navigation";
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
 export default function Home() {
   const today = new Date();
   const [username, setUsername] = useState("Guest");
@@ -66,6 +68,11 @@ export default function Home() {
       }
     }
   }, [user])
+
+  useEffect(() => {
+    console.log(baseUrl)
+  }, [])
+  
 
   useEffect(() => {
     if (loading) return
