@@ -97,7 +97,7 @@ export default function Statistics() {
           </label>
         </div>
       {/** Applications */}
-      <div className="mt-5 rounded-3xl border border-outline-variant/10 overflow-hidden pb-20">
+      <div className="mt-5 rounded-3xl border border-outline-variant/10 overflow-hidden">
         <Table applications={searchedApplications} />
       </div>
     </div>

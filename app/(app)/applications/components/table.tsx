@@ -15,6 +15,8 @@ interface TableProps {
 export default function Table({ applications }: TableProps) {
     const [sortAscending, setSortAscending] = useState(true);
     const [sortColumn, setSortColumn] = useState("apply");
+    const [page, setPage] = useState(0);
+    const [perPage, setPerPage] = useState(5);
     const sortedApplications = useMemo(() => {
         return [...applications].sort((a, b) => {
             switch (sortColumn) {
@@ -48,6 +50,7 @@ export default function Table({ applications }: TableProps) {
             }
         });
     }, [applications, sortColumn, sortAscending]);
+    const paginated = sortedApplications.slice(page, (page + perPage))
     const router = useRouter();
     const months = [
         "Jan",
@@ -137,7 +140,7 @@ export default function Table({ applications }: TableProps) {
                 </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/50">
-            {sortedApplications.map((application) => (
+            {paginated.map((application) => (
                 <tr
                 onClick={() => router.replace(`/job/${application.id!}`)}
                 key={application.id}
@@ -182,6 +185,67 @@ export default function Table({ applications }: TableProps) {
                 </tr>
             ))}
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colSpan={20} className="bg-surface-container-high/50 p-5 items-center justify-center">
+                        <div className="flex items-center justify-between gap-3 font-semibold">
+                            <select
+                                className="rounded-lg bg-surface-container-highest px-3 py-2 outline-none"
+                                value={perPage}
+                                onChange={(e) => setPerPage(Number(e.target.value))}
+                            >
+                                <option value={3}>3</option>
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
+                            </select>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => {
+                                        if (page == 0) return;
+                                        setPage(0);
+                                    }}
+                                    className="p-1 hover:bg-surface-bright rounded-full transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z"/>
+                                    </svg>
+                                </button>
+                                <button 
+                                    onClick={() => {
+                                        if (page == 0) return;
+                                        setPage(page - perPage)
+                                    }}
+                                    className="p-1 hover:bg-surface-bright rounded-full transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                                    </svg>
+                                </button>
+                                Page {(page/perPage)+1} of {Math.ceil(sortedApplications.length/perPage)}
+                                <button 
+                                    onClick={() => {
+                                        if ((page + perPage) >= sortedApplications.length) return;
+                                        setPage(page + perPage)
+                                    }}
+                                    className="p-1 hover:bg-surface-bright rounded-full transition-colors">
+                                    <svg className="rotate-180" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+                                    </svg>
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        if ((page + perPage) >= sortedApplications.length) return;
+                                        setPage((Math.ceil(sortedApplications.length/perPage)-1)*perPage);
+                                    }}
+                                    className="p-1 hover:bg-surface-bright rounded-full transition-colors">
+                                    <svg className="rotate-180" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h4>
+                                Page Count {paginated.length}
+                            </h4>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     )
 }

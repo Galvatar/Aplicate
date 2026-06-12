@@ -10,6 +10,18 @@ export default function Board() {
   const [initialApplications, setInitialApplications] = useState([] as Application[]);
 
   const [lists, setLists] = useState<Record<string, Application[]>>({});
+  const [search, setSearch] = useState("");
+  const searchedApplications = initialApplications
+    .filter((app) => {
+      if (search === "") return true;
+
+      const searchLower = search.toLowerCase().trim();
+      const companyMatch = app.company?.toLowerCase().includes(searchLower);
+      const titleMatch = app.title?.toLowerCase().includes(searchLower);
+      const locationMatch = app.location?.toLowerCase().includes(searchLower);
+
+      return companyMatch || titleMatch || locationMatch;
+    });
 
   useEffect(() => {
     const dict: Record<string, Application[]> = {};
@@ -18,8 +30,8 @@ export default function Board() {
       dict[key] = [];
     });
 
-    if (Array.isArray(initialApplications)) {
-      initialApplications.forEach((app) => {
+    if (Array.isArray(searchedApplications)) {
+      searchedApplications.forEach((app) => {
         if (dict[app.status]) {
           dict[app.status].push(app);
         } else {
@@ -29,7 +41,7 @@ export default function Board() {
     }
 
     setLists(dict);
-  }, [initialApplications]);
+  }, [initialApplications, search]);
 
   useEffect(() => {
     if (loading) return
@@ -130,7 +142,7 @@ export default function Board() {
           </h2>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant font-bold text-sm hover:bg-surface-container transition-colors duration-300">
+          {/* <button className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant font-bold text-sm hover:bg-surface-container transition-colors duration-300">
             <svg
               className="text-outline"
               xmlns="http://www.w3.org/2000/svg"
@@ -155,8 +167,28 @@ export default function Board() {
               <path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z" />
             </svg>
             Sort
-          </button>
+          </button> */}
         </div>
+      </div>
+      {/** Search bar */}
+      <div className="relative w-full mt-5">
+        <svg
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="currentColor"
+        >
+          <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+        </svg>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search applications, roles, or companies..."
+          className="w-full bg-surface-container text-on-surface outline-none border-none rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-50"
+        />
       </div>
       <div className="flex-1 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start content-start">
         {Object.entries(lists).map(([listKey, applications]) => (

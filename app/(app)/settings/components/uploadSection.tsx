@@ -20,6 +20,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     Rating is a number from 0-5 representing how much the user likes the job/company/pay.
     The two primary columns that cannot be empty are title and company all else is optional and can be left empty if not found.
     The date should be an iso 8601 string if it contains any.
+    Export the file as applications.csv if you can.
     `;
     
     const { createApplications } = useApplications();
@@ -177,6 +178,21 @@ export default function UploadSection({ userId }: { userId: string }) {
                 </svg>
                 Import Data
             </h1>
+
+            <ul className="flex flex-col font-semibold gap-3 my-5">
+                <li className="list-decimal pl-3 ml-6">
+                    Download your data from your existing platform (for example excel or google sheets).
+                </li>
+                <li className="list-decimal pl-3 ml-6">
+                    Give the data to an AI along with the prompt copied from the button below.
+                </li>
+                <li className="list-decimal pl-3 ml-6">
+                    Then save the csv file its generated.
+                </li>
+                <li className="list-decimal pl-3 ml-6">
+                    Drag and drop or find the csv file from your file browser into the box below.
+                </li>
+            </ul>
             
             {/* 4. ATTACHED THE HANDLERS TO THE CONTAINER AND UPDATED STYLES FOR DRAG STATE */}
             <div 
@@ -200,8 +216,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                 </h1>
                 
                 <p className="max-w-150 text-center font-semibold text-sm mt-3 text-on-surface/80 pointer-events-none">
-                    Drag and drop your job applications CSV file here. The csv file <b>must</b> have the following columns:
-                    title, company, employmentType, foundOn, status, location, applied, lastUpdate, journey, notes, pay, url, mainContact, rating
+                    Drag and drop your job applications CSV file here. This action will add the applications to your existing ones.
                 </p>
                 
                 <button
