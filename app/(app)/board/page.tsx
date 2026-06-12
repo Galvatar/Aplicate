@@ -55,6 +55,7 @@ export default function Board() {
     e.preventDefault();
     const sourceListKey = e.dataTransfer.getData("listKey");
     const applicationId = e.dataTransfer.getData("applicationId");
+    console.log(sourceListKey, applicationId)
 
     if (sourceListKey === targetListKey) return;
 
