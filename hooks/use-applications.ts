@@ -17,6 +17,7 @@ export const useApplications = () => {
 
     return {
         loading,
+        syncGuestApplications: () => store.syncGuestApplications(),
         getApplications: () => store.getApplications(),
         getApplication: (id: string) => store.getApplication(id),
         createApplication: (application: Application) => store.createApplication(application),

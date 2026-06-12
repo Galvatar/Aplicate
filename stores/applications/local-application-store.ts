@@ -47,4 +47,8 @@ export class LocalApplicationStore implements ApplicationStoreInterface {
     async deleteApplications(): Promise<void> {
         localStorage.removeItem("applications");
     }
+
+    async syncGuestApplications(): Promise<void> {
+
+    }
 }

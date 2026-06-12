@@ -1,5 +1,6 @@
 'use client'
 
+import { useApplications } from "@/hooks/use-applications";
 import { signInWithGoogle, signUp } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

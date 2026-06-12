@@ -40,13 +40,11 @@ export const signUp = async (
     passwordValidation: string
 ): Promise<string> => {
     if (password !== passwordValidation) throw new Error("Password does not match");
-    const nameParts = fullName.split(" ");
     const { error } = await supabase.auth.signUp({
         email, 
         password,
         options: { data: {
-            first_name: nameParts[0],
-            last_name: nameParts[1]
+            full_name: fullName
         }}
     })
      if (error) {

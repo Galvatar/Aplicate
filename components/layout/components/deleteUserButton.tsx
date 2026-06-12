@@ -34,7 +34,24 @@ export default function DeleteAccountButton() {
 
       const userId = user.id;
 
-      // 2. Disconnect integrated APIs FIRST while the session is still valid
+      // 2. NEW: Unlink Google Auth Identity directly from Supabase
+      console.log("Checking for linked OAuth identities...");
+      
+      const { data, error: identitiesError } = await supabase.auth.getUserIdentities();
+      
+      if (!identitiesError && data?.identities) {
+        const googleIdentity = data.identities.find((id) => id.provider === 'google');
+        
+        if (googleIdentity) {
+          console.log("Unlinking Google OAuth identity...");
+          const { error: unlinkError } = await supabase.auth.unlinkIdentity(googleIdentity);
+          if (unlinkError) {
+             console.warn("Failed to unlink Google identity, proceeding anyway:", unlinkError.message);
+          }
+        }
+      }
+
+      // 3. Disconnect integrated APIs FIRST while the session is still valid
       console.log("Disconnecting Gmail integration...");
       const gmailRes = await fetch('/api/gmail/disconnect', {
         method: 'POST',
@@ -52,7 +69,7 @@ export default function DeleteAccountButton() {
         }
       }
 
-      // 3. Hit your core Next.js API endpoint to delete the user via Admin API
+      // 4. Hit your core Next.js API endpoint to delete the user via Admin API
       console.log("Deleting core account data...");
       const accountRes = await fetch("/api/account", {
         method: "DELETE",
@@ -63,10 +80,10 @@ export default function DeleteAccountButton() {
         throw new Error(accountData.error || "Failed to delete account");
       }
 
-      // 4. Clear frontend tokens & cookies local to Supabase browser
+      // 5. Clear frontend tokens & cookies local to Supabase browser
       await supabase.auth.signOut();
 
-      // 5. Send them back to the login page and refresh layout states
+      // 6. Send them back to the login page and refresh layout states
       router.push("/login");
       router.refresh();
       
@@ -74,7 +91,8 @@ export default function DeleteAccountButton() {
       alert(error.message || "An unexpected error occurred during deletion.");
     } finally {
       setIsDeleting(false);
-      modal.hide();
+      // Assuming modal is defined in your component scope
+      modal.hide(); 
     }
   }
 

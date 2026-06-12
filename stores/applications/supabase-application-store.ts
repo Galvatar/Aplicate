@@ -66,4 +66,30 @@ export class SupabaseApplicationStore implements ApplicationStoreInterface {
 
         if (error) throw error;
     }
+
+    async syncGuestApplications(): Promise<void> {
+        const json = localStorage.getItem('applications');
+        localStorage.removeItem('applications');
+        if (json != undefined && json!.length > 0) {
+            const applications = json ? JSON.parse(json) as Application[] : [];
+            const userId = (await this.client.auth.getUser()).data.user?.id ?? ""
+
+            const applicationsToSync = applications.map((app) => {
+                const cleanApp = { ...app };
+                delete (cleanApp as any).id; 
+                return {
+                    ...cleanApp,
+                    userId: userId,
+                };
+            });
+
+            const { error } = await this.client
+                .from('Applications')
+                .insert(applicationsToSync)
+            if (error) {
+                localStorage.setItem('applications', json);
+                throw error;
+            }
+        }
+    }
 }

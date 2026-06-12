@@ -23,7 +23,7 @@ export default function Home() {
   const router = useRouter();
 
   const { user } = useUser();
-  const { getApplications, loading} = useApplications();
+  const { syncGuestApplications, getApplications, loading} = useApplications();
 
   const daysOfTheWeek = [
     "Sunday",
@@ -64,8 +64,14 @@ export default function Home() {
         const names = fullName.split(" ");
         setUsername(upperCase(names[0]));
       }
+      updateApplications();
     }
   }, [user])
+
+  async function updateApplications() {
+    await syncGuestApplications();
+    getApplications().then(setApplications)
+  }
 
   useEffect(() => {
     if (loading) return

@@ -1,6 +1,7 @@
 import { Application } from "@/lib/types";
 
 export interface ApplicationStoreInterface {
+    syncGuestApplications(): Promise<void>;
     getApplications(): Promise<Application[]>;
     getApplication(id: string): Promise<Application | undefined>;
     createApplication(application: Application): Promise<void>;
