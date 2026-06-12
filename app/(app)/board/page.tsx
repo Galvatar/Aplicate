@@ -48,24 +48,33 @@ export default function Board() {
     }
   }, [initialApplications]);
 
+  const [hasFetched, setHasFetched] = useState(false);
+
   useEffect(() => {
-    if (loading) return;
-    
-    if (typeof getApplications !== "function") {
-      setRenderError("getApplications is not a function! The hook did not export it correctly in production.");
-      return;
-    }
+    // 2. If it's loading, OR we already fetched the data once, stop immediately!
+    if (loading || hasFetched) return;
+
+    let isMounted = true;
 
     getApplications()
       .then((data) => {
-        setInitialApplications(Array.isArray(data) ? data : []);
+        if (isMounted) {
+          setInitialApplications(Array.isArray(data) ? data : []);
+          setHasFetched(true); // 3. Lock the door so this effect can never run again
+        }
       })
-      .catch((err: any) => {
-        // If it fails because they are a guest, capture it visually
-        setRenderError(`getApplications() rejected on production: ${err?.message || JSON.stringify(err)}`);
-        setInitialApplications([]); 
+      .catch((err) => {
+        console.error(err);
+        if (isMounted) {
+          setInitialApplications([]);
+          setHasFetched(true); 
+        }
       });
-  }, [loading, getApplications]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [loading, hasFetched, getApplications]);
 
   // 2. VISUAL DEBUG TRIGGER: If an error is caught, render it immediately
   if (renderError) {
