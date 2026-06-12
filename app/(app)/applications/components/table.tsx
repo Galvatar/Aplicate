@@ -192,7 +192,10 @@ export default function Table({ applications }: TableProps) {
                             <select
                                 className="rounded-lg bg-surface-container-highest px-3 py-2 outline-none"
                                 value={perPage}
-                                onChange={(e) => setPerPage(Number(e.target.value))}
+                                onChange={(e) => {
+                                    setPage(0);
+                                    setPerPage(Number(e.target.value))
+                                }}
                             >
                                 <option value={3}>3</option>
                                 <option value={5}>5</option>
