@@ -35,7 +35,7 @@ export default function Sidebar() {
     return (
         <div className={`fixed md:relative inset-y-0 
             left-0 z-50 flex flex-col font-jakarta h-screen 
-            w-full md:min-w-50 md:max-w-85 bg-surface-container-low 
+            w-full md:max-w-75 bg-surface-container-low 
             justify-between transition-transform duration-300 ${
             isOpen 
             ? 'translate-x-0' 
