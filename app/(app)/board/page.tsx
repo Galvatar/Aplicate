@@ -41,9 +41,19 @@ export default function Board() {
     listKey: string,
     applicationId: string,
   ) => {
+    // 1. Check if the ID is already missing before the drag even begins!
+    console.log("🚀 Drag starting for ID:", applicationId, "from list:", listKey);
+    
+    if (!applicationId) {
+      console.error("❌ Cannot start drag: applicationId is undefined or null! Check your database object properties.");
+      return;
+    }
+
     e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("listKey", listKey);
-    e.dataTransfer.setData("applicationId", applicationId);
+    
+    // 2. CRUCIAL: Use kebab-case (lowercase with hyphens) to prevent browser normalization bugs
+    e.dataTransfer.setData("source-list-key", listKey);
+    e.dataTransfer.setData("application-id", String(applicationId)); // Explicitly coerce to string
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -53,22 +63,39 @@ export default function Board() {
 
   const handleDrop = (e: React.DragEvent, targetListKey: string) => {
     e.preventDefault();
-    const sourceListKey = e.dataTransfer.getData("listKey");
-    const applicationId = e.dataTransfer.getData("applicationId");
-    console.log(sourceListKey, applicationId)
+    
+    // 3. Read using the corrected lowercase hyphenated keys
+    const sourceListKey = e.dataTransfer.getData("source-list-key");
+    const applicationId = e.dataTransfer.getData("application-id");
+    
+    console.log("📥 Dropped onto:", targetListKey, "| Extracted ID:", applicationId, "| From:", sourceListKey);
+
+    if (!applicationId || !sourceListKey) {
+      console.error("❌ Drop failed: Lost track of dataTransfer variables during transport.");
+      return;
+    }
 
     if (sourceListKey === targetListKey) return;
 
     const sourceList = lists[sourceListKey as keyof typeof lists];
-    const application = sourceList.find((app) => app.id === applicationId);
+    if (!sourceList) {
+      console.error(`❌ Source list "${sourceListKey}" not found in state.`);
+      return;
+    }
 
-    if (!application) return;
-    updateStatus(application, targetListKey)
+    const application = sourceList.find((app) => String(app.id) === applicationId);
+
+    if (!application) {
+      console.error(`❌ Application with ID "${applicationId}" not found in source list.`);
+      return;
+    }
+    
+    updateStatus(application, targetListKey);
 
     setLists((prev) => ({
       ...prev,
       [sourceListKey]: prev[sourceListKey as keyof typeof prev].filter(
-        (app) => app.id !== applicationId,
+        (app) => String(app.id) !== applicationId,
       ),
       [targetListKey]: [
         ...prev[targetListKey as keyof typeof prev],
