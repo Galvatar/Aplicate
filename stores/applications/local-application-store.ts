@@ -17,6 +17,7 @@ export class LocalApplicationStore implements ApplicationStoreInterface {
     }
 
     async createApplication(application: Application): Promise<void> {
+        application.id = crypto.randomUUID();
         const data = localStorage.getItem('applications');
         var applications = data ? JSON.parse(data) as Application[] : [];
         applications.push(application);
