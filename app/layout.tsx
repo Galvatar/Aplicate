@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/layout/sidebar";
 import { ModalProvider } from "@/components/ui/modal";
+import { SidebarProvider } from "@/hooks/use-sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,17 +39,24 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${jakartaSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex">
-        <ModalProvider>
-          <div className="flex h-screen w-screen overflow-hidden">
-            <Sidebar />
-            <div className="flex-1 flex flex-col h-full overflow-y-auto bg-background pb-12">
-              <div className="flex-1">
-                {children}
-              </div>
-              <div className="h-0 w-full shrink-0" aria-hidden="true" />
+        <SidebarProvider>
+          <ModalProvider>
+            <div className="flex w-full md:hidden items-center justify-center text-center">
+              <h1>
+                This website is best viewed on desktop sorry for the inconvenience.
+              </h1>
             </div>
-          </div>
-        </ModalProvider>
+            <div className="hidden md:flex h-screen w-screen overflow-hidden">
+              <Sidebar />
+              <div className="flex-1 flex flex-col h-full overflow-y-auto bg-background pb-12">
+                <div className="flex-1">
+                  {children}
+                </div>
+                <div className="h-0 w-full shrink-0" aria-hidden="true" />
+              </div>
+            </div>
+          </ModalProvider>
+        </SidebarProvider>
       </body>
     </html>
   );

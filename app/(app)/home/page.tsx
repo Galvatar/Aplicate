@@ -7,6 +7,7 @@ import { useUser } from "@/hooks/use-user";
 import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
 import { useRouter } from "next/navigation";
+import { useSidebar } from "@/hooks/use-sidebar";
 
 export default function Home() {
   const today = new Date();
@@ -21,6 +22,7 @@ export default function Home() {
   const interviewApplications = applications.filter(app => app.status === Status.Interview)
   const offerApplication = applications.filter(app => app.status === Status.Offer)
   const router = useRouter();
+  const { isOpen, setIsOpen } = useSidebar();
 
   const { user } = useUser();
   const { syncGuestApplications, getApplications, loading} = useApplications();
@@ -59,10 +61,10 @@ export default function Home() {
         if (firstName == "") {
           setUsername("User");
         }
-        setUsername(upperCase(firstName));
+        setUsername(capitalize(firstName));
       } else {
         const names = fullName.split(" ");
-        setUsername(upperCase(names[0]));
+        setUsername(capitalize(names[0]));
       }
       updateApplications();
     }
@@ -78,8 +80,8 @@ export default function Home() {
     getApplications().then(setApplications)
   }, [loading])
 
-  function upperCase(word: string): string {
-    const firstLetter = word.substring(0, 1);
+  function capitalize(word: string): string {
+    const firstLetter = word.substring(0, 1).toUpperCase();
     const lastLetters = word.substring(1, word.length);
     return firstLetter.concat(lastLetters);
   }
@@ -101,7 +103,9 @@ export default function Home() {
         {daysOfTheWeek[today.getDay()]}, {months[today.getMonth()]}{" "}
         {today.getDate()}
       </h3>
-      <h1 className="text-4xl font-bold text-primary tracking-tight">
+      <h1 
+        onClick={() => setIsOpen(!isOpen)}
+        className="text-4xl font-bold text-primary tracking-tight">
         Good {GetGreeting(today.getHours())}, {username}.
       </h1>
       <h2 className="text-on-surface-variant max-w-xl">
