@@ -21,6 +21,7 @@ export const useApplications = () => {
         getApplications: () => store.getApplications(),
         getApplication: (id: string) => store.getApplication(id),
         createApplication: (application: Application) => store.createApplication(application),
+        createApplications: (applications: Application[]) => store.createApplications(applications),
         updateApplication: (update: Application) => store.updateApplication(update),
         deleteApplication: (id: string) => store.deleteApplication(id),
         deleteApplications: () => store.deleteApplications(),

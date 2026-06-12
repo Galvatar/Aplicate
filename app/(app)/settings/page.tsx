@@ -3,34 +3,36 @@
 import { useModal } from "@/components/ui/modal";
 import { useUser } from "@/hooks/use-user";
 import { supabase } from "@/lib/supabase/client";
-import { GmailToken } from "@/lib/types";
+import { Application, GmailToken, Status } from "@/lib/types";
 import { User } from "@supabase/auth-js";
 import { use, useEffect, useState } from "react";
 import ToggleButton from "./components/toggle";
 import DeleteApplications from "@/components/layout/components/deleteApplications";
 import DeleteUser from "@/components/layout/components/deleteUser";
+import UploadSection from "./components/uploadSection";
 
 export default function SettingsPage() {
     const [userProfile, setUserProfile] = useState<User | null>()
     const [fullName, setFullName] = useState("");
     const [gmailToken, setGmailToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [copyText, setCopyText] = useState("Copy AI Prompt")
     const modal = useModal();
     const { user } = useUser();
 
     useEffect(() => {
         const handleOAuthMessage = (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
+        if (event.origin !== window.location.origin) return;
 
-      if (event.data?.type === 'GMAIL_CONNECTED') {
-        fetchInitialData();
-        setLoading(false);
-      }
-    }
+        if (event.data?.type === 'GMAIL_CONNECTED') {
+            fetchInitialData();
+            setLoading(false);
+        }
+        }
 
-    window.addEventListener('message', handleOAuthMessage)
-    return () => window.removeEventListener('message', handleOAuthMessage)
-  }, [])
+        window.addEventListener('message', handleOAuthMessage)
+        return () => window.removeEventListener('message', handleOAuthMessage)
+    }, [])
 
     useEffect(() => {
         if (user != null) {
@@ -47,6 +49,111 @@ export default function SettingsPage() {
             setUserProfile(null);
         }
     }, [user])
+
+    function parseCSVLine(text: string): string[] {
+        const result: string[] = [];
+        let currentStr = '';
+        let inQuotes = false;
+        
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            
+            if (inQuotes) {
+                if (char === '"') {
+                    // Check for escaped quotes (e.g. "")
+                    if (i + 1 < text.length && text[i + 1] === '"') {
+                        currentStr += '"';
+                        i++; // skip the next quote
+                    } else {
+                        inQuotes = false;
+                    }
+                } else {
+                    currentStr += char;
+                }
+            } else {
+                if (char === '"') {
+                    inQuotes = true;
+                } else if (char === ',') {
+                    result.push(currentStr.trim());
+                    currentStr = '';
+                } else {
+                    currentStr += char;
+                }
+            }
+        }
+        result.push(currentStr.trim());
+        return result;
+        }
+
+        /**
+         * Native CSV Parser that requires zero external libraries.
+         */
+        const parseApplicationsCSV = async (
+        csvInput: string | File, 
+        currentUserId: string
+        ): Promise<Application[]> => {
+        
+        // 1. Read the input natively (Browser handles the File API seamlessly)
+        const csvText = typeof csvInput === "string" 
+            ? csvInput 
+            : await csvInput.text();
+
+        // 2. Split text into lines, handling both Windows (\r\n) and Mac/Linux (\n)
+        const lines = csvText.split(/\r?\n/).filter(line => line.trim() !== "");
+        
+        if (lines.length < 2) return [];
+
+        // 3. Extract and normalize headers
+        const headers = parseCSVLine(lines[0]);
+
+        const applications: Application[] = [];
+
+        // 4. Map the remaining rows
+        for (let i = 1; i < lines.length; i++) {
+            const rowValues = parseCSVLine(lines[i]);
+            const row: Record<string, string> = {};
+            
+            // Map values to their corresponding header keys
+            headers.forEach((header, index) => {
+            row[header] = rowValues[index] || "";
+            });
+
+            applications.push({
+            id: crypto.randomUUID(), 
+            userId: currentUserId,
+            title: row.title || "Unknown Title",
+            company: row.company || "Unknown Company",
+            employmentType: row.employmentType || undefined,
+            foundOn: row.foundOn || undefined,
+            
+            // Cast the string to the Status enum safely. Fallback to Apply if invalid.
+            status: Object.values(Status).includes(row.status as Status) 
+                ? (row.status as Status) 
+                : Status.Apply,
+            
+            location: row.location || undefined,
+            
+            // Native JS Date handles ISO 8601 strings perfectly
+            applied: row.applied ? new Date(row.applied) : new Date(),
+            lastUpdate: row.lastUpdate ? new Date(row.lastUpdate) : new Date(),
+            
+            journey: row.journey || row.status || "Apply",
+            notes: row.notes || undefined,
+            jobDescription: row.jobDescription || undefined,
+            pay: row.pay || undefined,
+            url: row.url || undefined,
+            mainContact: row.mainContact || undefined,
+            
+            // Handle numbers cleanly
+            minPay: row.minPay ? Number(row.minPay) : undefined,
+            maxPay: row.maxPay ? Number(row.maxPay) : undefined,
+            currency: row.currency || undefined,
+            rating: row.rating ? parseInt(row.rating, 10) : 0,
+            });
+        }
+
+        return applications;
+        };
 
     const handleConnect = () => {
         const client_id = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!;
@@ -131,22 +238,30 @@ export default function SettingsPage() {
                     </div>
                     <div className="flex flex-col gap-2">
                         <h1 className="text-3xl font-bold text-on-surface tracking-tight">
-                            {fullName}
+                            {userProfile ? fullName : 'Guest'}
                         </h1>
                         <h2 className="text-on-surface-variant font-bold tracking-tight">
                             {userProfile?.user_metadata.email}
                         </h2>
                         {/** Premium tag */}
-                        <span className="flex w-fit gap-2 rounded-full bg-secondary-container/50 px-3 py-2 text-secondary font-semibold">
+                        {userProfile &&
+                            <span className="flex w-fit gap-2 rounded-full bg-secondary-container/50 px-3 py-2 text-secondary font-semibold">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
                             </svg>
                             Premium member
-                        </span>
+                        </span>}
                     </div>
                 </div>
 
                 {/** Integrations */}
-                <div className="flex flex-col gap-3">
+                <div className="flex relative flex-col gap-3">
+                    {!userProfile &&
+                        <div className="flex absolute w-full h-full z-10 bg-surface-container/80 rounded-xl items-center justify-center text-on-surface gap-3 text-2xl font-bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm296.5-143.5Q560-327 560-360t-23.5-56.5Q513-440 480-440t-56.5 23.5Q400-393 400-360t23.5 56.5Q447-280 480-280t56.5-23.5ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/>
+                            </svg>
+                            Must have Premium account
+                        </div>
+                    }
                     <h1 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight">
                         <svg className="text-primary" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M155-75q-35-35-35-85t35-85q35-35 85-35 14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35q-50 0-85-35Zm-35-465q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm148.5 408.5Q280-143 280-160t-11.5-28.5Q257-200 240-200t-28.5 11.5Q200-177 200-160t11.5 28.5Q223-120 240-120t28.5-11.5Zm240-680Q520-823 520-840t-11.5-28.5Q497-880 480-880t-28.5 11.5Q440-857 440-840t11.5 28.5Q463-800 480-800t28.5-11.5ZM480-360q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm268.5 228.5Q760-143 760-160t-11.5-28.5Q737-200 720-200t-28.5 11.5Q680-177 680-160t11.5 28.5Q703-120 720-120t28.5-11.5Zm120-420Q880-563 880-580t-11.5-28.5Q857-620 840-620t-28.5 11.5Q800-597 800-580t11.5 28.5Q823-540 840-540t28.5-11.5ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z"/>
                         </svg>
@@ -172,6 +287,9 @@ export default function SettingsPage() {
                         </div>
                     </div>
                 </div>
+
+                {/** Import data */}
+                <UploadSection userId={user?.id ?? ""} />
 
                 {/** Data and privacy */}
                 <div className="flex flex-col gap-3">
@@ -201,7 +319,8 @@ export default function SettingsPage() {
                                     Delete Data
                                 </button>
                             </div>
-                            <div className="flex flex-col border border-error/30 bg-error-container/20 p-3 rounded-xl items-start gap-3">
+                            {userProfile &&
+                                <div className="flex flex-col border border-error/30 bg-error-container/20 p-3 rounded-xl items-start gap-3">
                                 <h1 className="font-semibold text-lg">
                                     Delete Account
                                 </h1>
@@ -213,7 +332,7 @@ export default function SettingsPage() {
                                     className="text-error-container bg-error hover:bg-error/90 hover:scale-105 font-bold text-sm p-2 rounded-lg transition-all">
                                     Delete Account
                                 </button>
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 </div>

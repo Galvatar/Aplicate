@@ -39,6 +39,14 @@ export class SupabaseApplicationStore implements ApplicationStoreInterface {
         if (error) throw error;
     }
 
+    async createApplications(applications: Application[]): Promise<void> {
+        const { data, error } = await this.client
+            .from('Applications')
+            .insert(applications)
+        
+        if (error) throw error;
+    }
+
     async updateApplication(update: Application): Promise<void> {
         update.lastUpdate = new Date();
         const { data, error } = await this.client

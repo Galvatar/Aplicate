@@ -24,6 +24,14 @@ export class LocalApplicationStore implements ApplicationStoreInterface {
         localStorage.setItem('applications', JSON.stringify(applications));
     }
 
+    async createApplications(applications: Application[]): Promise<void> {
+        applications.forEach((app) => {app.id = crypto.randomUUID();})
+        const data = localStorage.getItem('applications');
+        var existing = data ? JSON.parse(data) as Application[] : [];
+        const toSave = existing.concat(applications);
+        localStorage.setItem('applications', JSON.stringify(toSave));
+    }
+
     async updateApplication(update: Application): Promise<void> {
         update.lastUpdate = new Date();
         const data = localStorage.getItem('applications');
