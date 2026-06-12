@@ -6,136 +6,82 @@ import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
 
 export default function Board() {
-  // 1. Add a dedicated error state to catch production gremlins
-  const [renderError, setRenderError] = useState<string | null>(null);
-  
-  // Wrap your hook call in a try/catch just in case the hook initialization itself is crashing
-  let hookData;
-  try {
-    hookData = useApplications();
-  } catch (e: any) {
-    return (
-      <div className="p-10 bg-red-900 text-white font-mono m-4 rounded">
-        <h1>🚨 Crash during useApplications() initialization!</h1>
-        <pre className="mt-4 bg-black/30 p-4 rounded">{e?.message || String(e)}</pre>
-      </div>
-    );
-  }
+  const { getApplications, updateApplication, loading } = useApplications();
+  const [initialApplications, setInitialApplications] = useState([] as Application[]);
 
-  const { getApplications, updateApplication, loading } = hookData;
-  const [initialApplications, setInitialApplications] = useState<Application[]>([]);
   const [lists, setLists] = useState<Record<string, Application[]>>({});
 
   useEffect(() => {
-    try {
-      if (!Status) {
-        throw new Error("The 'Status' object/enum is undefined. This usually means a circular dependency in your production bundle imports.");
-      }
+    const dict: Record<string, Application[]> = {};
+    
+    Object.keys(Status).forEach((key) => {
+      dict[key] = [];
+    });
 
-      const dict: Record<string, Application[]> = {};
-      Object.keys(Status).forEach((key) => { dict[key] = []; });
-
-      if (Array.isArray(initialApplications)) {
-        initialApplications.forEach((app) => {
-          if (app && app.status && dict[app.status]) {
-            dict[app.status].push(app);
-          }
-        });
-      }
-      setLists(dict);
-    } catch (err: any) {
-      setRenderError(`Error in lists parser: ${err.message}`);
-    }
-  }, [initialApplications]);
-
-  const [hasFetched, setHasFetched] = useState(false);
-
-  useEffect(() => {
-    // 2. If it's loading, OR we already fetched the data once, stop immediately!
-    if (loading || hasFetched) return;
-
-    let isMounted = true;
-
-    getApplications()
-      .then((data) => {
-        if (isMounted) {
-          setInitialApplications(Array.isArray(data) ? data : []);
-          setHasFetched(true); // 3. Lock the door so this effect can never run again
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        if (isMounted) {
-          setInitialApplications([]);
-          setHasFetched(true); 
+    if (Array.isArray(initialApplications)) {
+      initialApplications.forEach((app) => {
+        if (dict[app.status]) {
+          dict[app.status].push(app);
+        } else {
+          console.warn(`Application ${app.id} has an invalid or unmapped status: "${app.status}"`);
         }
       });
+    }
 
-    return () => {
-      isMounted = false;
-    };
-  }, [loading, hasFetched, getApplications]);
+    setLists(dict);
+  }, [initialApplications]);
 
-  // 2. VISUAL DEBUG TRIGGER: If an error is caught, render it immediately
-  if (renderError) {
-    return (
-      <div className="p-10 bg-red-950 text-red-200 font-mono min-h-screen flex flex-col justify-center items-center">
-        <div className="max-w-2xl bg-red-900/40 p-6 border border-red-500 rounded-xl shadow-xl">
-          <h2 className="text-xl font-bold text-white mb-2">🕵️‍♂️ Production Bug Captured!</h2>
-          <p className="text-sm text-red-300 mb-4">This error is causing your deployed app to freeze or break:</p>
-          <pre className="bg-black/50 p-4 rounded text-xs overflow-x-auto text-red-400 font-bold whitespace-pre-wrap">
-            {renderError}
-          </pre>
-          <button 
-            onClick={() => setRenderError(null)} 
-            className="mt-4 px-4 py-2 bg-red-700 hover:bg-red-600 text-white rounded text-xs font-bold transition-colors"
-          >
-            Dismiss & Try Loading Board Anyway
-          </button>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (loading) return
+    getApplications().then(setInitialApplications)
+  }, [loading])
 
-  // 3. Keep a simple indicator if it's stuck loading forever
-  if (loading && Object.keys(lists).length === 0) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center font-mono text-sm text-on-surface-variant">
-        ⏳ useApplications() hook is reporting loading = true...
-      </div>
-    );
-  }
-
-  // ... rest of your handleDrag/Drop functions and return statement stay exactly the same ...
-  const handleDragStart = (e: React.DragEvent, listKey: string, applicationId: string) => {
+  const handleDragStart = (
+    e: React.DragEvent,
+    listKey: string,
+    applicationId: string,
+  ) => {
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("listKey", listKey);
     e.dataTransfer.setData("applicationId", applicationId);
   };
-  const handleDragOver = (e: React.DragEvent) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
   const handleDrop = (e: React.DragEvent, targetListKey: string) => {
     e.preventDefault();
     const sourceListKey = e.dataTransfer.getData("listKey");
     const applicationId = e.dataTransfer.getData("applicationId");
+
     if (sourceListKey === targetListKey) return;
+
     const sourceList = lists[sourceListKey as keyof typeof lists];
-    if (!sourceList) return;
     const application = sourceList.find((app) => app.id === applicationId);
+
     if (!application) return;
-    updateStatus(application, targetListKey);
+    updateStatus(application, targetListKey)
+
     setLists((prev) => ({
       ...prev,
-      [sourceListKey]: (prev[sourceListKey] || []).filter((app) => app.id !== applicationId),
-      [targetListKey]: [...(prev[targetListKey] || []), application],
+      [sourceListKey]: prev[sourceListKey as keyof typeof prev].filter(
+        (app) => app.id !== applicationId,
+      ),
+      [targetListKey]: [
+        ...prev[targetListKey as keyof typeof prev],
+        application,
+      ],
     }));
   };
+
   async function updateStatus(application: Application, status: string) {
     const stat = Status[status as keyof typeof Status];
-    if (!stat) return;
     application.status = stat;
     const index = application.journey.indexOf(status);
     if (index != -1) {
-      application.journey = application.journey.slice(0, index + status.length);
+      application.journey = application.journey.slice(0, index+status.length)
     } else {
       application.journey = application.journey.concat(`,${status}`);
     }
@@ -144,10 +90,44 @@ export default function Board() {
 
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
+      {/** Title */}
       <div className="flex justify-between items-end">
         <div className="flex flex-col">
-          <h1 className="text-4xl font-bold text-on-surface tracking-tight mb-2">My Board</h1>
-          <h2 className="text-on-surface-variant max-w-2xl">A calm space to organise your career journey. Focus on the next step.</h2>
+          <h1 className="text-4xl font-bold text-on-surface tracking-tight mb-2">
+            My Board
+          </h1>
+          <h2 className="text-on-surface-variant max-w-2xl">
+            A calm space to organise your career journey. Focus on the next
+            step.
+          </h2>
+        </div>
+        <div className="flex gap-3">
+          <button className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant font-bold text-sm hover:bg-surface-container transition-colors duration-300">
+            <svg
+              className="text-outline"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="currentColor"
+            >
+              <path d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z" />
+            </svg>
+            Filter
+          </button>
+          <button className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant font-bold text-sm hover:bg-surface-container transition-colors duration-300">
+            <svg
+              className="text-outline"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="currentColor"
+            >
+              <path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z" />
+            </svg>
+            Sort
+          </button>
         </div>
       </div>
       <div className="flex-1 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start content-start">
@@ -155,10 +135,12 @@ export default function Board() {
           <ListCard
             key={listKey}
             title={listKey}
-            applications={applications || []}
+            applications={applications}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, listKey)}
-            onCardDragStart={(appId) => (e: React.DragEvent) => handleDragStart(e, listKey, appId)}
+            onCardDragStart={(appId) => (e: React.DragEvent) =>
+              handleDragStart(e, listKey, appId)
+            }
           />
         ))}
       </div>
