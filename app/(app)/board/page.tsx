@@ -13,14 +13,23 @@ export default function Board() {
 
   useEffect(() => {
     const dict: Record<string, Application[]> = {};
-    Object.keys(Status).map((key) => {
+    
+    Object.keys(Status).forEach((key) => {
       dict[key] = [];
-    })
-    initialApplications.map((app) => {
-      dict[app.status].push(app);
-    })
+    });
+
+    if (Array.isArray(initialApplications)) {
+      initialApplications.forEach((app) => {
+        if (dict[app.status]) {
+          dict[app.status].push(app);
+        } else {
+          console.warn(`Application ${app.id} has an invalid or unmapped status: "${app.status}"`);
+        }
+      });
+    }
+
     setLists(dict);
-  }, [initialApplications])
+  }, [initialApplications]);
 
   useEffect(() => {
     if (loading) return
