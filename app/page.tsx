@@ -117,7 +117,8 @@ export default function Home() {
           variants={fadeInUp}
           className="p-5 rounded-2xl mt-10 border border-surface-container-highest max-w-5xl mx-auto px-4"
         >
-          <img src={'/analytics.png'} className="rounded-xl w-full" />
+          <img src={'/analytics-light.png'} className="rounded-xl w-full block dark:hidden" alt="Aplicate statistics dashboard" />
+          <img src={'/analytics.png'} className="rounded-xl w-full hidden dark:block" alt="Aplicate statistics dashboard" />
         </motion.div>
 
         {/** Divider */}
