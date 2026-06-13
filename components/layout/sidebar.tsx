@@ -30,6 +30,7 @@ export default function Sidebar() {
     if (pathname === "/signup"
         || pathname === "/login"
         || pathname.includes("/api")
+        || pathname === "/"
     ) return (<></>)
 
     return (
@@ -44,7 +45,9 @@ export default function Sidebar() {
             {/** Top half */}
             <div className="flex flex-col w-full px-5 py-8 gap-12">
                 {/** Title */}
-                <div className="hidden md:flex gap-3 items-center">
+                <div 
+                    onClick={() => router.replace('/')}
+                    className="hidden md:flex gap-3 items-center cursor-pointer">
                     <img className="flex items-center justify-center p-1 w-10 rounded-lg bg-surface-container-lowest"
                         src="/logo.png" alt="logo" />
                     <div className="flex flex-col">
