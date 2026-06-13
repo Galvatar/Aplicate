@@ -229,7 +229,7 @@ export default function Home() {
                 </button>
               </div>
               <div className="flex flex-1 w-full gap-3 flex-col h-fit relative bg-surface-container-high rounded-lg p-5">
-                <div className="p-2 absolute z-10 -right-2 -top-2 bg-surface-container-lowest text-secondary rounded-lg border border-surface-container-highest">
+                <div className="p-2 absolute z-5 -right-2 -top-2 bg-surface-container-lowest text-secondary rounded-lg border border-surface-container-highest">
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M638-80 468-250l56-56 114 114 226-226 56 56L638-80ZM480-520l320-200H160l320 200Zm0 80L160-640v400h206l80 80H160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v174l-80 80v-174L480-440Zm0 0Zm0-80Zm0 80Z"/>
                   </svg>
                 </div>
