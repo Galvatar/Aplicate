@@ -91,6 +91,10 @@ export default function Statistics() {
     getApplications().then(setApplications);
   }, [loading]);
 
+  useEffect(() => {
+    console.log(applications)
+  }, [applications])
+
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
       {/** Title */}

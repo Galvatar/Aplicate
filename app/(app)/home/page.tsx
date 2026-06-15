@@ -177,7 +177,7 @@ export default function Home() {
           </h1>
           <button 
             onClick={() => router.replace('/board')}
-            className="rounded-full px-2 py-1 text-primary hover:text-primary-fixed text-sm font-semibold transition-colors duration-500">
+            className="rounded-full px-2 py-1 text-primary hover:text-primary/50 text-sm font-semibold transition-colors duration-500">
             View Details
           </button>
         </div>

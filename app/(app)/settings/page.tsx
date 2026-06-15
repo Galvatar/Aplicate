@@ -50,6 +50,12 @@ export default function SettingsPage() {
         }
     }, [user])
 
+    function capitalize(word: string): string {
+        const firstLetter = word.substring(0, 1).toUpperCase();
+        const lastLetters = word.substring(1, word.length);
+        return firstLetter.concat(lastLetters);
+    }
+
     function parseCSVLine(text: string): string[] {
         const result: string[] = [];
         let currentStr = '';
@@ -136,6 +142,8 @@ export default function SettingsPage() {
             // Native JS Date handles ISO 8601 strings perfectly
             applied: row.applied ? new Date(row.applied) : new Date(),
             lastUpdate: row.lastUpdate ? new Date(row.lastUpdate) : new Date(),
+            closingDate: row.closingDate ? new Date(row.closingDate) : new Date(),
+            followUpDate: row.followUpDate ? new Date(row.followUpDate) : new Date(),
             
             journey: row.journey || row.status || "Apply",
             notes: row.notes || undefined,
@@ -149,7 +157,7 @@ export default function SettingsPage() {
             maxPay: row.maxPay ? Number(row.maxPay) : undefined,
             currency: row.currency || undefined,
             rating: row.rating ? parseInt(row.rating, 10) : 0,
-            });
+        });
         }
 
         return applications;
@@ -238,7 +246,7 @@ export default function SettingsPage() {
                     </div>
                     <div className="flex flex-col gap-2">
                         <h1 className="text-3xl font-bold text-on-surface tracking-tight">
-                            {userProfile ? fullName : 'Guest'}
+                            {userProfile ? capitalize(fullName) : 'Guest'}
                         </h1>
                         <h2 className="text-on-surface-variant font-bold tracking-tight">
                             {userProfile?.user_metadata.email}

@@ -23,6 +23,8 @@ export interface Application {
     maxPay?: number
     currency?: string
     rating: number
+    closingDate?: Date | null
+    followUpDate?: Date | null
 }
 
 export enum Status {

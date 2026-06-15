@@ -13,10 +13,11 @@ export default function Rating({ editable, rating, onChange }: RatingsProps) {
         if (!editable) return;
         if (newRating == currRating) {
             setCurrRating(currRating-1);
+            if (onChange) onChange(currRating-1);
         } else {
             setCurrRating(newRating);
+            if (onChange) onChange(newRating);
         }
-        if (onChange) onChange(newRating);
     }
 
     return (

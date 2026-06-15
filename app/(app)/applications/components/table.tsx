@@ -3,6 +3,7 @@
 import KebabMenu from "@/components/ui/kebabMenu";
 import Rating from "@/components/ui/rating";
 import StatusLabel from "@/components/ui/statusLabel";
+import { useApplications } from "@/hooks/use-applications";
 import { timeAgo } from "@/lib/timeAgo";
 import { Application } from "@/lib/types"
 import { useRouter } from "next/navigation";
@@ -17,6 +18,7 @@ export default function Table({ applications }: TableProps) {
     const [sortColumn, setSortColumn] = useState("apply");
     const [page, setPage] = useState(0);
     const [perPage, setPerPage] = useState(5);
+    const { updateApplication } = useApplications();
     const sortedApplications = useMemo(() => {
         return [...applications].sort((a, b) => {
             switch (sortColumn) {
@@ -75,6 +77,11 @@ export default function Table({ applications }: TableProps) {
             setSortAscending(true); 
         }
     };
+
+    async function handleRating (app: Application, rating: number) {
+        app.rating = rating;
+        await updateApplication(app);
+    }
 
     return (
         <table className="w-full h-fit text-left border-collapse">
@@ -142,9 +149,9 @@ export default function Table({ applications }: TableProps) {
             <tbody className="divide-y divide-outline-variant/50">
             {paginated.map((application) => (
                 <tr
-                onClick={() => router.replace(`/job/${application.id!}`)}
-                key={application.id}
-                className="hover:bg-surface-container/30 transition-colors group"
+                    onClick={() => router.replace(`/job/${application.id!}`)}
+                    key={application.id}
+                    className="cursor-pointer hover:bg-surface-container-high transition-colors group"
                 >
                     <td className="py-6 px-8">
                         <div className="flex items-center gap-4">
@@ -173,8 +180,10 @@ export default function Table({ applications }: TableProps) {
                         <StatusLabel status={application.status} />
                     </td>
                     <td className="p-6">
-                        <div className="max-w-50">
-                            <Rating editable={false} rating={application.rating} />
+                        <div 
+                            onClick={(e) => e.stopPropagation()}
+                            className="max-w-50">
+                            <Rating editable={true} rating={application.rating} onChange={(e) => handleRating(application, e)} />
                         </div>
                     </td>
                     <td 

@@ -1,4 +1,5 @@
 import { Application } from "@/lib/types";
+import { useRouter } from "next/navigation";
 
 interface ApplicationCardProps {
   application: Application;
@@ -24,12 +25,14 @@ export default function ApplicationCard({
     "Dec",
   ];
 
+  const router = useRouter();
   const applied = new Date(application.applied);
   const lastUpdate = new Date(application.lastUpdate);
 
   return (
     <div
       draggable
+      onClick={() => router.replace(`/job/${application.id!}`)}
       onDragStart={onDragStart}
       className="bg-surface-container-low hover:bg-surface-container-highest transition-all duration-300 rounded-xl p-4 border border-outline-variant/10 flex flex-col gap-3 group cursor-move relative overflow-hidden hover:shadow-lg"
     >

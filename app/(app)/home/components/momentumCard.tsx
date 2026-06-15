@@ -59,7 +59,7 @@ export default function MomentumCard({ applications, interviews, offers }: Momen
             </div>
             {/** Loading bar */}
             <div className="flex top-1/2 absolute w-full max-w-9/12 p-px rounded-full bg-surface-bright">
-                <div className="absolute rounded-full bg-linear-90 from-surface-bright to-primary-fixed/50 p-px top-0 left-0 transition-all duration-700" style={{ width: `${percentage}%`, opacity: `${percentage == 0 ? 0 : 100}`}} />
+                <div className="absolute rounded-full bg-linear-90 from-surface-bright to-primary/50 p-px top-0 left-0 transition-all duration-700" style={{ width: `${percentage}%`, opacity: `${percentage == 0 ? 0 : 100}`}} />
             </div>
         </div>
     )
