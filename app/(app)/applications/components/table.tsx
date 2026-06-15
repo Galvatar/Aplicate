@@ -143,7 +143,6 @@ export default function Table({ applications }: TableProps) {
                             </svg>
                         </span>
                     </th>
-                    <th className="py-5 px-8 text-on-surface-variant uppercase tracking-widest text-sm" />
                 </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/50">
@@ -185,11 +184,6 @@ export default function Table({ applications }: TableProps) {
                             className="max-w-50">
                             <Rating editable={true} rating={application.rating} onChange={(e) => handleRating(application, e)} />
                         </div>
-                    </td>
-                    <td 
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-6">
-                        <KebabMenu application={application} />
                     </td>
                 </tr>
             ))}

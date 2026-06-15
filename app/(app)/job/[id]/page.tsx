@@ -1,30 +1,23 @@
 'use client'
 
+import ApplicationModal from "@/components/layout/components/applicationModal";
 import KebabMenu from "@/components/ui/kebabMenu";
+import { useModal } from "@/components/ui/modal";
+import Rating from "@/components/ui/rating";
 import StatusLabel from "@/components/ui/statusLabel";
 import { useApplications } from "@/hooks/use-applications";
 import { Application } from "@/lib/types";
 import { useParams, useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function JobPage() {
     const [application, setApplication] = useState<Application>();
-    const [notes, setNotes] = useState("");
     const [thisJourney, setThisJourney] = useState<string[]>([]);
     const params = useParams();
     const id = params.id as string;
     const router = useRouter();
-    const { getApplication, updateApplication, loading } = useApplications();
-    const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    const handleChange = (value: string) => {
-        setNotes(value);
-
-        if (saveTimer.current) clearTimeout(saveTimer.current);
-        saveTimer.current = setTimeout(() => {
-            saveNotes(value);
-        }, 2000);
-    };
+    const { getApplication, loading } = useApplications();
+    const modal = useModal();
 
     useEffect(() => {
         if (loading) return
@@ -35,17 +28,44 @@ export default function JobPage() {
         var journey = application?.journey.split(",") ?? [];
         journey.reverse()
         setThisJourney(journey)
-        setNotes(application?.notes ?? "");
     }, [application])
 
-    async function saveNotes(newNotes: string) {
-        var updatedApp = application;
-        updatedApp!.notes = newNotes;
-        updateApplication(updatedApp!);
+    function getContactLink(): string | null {
+        if (!application || !application.mainContact) {
+            return null; 
+        }
+
+        const text = application.mainContact;
+        
+        const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+        const phoneRegex = /\+?\(?[0-9][0-9\s\-\(\)]{5,18}[0-9]/; 
+
+        const emailMatch = text.match(emailRegex);
+        if (emailMatch) {
+            return `mailto:${emailMatch[0]}`;
+        }
+
+        const phoneMatch = text.match(phoneRegex);
+        if (phoneMatch) {
+            const cleanDigits = phoneMatch[0].replace(/[^\d+]/g, "");
+            return `tel:${cleanDigits}`;
+        }
+        
+        return null;
     }
 
-    function handleContact() {
-        
+    function capitalize(word: string): string {
+        const firstLetter = word.substring(0, 1).toUpperCase();
+        const lastLetters = word.substring(1, word.length);
+        return firstLetter.concat(lastLetters);
+    }
+
+    function getPadding(num: number): string {
+        if (num < 10) {
+            return `0${num}`;
+        } else {
+            return `${num}`;
+        }
     }
 
     if (!application) {
@@ -73,11 +93,15 @@ export default function JobPage() {
                         {application.company.charAt(0)}
                     </div>
                     <div className="flex flex-col">
-                        <h2 className="text-on-surface mb-2">
+                        <h2 className="flex flex-col text-on-surface mb-2 font-bold">
                             {application.title}
                         </h2>
                         <h3 className="flex text-on-surface-variant items-center gap-2">
                             {application.company}
+                            <span className="w-1 h-1 rounded-full bg-outline-variant" />
+                            <div className="h-5">
+                                <Rating editable={false} rating={application.rating} />
+                            </div>
                             <span className="w-1 h-1 rounded-full bg-outline-variant" />
                             <span className="flex items-center gap-1">
                                 <svg className="material-symbols-outlined text-body-lg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M324-111.5Q251-143 197-197t-85.5-127Q80-397 80-480t31.5-156Q143-709 197-763t127-85.5Q397-880 480-880t156 31.5Q709-817 763-763t85.5 127Q880-563 880-480t-31.5 156Q817-251 763-197t-127 85.5Q563-80 480-80t-156-31.5ZM440-162v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q41-45 62.5-100.5T800-480q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z"/>
@@ -101,12 +125,9 @@ export default function JobPage() {
                                 </div>
                             </h3>
                         </div>
-                        <textarea 
-                            value={notes}
-                            onChange={(e) => handleChange(e.target.value)}
-                            className="flex border border-surface-bright rounded-lg outline-none p-1 h-20"
-                            placeholder="My notes..."
-                        />
+                        <p className="text-on-surface">
+                            {application.notes ?? "No notes for this application"}
+                        </p>
                     </div>
                 </div>
 
@@ -136,9 +157,14 @@ export default function JobPage() {
             <div className="flex flex-col w-full max-w-1/4 items-end gap-5">
                 <div className="flex gap-3 my-15">
                     <StatusLabel status={application.status} />
-                    <div className="flex aspect-square rounded-full bg-surface-container-high items-center justify-center border border-surface-container-highest">
-                        <KebabMenu application={application} />
-                    </div>
+                    <button
+                        onClick={() => modal.show(<ApplicationModal app={application} />)}
+                        className="flex gap-2 items-center text-on-primary font-bold bg-primary hover:opacity-50 px-3 shadow-lg shadow-primary/30 rounded-full transition-opacity"
+                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+                        </svg>
+                        Edit
+                    </button>
                 </div>
                 {/** Key details */}
                 <div className="flex flex-col gap-5 w-full bg-surface-container-high rounded-3xl p-6 border border-outline-variant/10">
@@ -163,10 +189,25 @@ export default function JobPage() {
                             </h5>
                         </div>
                     </span>}
+                    {application.foundOn && 
+                    <span className="flex gap-3">
+                        <div className="flex h-fit items-center justify-center text-tertiary bg-tertiary-container/30 rounded-full p-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m300-300 280-80 80-280-280 80-80 280Zm180-120q-25 0-42.5-17.5T420-480q0-25 17.5-42.5T480-540q25 0 42.5 17.5T540-480q0 25-17.5 42.5T480-420Zm0 340q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Zm0-320Z"/>
+                            </svg>
+                        </div>
+                        <div className="flex flex-col">
+                            <h4 className="text-on-surface font-semibold">
+                                Found on
+                            </h4>
+                            <h5>
+                                {application.foundOn}
+                            </h5>
+                        </div>
+                    </span>}
                     {application.mainContact && application.mainContact !== "" && 
-                    <span 
-                        onClick={() => handleContact()}
-                        className="flex gap-3">
+                    <a
+                        href={getContactLink() ?? ""}
+                        className="flex gap-3 hover:opacity-70 cursor-pointer transition-opacity">
                         <div className="flex h-fit items-center justify-center text-tertiary bg-tertiary-container/30 rounded-full p-1.5">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/>
                             </svg>
@@ -177,6 +218,98 @@ export default function JobPage() {
                             </h4>
                             <h5 className="break-all">
                                 {application.mainContact}
+                            </h5>
+                        </div>
+                    </a>}
+                    {application.employmentType && 
+                    <span className="flex gap-3">
+                        <div className="flex h-fit items-center justify-center text-tertiary bg-tertiary-container/30 rounded-full p-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M160-120q-33 0-56.5-23.5T80-200v-440q0-33 23.5-56.5T160-720h160v-80q0-33 23.5-56.5T400-880h160q33 0 56.5 23.5T640-800v80h160q33 0 56.5 23.5T880-640v440q0 33-23.5 56.5T800-120H160Zm0-80h640v-440H160v440Zm240-520h160v-80H400v80ZM160-200v-440 440Z"/>
+                            </svg>
+                        </div>
+                        <div className="flex flex-col">
+                            <h4 className="text-on-surface font-semibold">
+                                Employment Type
+                            </h4>
+                            <h5>
+                                {capitalize(application.employmentType)}
+                            </h5>
+                        </div>
+                    </span>}
+                </div>
+                {/** Key dates */}
+                <div className="flex flex-col gap-5 w-full bg-surface-container-high rounded-3xl p-6 border border-outline-variant/10">
+                    <h3 className="font-semibold text-on-surface-variant tracking-widest uppercase mb-6 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/>
+                        </svg>
+                        Key Dates
+                    </h3>
+                    {application.applied && 
+                    <span className="flex gap-3 -mt-5">
+                        <div className="flex h-fit items-center justify-center text-tertiary bg-tertiary-container/30 rounded-full p-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+                                <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+                            </svg>
+                        </div>
+                        <div className="flex flex-col">
+                            <h4 className="text-on-surface font-semibold">
+                                Applied
+                            </h4>
+                            <h5>
+                                {getPadding(new Date(application.applied).getDate())}/
+                                {getPadding(new Date(application.applied).getMonth())}/
+                                {new Date(application.applied).getFullYear()}
+                            </h5>
+                        </div>
+                    </span>}
+                    {application.lastUpdate && 
+                    <span className="flex gap-3">
+                        <div className="flex h-fit items-center justify-center text-tertiary bg-tertiary-container/30 rounded-full p-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M204-318q-22-38-33-78t-11-82q0-134 93-228t227-94h7l-64-64 56-56 160 160-160 160-56-56 64-64h-7q-100 0-170 70.5T240-478q0 26 6 51t18 49l-60 60ZM481-40 321-200l160-160 56 56-64 64h7q100 0 170-70.5T720-482q0-26-6-51t-18-49l60-60q22 38 33 78t11 82q0 134-93 228t-227 94h-7l64 64-56 56Z"/>
+                            </svg>
+                        </div>
+                        <div className="flex flex-col">
+                            <h4 className="text-on-surface font-semibold">
+                                Last Update
+                            </h4>
+                            <h5>
+                                {getPadding(new Date(application.lastUpdate).getDate())}/
+                                {getPadding(new Date(application.lastUpdate).getMonth())}/
+                                {new Date(application.lastUpdate).getFullYear()}
+                            </h5>
+                        </div>
+                    </span>}
+                    {application.closingDate && 
+                    <span className="flex gap-3">
+                        <div className="flex h-fit items-center justify-center text-tertiary bg-tertiary-container/30 rounded-full p-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+                            </svg>
+                        </div>
+                        <div className="flex flex-col">
+                            <h4 className="text-on-surface font-semibold">
+                                Applications Deadline
+                            </h4>
+                            <h5>
+                                {getPadding(new Date(application.closingDate).getDate())}/
+                                {getPadding(new Date(application.closingDate).getMonth())}/
+                                {new Date(application.closingDate).getFullYear()}
+                            </h5>
+                        </div>
+                    </span>}
+                    {application.followUpDate && 
+                    <span className="flex gap-3">
+                        <div className="flex h-fit items-center justify-center text-tertiary bg-tertiary-container/30 rounded-full p-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-440 160-640v400h360v80H160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v280h-80v-200L480-440Zm0-80 320-200H160l320 200ZM760-40l-56-56 63-64H600v-80h167l-64-64 57-56 160 160L760-40ZM160-640v440-240 3-283 80Z"/>
+                            </svg>
+                        </div>
+                        <div className="flex flex-col">
+                            <h4 className="text-on-surface font-semibold">
+                                Follow-Up
+                            </h4>
+                            <h5>
+                                {getPadding(new Date(application.followUpDate).getDate())}/
+                                {getPadding(new Date(application.followUpDate).getMonth())}/
+                                {new Date(application.followUpDate).getFullYear()}
                             </h5>
                         </div>
                     </span>}
@@ -206,7 +339,7 @@ export default function JobPage() {
                     <button 
                         onClick={() => window.open(application.url, "_blank")}
                         className="flex w-full items-center justify-center py-3 px-3 font-semibold rounded-xl bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200 gap-1">
-                        Application Page
+                        View Original Post
                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="m256-240-56-56 384-384H240v-80h480v480h-80v-344L256-240Z"/>
                         </svg>
                     </button>}
