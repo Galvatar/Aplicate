@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import MomentumCard from "./components/momentumCard";
@@ -13,19 +13,23 @@ export default function Home() {
   const today = new Date();
   const [username, setUsername] = useState("Guest");
   const [applications, setApplications] = useState([] as Application[]);
-  const weekApplications = applications.filter(app => {
+  const weekApplications = applications.filter((app) => {
     const appDate = new Date(app.applied);
     const weekAgo = new Date(today);
     weekAgo.setDate(today.getDate() - 7);
     return appDate >= weekAgo && appDate <= today;
   });
-  const interviewApplications = applications.filter(app => app.status === Status.Interview)
-  const offerApplication = applications.filter(app => app.status === Status.Offer)
+  const interviewApplications = applications.filter(
+    (app) => app.status === Status.Interview,
+  );
+  const offerApplication = applications.filter(
+    (app) => app.status === Status.Offer,
+  );
   const router = useRouter();
   const { isOpen, setIsOpen } = useSidebar();
 
   const { user } = useUser();
-  const { syncGuestApplications, getApplications, loading} = useApplications();
+  const { syncGuestApplications, getApplications, loading } = useApplications();
 
   const daysOfTheWeek = [
     "Sunday",
@@ -55,8 +59,8 @@ export default function Home() {
     if (user == null) {
       setUsername("Guest");
     } else {
-      const fullName = user.user_metadata?.full_name as string || "";
-      const firstName = user.user_metadata?.first_name as string || "";
+      const fullName = (user.user_metadata?.full_name as string) || "";
+      const firstName = (user.user_metadata?.first_name as string) || "";
       if (fullName == "") {
         if (firstName == "") {
           setUsername("User");
@@ -68,17 +72,17 @@ export default function Home() {
       }
       updateApplications();
     }
-  }, [user])
+  }, [user]);
 
   async function updateApplications() {
     await syncGuestApplications();
-    getApplications().then(setApplications)
+    getApplications().then(setApplications);
   }
 
   useEffect(() => {
-    if (loading) return
-    getApplications().then(setApplications)
-  }, [loading])
+    if (loading) return;
+    getApplications().then(setApplications);
+  }, [loading]);
 
   function capitalize(word: string): string {
     const firstLetter = word.substring(0, 1).toUpperCase();
@@ -98,27 +102,38 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
-      <h3 
-        className="text-outline text-sm">
+      <h3 className="text-outline text-sm">
         {daysOfTheWeek[today.getDay()]}, {months[today.getMonth()]}{" "}
         {today.getDate()}
       </h3>
-      <h1 
+      <h1
         onClick={() => setIsOpen(!isOpen)}
-        className="text-4xl font-bold text-primary tracking-tight">
+        className="text-4xl font-bold text-primary tracking-tight"
+      >
         Good {GetGreeting(today.getHours())}, {username}.
       </h1>
       <h2 className="text-on-surface-variant max-w-xl">
         Keep working at it. You have{" "}
-        <span className="text-secondary">{weekApplications.length} interviews</span> scheduled
-        for next week. Take a moment to breathe before reviewing your board.
+        <span className="text-secondary">
+          {weekApplications.length} interviews
+        </span>{" "}
+        scheduled for next week. Take a moment to breathe before reviewing your
+        board.
       </h2>
-      {user == null &&
-      <h3 className="flex -mt-1 font-bold text-outline text-xs items-center gap-1">
-        <svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 -960 960 960" width="12px" fill="currentColor"><path d="M792-56 686-160H260q-92 0-156-64T40-380q0-77 47.5-137T210-594q3-8 6-15.5t6-16.5L56-792l56-56 736 736-56 56ZM260-240h346L284-562q-2 11-3 21t-1 21h-20q-58 0-99 41t-41 99q0 58 41 99t99 41Zm185-161Zm419 191-58-56q17-14 25.5-32.5T840-340q0-42-29-71t-71-29h-60v-80q0-83-58.5-141.5T480-720q-27 0-52 6.5T380-693l-58-58q35-24 74.5-36.5T480-800q117 0 198.5 81.5T760-520q69 8 114.5 59.5T920-340q0 39-15 72.5T864-210ZM593-479Z"/>
-        </svg>
-        Progress saved to this browser.
-      </h3>}
+      {user == null && (
+        <h3 className="flex -mt-1 font-bold text-outline text-xs items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="12px"
+            viewBox="0 -960 960 960"
+            width="12px"
+            fill="currentColor"
+          >
+            <path d="M792-56 686-160H260q-92 0-156-64T40-380q0-77 47.5-137T210-594q3-8 6-15.5t6-16.5L56-792l56-56 736 736-56 56ZM260-240h346L284-562q-2 11-3 21t-1 21h-20q-58 0-99 41t-41 99q0 58 41 99t99 41Zm185-161Zm419 191-58-56q17-14 25.5-32.5T840-340q0-42-29-71t-71-29h-60v-80q0-83-58.5-141.5T480-720q-27 0-52 6.5T380-693l-58-58q35-24 74.5-36.5T480-800q117 0 198.5 81.5T760-520q69 8 114.5 59.5T920-340q0 39-15 72.5T864-210ZM593-479Z" />
+          </svg>
+          Progress saved to this browser.
+        </h3>
+      )}
       {/** Cards */}
       <div className="flex gap-8 mt-10">
         {/** Active pipeline */}
@@ -128,7 +143,14 @@ export default function Home() {
               Active Pipeline
             </h1>
             <div className="flex text-primary w-10 h-10 rounded-full bg-surface-container items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M160-120q-33 0-56.5-23.5T80-200v-440q0-33 23.5-56.5T160-720h160v-80q0-33 23.5-56.5T400-880h160q33 0 56.5 23.5T640-800v80h160q33 0 56.5 23.5T880-640v440q0 33-23.5 56.5T800-120H160Zm0-80h640v-440H160v440Zm240-520h160v-80H400v80ZM160-200v-440 440Z"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M160-120q-33 0-56.5-23.5T80-200v-440q0-33 23.5-56.5T160-720h160v-80q0-33 23.5-56.5T400-880h160q33 0 56.5 23.5T640-800v80h160q33 0 56.5 23.5T880-640v440q0 33-23.5 56.5T800-120H160Zm0-80h640v-440H160v440Zm240-520h160v-80H400v80ZM160-200v-440 440Z" />
               </svg>
             </div>
           </div>
@@ -137,13 +159,20 @@ export default function Home() {
             <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
               {applications.length}
             </h1>
-            {weekApplications.length > 0 && 
+            {weekApplications.length > 0 && (
               <h2 className="flex gap-1 text-sm text-secondary-fixed-dim items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="currentColor"
+                >
+                  <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
                 </svg>
                 +{weekApplications.length} this week
               </h2>
-            }
+            )}
           </div>
         </div>
         {/** Next steps */}
@@ -153,7 +182,14 @@ export default function Home() {
               Next Steps
             </h1>
             <div className="flex text-secondary-fixed-dim w-10 h-10 rounded-full bg-surface-container items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
               </svg>
             </div>
           </div>
@@ -175,13 +211,18 @@ export default function Home() {
           <h1 className="font-headline-lg-mobile font-semibold text-headline-lg-mobile text-on-surface">
             Momentum
           </h1>
-          <button 
-            onClick={() => router.replace('/board')}
-            className="rounded-full px-2 py-1 text-primary hover:text-primary/50 text-sm font-semibold transition-colors duration-500">
+          <button
+            onClick={() => router.push("/board")}
+            className="rounded-full px-2 py-1 text-primary hover:text-primary/50 text-sm font-semibold transition-colors duration-500"
+          >
             View Details
           </button>
         </div>
-        <MomentumCard applications={applications.length} interviews={interviewApplications.length} offers={0} />
+        <MomentumCard
+          applications={applications.length}
+          interviews={interviewApplications.length}
+          offers={0}
+        />
       </div>
       {/** Recent signals */}
       <div className="flex flex-col mt-10 gap-3">
@@ -192,9 +233,21 @@ export default function Home() {
           </h1>
         </div>
         <div className="flex flex-col">
-          <SignalCard title="Technical interview scheduled with" company="Stripe" timestamp={new Date('2026-05-25')} />
-          <SignalCard title="Technical interview scheduled with" company="Stripe" timestamp={new Date('2026-05-25')} />
-          <SignalCard title="Technical interview scheduled with" company="Stripe" timestamp={new Date('2026-05-25')} />
+          <SignalCard
+            title="Technical interview scheduled with"
+            company="Stripe"
+            timestamp={new Date("2026-05-25")}
+          />
+          <SignalCard
+            title="Technical interview scheduled with"
+            company="Stripe"
+            timestamp={new Date("2026-05-25")}
+          />
+          <SignalCard
+            title="Technical interview scheduled with"
+            company="Stripe"
+            timestamp={new Date("2026-05-25")}
+          />
         </div>
       </div>
       <button className="w-fit text-xs font-semibold px-5 py-3 border border-surface-container rounded-full text-on-surface hover:bg-surface-bright/20 transition-colors duration-500">
