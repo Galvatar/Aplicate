@@ -97,7 +97,7 @@ export default function Table({ applications }: TableProps) {
                     {columns.map((column) => {
                         if (!activeCols.includes(column.key)) return;
                         return (
-                            <td className="py-6 px-8">
+                            <td key={column.key} className="py-6 px-8">
                                 {column.format(application)}
                             </td>
                         )})}
