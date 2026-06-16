@@ -41,3 +41,7 @@ export interface GmailToken {
     created_at?: Date
     last_history_id?: string
 }
+
+export interface Settings {
+    active_columns: string[]
+}

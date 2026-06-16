@@ -7,6 +7,8 @@ import NewApplication from "./components/applicationModal";
 import { signOut } from "@/lib/auth";
 import { useUser } from "@/hooks/use-user";
 import { useSidebar } from "@/hooks/use-sidebar";
+import { useSettings } from "@/hooks/use-settings";
+import { Settings } from "@/lib/types";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -16,6 +18,18 @@ export default function Sidebar() {
   const modal = useModal();
   const { user } = useUser();
   const { isOpen, setIsOpen } = useSidebar();
+  const { getSettings } = useSettings();
+
+  useEffect(() => {
+    const settings = getSettings();
+    if (settings == null) {
+        // first time user
+        const newSettings: Settings = {
+            active_columns: ["company"]
+        }
+        localStorage.setItem("settings", JSON.stringify(newSettings));
+    }
+  }, [])
 
   useEffect(() => {
     if (user != null) {
