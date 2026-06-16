@@ -328,11 +328,13 @@ export default function Home() {
                 break;
             }
             return (
-              <SignalCard
-                title={title}
-                company={app.company}
-                timestamp={new Date(app.lastUpdate)}
-              />
+              <div key={app.id}>
+                <SignalCard
+                  title={title}
+                  company={app.company}
+                  timestamp={new Date(app.lastUpdate)}
+                />
+              </div>
           )})}
         </div>
       </div>
