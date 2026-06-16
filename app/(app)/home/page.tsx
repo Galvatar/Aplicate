@@ -211,7 +211,7 @@ export default function Home() {
           </div>
         </div>
         {/** Follow ups */}
-        <div className="flex w-full relative flex-col gap-3 hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
+        <div className="flex w-full justify-between relative flex-col gap-3 hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
           <div className="flex w-full justify-between items-start">
             <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
               Follow ups
@@ -240,7 +240,7 @@ export default function Home() {
         </div>
         {/** Active pipeline */}
         <div className="flex w-full relative flex-col hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
-          <div className="flex w-full justify-between items-start">
+          <div className="flex z-10 w-full justify-between items-start">
             <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
               Applications to follow up
             </h1>
@@ -257,7 +257,7 @@ export default function Home() {
             </div>
           </div>
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700" />
-          <div className="flex flex-col">
+          <div className="flex flex-col -mt-3">
             {followUpApplications.map((application, idx) => (
               <div
                 onClick={() => router.push(`/job/${application.id}?origin=home`)}

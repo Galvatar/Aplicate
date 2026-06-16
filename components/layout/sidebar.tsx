@@ -62,7 +62,7 @@ export default function Sidebar() {
           onClick={() => router.push("/")}
           className="hidden md:flex gap-3 items-center cursor-pointer"
         >
-          <div className="h-15">
+          <div className="h-15 aspect-square">
             <img
               src={"/lightLogo.png"}
               className="aspect-square h-full block dark:hidden"
@@ -314,6 +314,11 @@ export default function Sidebar() {
             <h1>Log Out</h1>
           </div>
         )}
+        {/** Warning */}
+        {guestMode &&
+        <h1 className="flex items-center mt-3 px-3 text-xs text-error font-semibold text-center">
+          <p><b><u>WARNING:</u></b> Your applications are at risk of being deleted without an account.</p>
+        </h1>}
       </div>
     </div>
   );
