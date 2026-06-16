@@ -1,5 +1,3 @@
-"use client"
-
 import { Settings } from "@/lib/types";
 
 export const useSettings = () => {

@@ -17,11 +17,18 @@ export default function Table({ applications }: TableProps) {
   const router = useRouter();
   const [sortAscending, setSortAscending] = useState(true);
   const [sortColumn, setSortColumn] = useState("apply");
-  const [activeCols, setActiveCols] = useState(getSettings()?.active_columns ?? ["company"]);
+  const [activeCols, setActiveCols] = useState<string[]>(["company"]);
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(5);
   
   var sortedApplications = applications;
+
+  useEffect(() => {
+    const settings = getSettings();
+    if (settings) {
+        setActiveCols(settings.active_columns);
+    }
+  }, [])
 
   const paginated = sortedApplications.slice(page, page + perPage);
 
