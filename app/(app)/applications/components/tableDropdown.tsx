@@ -35,6 +35,7 @@ export default function TableDropdown({ active, onChange }: TableDropdownProps) 
                     if (column.active) return;
                     return (
                         <span 
+                            key={column.key}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 onChange(column.key)
