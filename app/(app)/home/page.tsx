@@ -122,7 +122,7 @@ export default function Home() {
       <h2 className="text-on-surface-variant max-w-xl">
         Keep working at it. You have{" "}
         <span className="text-secondary">
-          {weekApplications.length} interviews
+          {interviewApplications.length} interviews
         </span>{" "}
         scheduled for next week. Take a moment to breathe before reviewing your
         board.
@@ -188,7 +188,7 @@ export default function Home() {
             <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
               Next Steps
             </h1>
-            <div className="flex text-secondary-fixed w-10 h-10 rounded-full bg-surface-container items-center justify-center">
+            <div className="flex text-secondary w-10 h-10 rounded-full bg-surface-container items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
@@ -216,7 +216,7 @@ export default function Home() {
             <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
               Follow ups
             </h1>
-            <div className="flex text-secondary-fixed w-10 h-10 rounded-full bg-surface-container items-center justify-center">
+            <div className="flex text-secondary w-10 h-10 rounded-full bg-surface-container items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
