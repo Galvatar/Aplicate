@@ -25,6 +25,13 @@ export default function Home() {
   const offerApplication = applications.filter(
     (app) => app.status === Status.Offer,
   );
+  const followUpApplications = applications.filter(
+    (app) => app.followUpDate ? new Date(app.followUpDate) < new Date() : 0
+  ).sort((a,b) => (a.followUpDate ? (new Date(a.followUpDate).getTime()) : 0) - (b.followUpDate ? (new Date(b.followUpDate).getTime()) : 0))
+  .slice(0,3);
+  const orderedApplications = applications
+    .sort((a,b) => new Date(b.lastUpdate).getTime() - new Date(a.lastUpdate).getTime()).slice(0,3);
+
   const router = useRouter();
   const { isOpen, setIsOpen } = useSidebar();
 
@@ -135,7 +142,7 @@ export default function Home() {
         </h3>
       )}
       {/** Cards */}
-      <div className="flex gap-8 mt-10">
+      <div className="grid grid-cols-2 gap-8 mt-10">
         {/** Active pipeline */}
         <div className="flex w-full relative flex-col gap-3 hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
           <div className="flex w-full justify-between items-start">
@@ -181,7 +188,7 @@ export default function Home() {
             <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
               Next Steps
             </h1>
-            <div className="flex text-secondary-fixed-dim w-10 h-10 rounded-full bg-surface-container items-center justify-center">
+            <div className="flex text-secondary-fixed w-10 h-10 rounded-full bg-surface-container items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
@@ -203,6 +210,68 @@ export default function Home() {
             </h2>
           </div>
         </div>
+        {/** Follow ups */}
+        <div className="flex w-full relative flex-col gap-3 hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
+          <div className="flex w-full justify-between items-start">
+            <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
+              Follow ups
+            </h1>
+            <div className="flex text-secondary-fixed w-10 h-10 rounded-full bg-surface-container items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
+              </svg>
+            </div>
+          </div>
+          <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all duration-700" />
+          <div className="flex gap-3 items-end">
+            <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
+              {followUpApplications.length}
+            </h1>
+            <h2 className="flex gap-1 text-sm text-outline items-center">
+              To follow up
+            </h2>
+          </div>
+        </div>
+        {/** Active pipeline */}
+        <div className="flex w-full relative flex-col hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
+          <div className="flex w-full justify-between items-start">
+            <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
+              Applications to follow up
+            </h1>
+            <div className="flex text-primary w-10 h-10 rounded-full bg-surface-container items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M160-120q-33 0-56.5-23.5T80-200v-440q0-33 23.5-56.5T160-720h160v-80q0-33 23.5-56.5T400-880h160q33 0 56.5 23.5T640-800v80h160q33 0 56.5 23.5T880-640v440q0 33-23.5 56.5T800-120H160Zm0-80h640v-440H160v440Zm240-520h160v-80H400v80ZM160-200v-440 440Z" />
+              </svg>
+            </div>
+          </div>
+          <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700" />
+          <div className="flex flex-col">
+            {followUpApplications.map((application, idx) => (
+              <div
+                onClick={() => router.push(`/job/${application.id}?origin=home`)}
+                key={application.id} className={`flex px-2 cursor-pointer transition-colors gap-1 hover:bg-surface-container-lowest rounded-lg ${idx > 0 ? 'border-t border-t-surface-container-highest mt-1 pt-1' : ''}`}>
+                <h1 className="font-bold">
+                  {application.company}
+                </h1>
+                <h2>
+                  - {application.title}
+                </h2>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       {/** Momentum */}
       <div className="flex flex-col mt-10 gap-3">
@@ -221,7 +290,7 @@ export default function Home() {
         <MomentumCard
           applications={applications.length}
           interviews={interviewApplications.length}
-          offers={0}
+          offers={offerApplication.length}
         />
       </div>
       {/** Recent signals */}
@@ -233,26 +302,40 @@ export default function Home() {
           </h1>
         </div>
         <div className="flex flex-col">
-          <SignalCard
-            title="Technical interview scheduled with"
-            company="Stripe"
-            timestamp={new Date("2026-05-25")}
-          />
-          <SignalCard
-            title="Technical interview scheduled with"
-            company="Stripe"
-            timestamp={new Date("2026-05-25")}
-          />
-          <SignalCard
-            title="Technical interview scheduled with"
-            company="Stripe"
-            timestamp={new Date("2026-05-25")}
-          />
+          {orderedApplications.map((app) => { 
+            var title = "";
+            switch (app.status) {
+              case Status.Apply:
+                title = `Applied for ${app.title}, at`
+                break;
+              case Status.Interview:
+                title = `Technical interview for ${app.title}, scheduled with`
+                break;
+              case Status.Assessment:
+                title = `Assessment received for ${app.title}, at`
+                break;
+              case Status.PreRegister:
+                title = `Pre-Registered for ${app.title}, at`
+                break;
+              case Status.Offer:
+                title = `Offer received as ${app.title}, for`
+                break;
+              case Status.Rejected:
+                title = `Rejected for ${app.title}, at`
+                break;
+              default:
+                title = "Application updated"
+                break;
+            }
+            return (
+              <SignalCard
+                title={title}
+                company={app.company}
+                timestamp={new Date(app.lastUpdate)}
+              />
+          )})}
         </div>
       </div>
-      <button className="w-fit text-xs font-semibold px-5 py-3 border border-surface-container rounded-full text-on-surface hover:bg-surface-bright/20 transition-colors duration-500">
-        View History
-      </button>
     </div>
   );
 }

@@ -1,23 +1,26 @@
+import { useApplications } from "@/hooks/use-applications";
+import { Application } from "@/lib/types";
 import { useState } from "react"
 
 interface RatingsProps {
     editable: boolean
-    rating: number
-    onChange?: (newRating: number) => void
+    app: Application
 }
 
-export default function Rating({ editable, rating, onChange }: RatingsProps) {
-    const [currRating, setCurrRating] = useState(rating);
+export default function Rating({ editable, app }: RatingsProps) {
+    const [currRating, setCurrRating] = useState(app.rating);
+    const { updateApplication } = useApplications();
 
     function handleChange(newRating: number) {
         if (!editable) return;
         if (newRating == currRating) {
             setCurrRating(currRating-1);
-            if (onChange) onChange(currRating-1);
+            app.rating = currRating-1;
         } else {
             setCurrRating(newRating);
-            if (onChange) onChange(newRating);
+            app.rating = newRating;
         }
+        updateApplication(app);
     }
 
     return (

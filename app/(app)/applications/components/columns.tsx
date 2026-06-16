@@ -1,7 +1,10 @@
 import Rating from "@/components/ui/rating";
 import StatusLabel from "@/components/ui/statusLabel";
+import { useApplications } from "@/hooks/use-applications";
 import { Application } from "@/lib/types";
 import { ReactNode } from "react";
+import DoneButton from "./followUp";
+import FollowUp from "./followUp";
 
 export interface ColumnConfig {
     key: keyof Application;
@@ -106,8 +109,10 @@ export var columns: ColumnConfig[] = [
         sortStrategy: (a, b) => b.rating - a.rating,
         format: (a) => {
             return (
-                <div className="h-10">
-                    <Rating editable={false} rating={a.rating} />
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="h-10">
+                    <Rating editable={true} app={a} />
                 </div>
             )
         }
@@ -188,6 +193,7 @@ export var columns: ColumnConfig[] = [
         active: false,
         sortStrategy: (a, b) => new Date(b.closingDate).getTime() - new Date(a.closingDate).getTime(),
         format: (a) => {
+            if (a.closingDate == null) return;
             const date = new Date(a.closingDate);
             return (
                 <div className="flex">
@@ -204,13 +210,8 @@ export var columns: ColumnConfig[] = [
         active: false,
         sortStrategy: (a, b) => new Date(b.followUpDate).getTime() - new Date(a.followUpDate).getTime(),
         format: (a) => {
-            const date = new Date(a.followUpDate);
             return (
-                <div className="flex">
-                    {months[date.getMonth()]}{" "}
-                    {date.getDate()},{" "}
-                    {date.getFullYear()}
-                </div>
+                <FollowUp app={a} />
             )
         }
     },

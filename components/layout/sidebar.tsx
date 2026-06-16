@@ -14,7 +14,6 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [guestMode, setGuestMode] = useState(true);
-  const [picture, setPicture] = useState<string | null>();
   const modal = useModal();
   const { user } = useUser();
   const { isOpen, setIsOpen } = useSidebar();
@@ -34,10 +33,8 @@ export default function Sidebar() {
   useEffect(() => {
     if (user != null) {
       setGuestMode(false);
-      setPicture(user.user_metadata.picture);
     } else {
       setGuestMode(true);
-      setPicture(null);
     }
   }, [user]);
 

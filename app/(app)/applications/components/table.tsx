@@ -97,7 +97,7 @@ export default function Table({ applications }: TableProps) {
             <tbody className="divide-y divide-outline-variant/50">
                 {paginated.map((application) => (
                 <tr
-                    onClick={() => router.push(`/job/${application.id!}`)}
+                    onClick={() => router.push(`/job/${application.id!}?origin=applications`)}
                     key={application.id}
                     className="cursor-pointer hover:bg-surface-container-high transition-colors group"
                 >

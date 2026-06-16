@@ -1,13 +1,12 @@
 "use client";
 
 import ApplicationModal from "@/components/layout/components/applicationModal";
-import KebabMenu from "@/components/ui/kebabMenu";
 import { useModal } from "@/components/ui/modal";
 import Rating from "@/components/ui/rating";
 import StatusLabel from "@/components/ui/statusLabel";
 import { useApplications } from "@/hooks/use-applications";
 import { Application } from "@/lib/types";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function JobPage() {
@@ -18,6 +17,8 @@ export default function JobPage() {
   const router = useRouter();
   const { getApplication, loading } = useApplications();
   const modal = useModal();
+  const searchParams = useSearchParams();
+  const origin = searchParams.get("origin") ?? "home";
 
   useEffect(() => {
     if (loading) return;
@@ -77,7 +78,7 @@ export default function JobPage() {
       {/** Left side */}
       <div className="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12 flex flex-col w-full min-h-full">
         <button
-          onClick={() => router.push("/applications")}
+          onClick={() => router.push(`/${origin}`)}
           className="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label-md mb-8 w-fit group"
         >
           <svg
@@ -89,7 +90,7 @@ export default function JobPage() {
           >
             <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
           </svg>
-          Back to Applications
+          Back to {capitalize(origin)} page
         </button>
         {/** Title */}
         <div className="flex mb-8 items-center gap-3">
@@ -104,7 +105,7 @@ export default function JobPage() {
               {application.company}
               <span className="w-1 h-1 rounded-full bg-outline-variant" />
               <div className="h-5">
-                <Rating editable={false} rating={application.rating} />
+                <Rating editable={false} app={application} />
               </div>
               <span className="w-1 h-1 rounded-full bg-outline-variant" />
               <span className="flex items-center gap-1">

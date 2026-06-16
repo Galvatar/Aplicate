@@ -32,7 +32,7 @@ export default function ApplicationCard({
   return (
     <div
       draggable
-      onClick={() => router.push(`/job/${application.id!}`)}
+      onClick={() => router.push(`/job/${application.id!}?origin=board`)}
       onDragStart={onDragStart}
       className="bg-surface-container-low hover:bg-surface-container-highest transition-all duration-300 rounded-xl p-4 border border-outline-variant/10 flex flex-col gap-3 group cursor-move relative overflow-hidden hover:shadow-lg"
     >
