@@ -46,7 +46,9 @@ export default function SignupPage() {
 
   return (
     <div className="flex flex-col font-jakarta w-full h-full items-center justify-center mb-10 space-y-4">
-      <div className="w-20 h-20 rounded-xl flex items-center justify-center">
+      <div 
+        onClick={() => router.push("/")}
+        className="w-20 h-20 rounded-xl flex items-center justify-center">
         <img
         src={"/lightLogo.png"}
         className="aspect-square h-full block dark:hidden"
@@ -195,6 +197,23 @@ export default function SignupPage() {
               {error}
             </h4>
           )}
+          <p onClick={(e) => e.stopPropagation()}
+            className="text-sm text-on-surface/80 text-center">
+            By creating an account with us, you agree to our{" "}
+            <button
+                onClick={() => router.push('/terms')}
+                className="font-semibold underline cursor-pointer"
+            >
+                Terms of Service
+            </button>
+            {" "}and{" "}
+            <button
+                onClick={() => router.push('/privacy')}
+                className="font-semibold underline cursor-pointer"
+            >
+                Privacy Policy
+            </button>
+          </p>
         </form>
         <div className="flex w-full mt-5 gap-5 items-center">
           <div className="h-fit w-full p-px bg-on-surface/20" />

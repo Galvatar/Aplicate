@@ -35,7 +35,9 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col font-jakarta w-full h-full items-center justify-center mb-10 space-y-4">
-      <div className="w-20 h-20 flex items-center justify-center">
+      <div 
+        onClick={() => router.push("/")}
+        className="w-20 h-20 flex items-center justify-center">
         <img
         src={"/lightLogo.png"}
         className="aspect-square h-full block dark:hidden"
