@@ -42,7 +42,8 @@ export default function Sidebar() {
     pathname === "/signup" ||
     pathname === "/login" ||
     pathname.includes("/api") ||
-    pathname === "/"
+    pathname === "/" ||
+    pathname === "/pricing"
   )
     return <></>;
 

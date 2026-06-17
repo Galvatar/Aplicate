@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { motion, Variants } from "framer-motion";
 
 const fadeInUp: Variants = {
@@ -47,16 +46,19 @@ export default function Home() {
         </span>
         <div className="flex gap-8 tracking-tight text-lg font-medium items-center">
           <button
+            onClick={() => router.push('/')}
             className={`h-fit ${pathname === "/" ? "font-extrabold text-primary border-b-3 border-primary" : "hover:text-on-surface-variant"} transition-colors`}
           >
             Features
           </button>
           <button
+            onClick={() => router.push('/pricing')}
             className={`h-fit ${pathname === "/pricing" ? "font-extrabold text-primary border-b-3 border-primary" : "hover:text-on-surface-variant"} transition-colors`}
           >
             Pricing
           </button>
           <button
+            onClick={() => router.push('/about')}
             className={`h-fit ${pathname === "/about" ? "font-extrabold text-primary border-b-3 border-primary" : "hover:text-on-surface-variant"} transition-colors`}
           >
             About
