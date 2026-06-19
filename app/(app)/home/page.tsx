@@ -8,6 +8,7 @@ import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
 import { useRouter } from "next/navigation";
 import { useSidebar } from "@/hooks/use-sidebar";
+import { randomBytes } from "crypto";
 
 export default function Home() {
   const today = new Date();

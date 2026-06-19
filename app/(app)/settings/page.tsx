@@ -354,7 +354,7 @@ export default function SettingsPage() {
                                     Delete Account
                                 </h1>
                                 <p>
-                                    Wipe all application history and analytics but keep your account active.
+                                    Delete your account completely along with all your applications and integrations
                                 </p>
                                 <button 
                                     onClick={() => modal.show(<DeleteUser />)}

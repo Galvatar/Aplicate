@@ -24,13 +24,22 @@ export async function GET(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.redirect(`${baseUrl}/home`);
 
-  await supabase.from('GmailTokens').upsert({
-    user_id: user.id,
-    access_token: tokens.access_token,
-    refresh_token: tokens.refresh_token,
-    expires_at: new Date(Date.now() + tokens.expires_in * 1000).toISOString(),
+  const expiresAtISO = new Date(Date.now() + tokens.expires_in * 1000).toISOString()
+
+  // 🔒 SECURE RPC REPLACEMENT: Encrypting tokens directly into the database vault
+  const { error: dbError } = await supabase.rpc('save_gmail_tokens', {
+    p_user_id: user.id,
+    p_access_token: tokens.access_token,
+    p_refresh_token: tokens.refresh_token,
+    p_expires_at: expiresAtISO
   })
 
+  if (dbError) {
+    console.error("Failed to securely save tokens:", dbError.message)
+    return NextResponse.redirect(`${baseUrl}/home?error=token_save_failed`);
+  }
+
+  // Set up Gmail watch webhook (this uses the raw token sitting safely in server memory)
   await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/watch`, {
     method: 'POST',
     headers: { 
@@ -55,12 +64,9 @@ export async function GET(req: NextRequest) {
       </p>
       
       <script>
-        // A. Tell the main app window that the login succeeded
         if (window.opener) {
           window.opener.postMessage({ type: 'GMAIL_CONNECTED' }, '*');
         }
-        
-        // B. Instantly close this popup window
         window.close();
       </script>
     </body>
