@@ -22,8 +22,10 @@ export default function DeleteUser() {
                 <h1 className="font-bold text-2xl tracking-tight mt-5">
                     Delete Account?
                 </h1>
-                <p className="mt-3">
-                    This will permanently remove your account and all associated data, including any integrations and applications. This action cannot be undone.
+                <p className="flex flex-col gap-3 mt-3">
+                    <p>This will permanently remove your account and all associated data, including any integrations and applications. This action cannot be undone.</p>
+                    <p><b className="underline">WARNING:</b> This will immediately cancel your Pro subscription (if you have one) and you will permanently lose access to any remaining time in your current billing cycle.</p>
+                    <p>If you just want to stop being charged, go to the Customer Portal and cancel your subscription instead.</p>
                 </p>
                 <div className="flex gap-3 mt-8">
                     <button 

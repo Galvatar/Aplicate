@@ -10,15 +10,18 @@ import ToggleButton from "./components/toggle";
 import DeleteApplications from "@/components/layout/components/deleteApplications";
 import DeleteUser from "@/components/layout/components/deleteUser";
 import UploadSection from "./components/uploadSection";
+import { useRouter } from "next/navigation";
+import LemonButton from "@/components/ui/lemonButton";
 
 export default function SettingsPage() {
     const [userProfile, setUserProfile] = useState<User | null>()
     const [fullName, setFullName] = useState("");
     const [gmailToken, setGmailToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const [copyText, setCopyText] = useState("Copy AI Prompt")
+    const [proUser, setProUser] = useState(false);
     const modal = useModal();
-    const { user } = useUser();
+    const router = useRouter();
+    const { user, subscription, isProUser } = useUser();
 
     useEffect(() => {
         const handleOAuthMessage = (event: MessageEvent) => {
@@ -33,6 +36,10 @@ export default function SettingsPage() {
         window.addEventListener('message', handleOAuthMessage)
         return () => window.removeEventListener('message', handleOAuthMessage)
     }, [])
+
+    useEffect(() => {
+        setProUser(isProUser());
+    }, [subscription])
 
     useEffect(() => {
         if (user != null) {
@@ -252,29 +259,43 @@ export default function SettingsPage() {
                             {userProfile?.user_metadata.email}
                         </h2>
                         {/** Premium tag */}
-                        {userProfile &&
+                        {proUser &&
                             <span className="flex w-fit gap-2 rounded-full bg-secondary-container/50 px-3 py-2 text-secondary font-semibold">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
                             </svg>
-                            Premium member
+                            Pro member
                         </span>}
                     </div>
                 </div>
 
                 {/** Integrations */}
                 <div className="flex relative flex-col gap-3">
-                    {!userProfile &&
-                        <div className="flex absolute w-full h-full z-10 bg-surface-container/80 rounded-xl items-center justify-center text-on-surface gap-3 text-2xl font-bold">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm296.5-143.5Q560-327 560-360t-23.5-56.5Q513-440 480-440t-56.5 23.5Q400-393 400-360t23.5 56.5Q447-280 480-280t56.5-23.5ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/>
-                            </svg>
-                            Must have Premium account
+                    {!proUser &&
+                        <div className="flex flex-col absolute w-full h-full z-10 bg-surface-container/80 rounded-xl items-center justify-center text-on-surface gap-3">
+                            <div className="flex items-center gap-3 text-2xl font-bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm296.5-143.5Q560-327 560-360t-23.5-56.5Q513-440 480-440t-56.5 23.5Q400-393 400-360t23.5 56.5Q447-280 480-280t56.5-23.5ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/>
+                                </svg>
+                                Unlock with Aplicate Pro
+                            </div>
+                            <button
+                                onClick={() => router.push("/pricing")}
+                                className="flex gap-2 items-center font-semibold text-lg text-on-primary-container bg-primary-container py-1 px-3 rounded-lg hover:bg-primary hover:text-on-primary transition-colors">
+                                View prices 
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m256-240-56-56 384-384H240v-80h480v480h-80v-344L256-240Z"/>
+                                </svg>
+                            </button>
                         </div>
                     }
-                    <h1 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight">
-                        <svg className="text-primary" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M155-75q-35-35-35-85t35-85q35-35 85-35 14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35q-50 0-85-35Zm-35-465q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm148.5 408.5Q280-143 280-160t-11.5-28.5Q257-200 240-200t-28.5 11.5Q200-177 200-160t11.5 28.5Q223-120 240-120t28.5-11.5Zm240-680Q520-823 520-840t-11.5-28.5Q497-880 480-880t-28.5 11.5Q440-857 440-840t11.5 28.5Q463-800 480-800t28.5-11.5ZM480-360q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm268.5 228.5Q760-143 760-160t-11.5-28.5Q737-200 720-200t-28.5 11.5Q680-177 680-160t11.5 28.5Q703-120 720-120t28.5-11.5Zm120-420Q880-563 880-580t-11.5-28.5Q857-620 840-620t-28.5 11.5Q800-597 800-580t11.5 28.5Q823-540 840-540t28.5-11.5ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z"/>
-                        </svg>
-                        Integrations
-                    </h1>
+                    <div className="flex items-center justify-between mt-5">
+                        <h1 className="flex items-center gap-3 ml-5 font-bold text-3xl text-on-surface tracking-tight">
+                            <svg className="text-primary" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="M155-75q-35-35-35-85t35-85q35-35 85-35 14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35q-50 0-85-35Zm-35-465q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm148.5 408.5Q280-143 280-160t-11.5-28.5Q257-200 240-200t-28.5 11.5Q200-177 200-160t11.5 28.5Q223-120 240-120t28.5-11.5Zm240-680Q520-823 520-840t-11.5-28.5Q497-880 480-880t-28.5 11.5Q440-857 440-840t11.5 28.5Q463-800 480-800t28.5-11.5ZM480-360q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm268.5 228.5Q760-143 760-160t-11.5-28.5Q737-200 720-200t-28.5 11.5Q680-177 680-160t11.5 28.5Q703-120 720-120t28.5-11.5Zm120-420Q880-563 880-580t-11.5-28.5Q857-620 840-620t-28.5 11.5Q800-597 800-580t11.5 28.5Q823-540 840-540t28.5-11.5ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z"/>
+                            </svg>
+                            Integrations
+                        </h1>
+                        <div className="flex h-fit w-full max-w-55 items-center">
+                            <LemonButton yearly={false} manage={true} />
+                        </div>
+                    </div>
                     <div className="flex p-5 bg-surface-container rounded-xl border border-surface-container-highest justify-between">
                         <div className="flex gap-3">
                             <div className="flex h-fit items-center justify-center p-1 bg-primary-container/50 text-primary rounded-xl">

@@ -190,7 +190,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                     Give the data to an AI along with the prompt copied from the button below.
                 </li>
                 <li className="list-decimal pl-3 ml-6">
-                    Then save the csv file its generated.
+                    Save the csv file its generated.
                 </li>
                 <li className="list-decimal pl-3 ml-6">
                     Drag and drop or find the csv file from your file browser into the box below.

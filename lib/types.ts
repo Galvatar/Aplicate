@@ -45,3 +45,17 @@ export interface GmailToken {
 export interface Settings {
     active_columns: string[]
 }
+
+export interface Subscription {
+    id: string
+    user_id: string
+    subscription_id: string
+    status: string
+    variant_id: string
+    renews_at?: string
+    ends_at?: string
+    customer_id?: string
+    customer_portal_url?: string
+    created_at: string
+    updated_at: string
+}

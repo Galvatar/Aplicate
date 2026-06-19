@@ -3,9 +3,10 @@
 import ToggleButton from "@/app/(app)/settings/components/toggle";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
+import LemonButton from "@/components/ui/lemonButton";
 import { motion, Variants } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -22,7 +23,6 @@ const staggerContainer: Variants = {
 
 export default function PricingPage() {
     const router = useRouter();
-    const pathname = usePathname();
     const [annual, setAnnual] = useState(false);
 
     return (
@@ -72,7 +72,7 @@ export default function PricingPage() {
                             </p>
                             <span className="flex items-end gap-1">
                                 <h2 className="text-3xl font-semibold mt-5 text-primary">
-                                    $0
+                                    $0 USD
                                 </h2>
                                 <h3 className="text-sm text-on-surface/50 font-semibold">
                                     /forever
@@ -133,10 +133,10 @@ export default function PricingPage() {
                             </p>
                             <span className="flex items-end gap-1">
                                 <h2 className="text-3xl font-semibold mt-5 text-primary">
-                                    $12
+                                    $12 USD
                                 </h2>
                                 <h3 className="text-sm text-on-surface/50 font-semibold">
-                                    /month, billed monthly
+                                    /month, monthly
                                 </h3>
                             </span>
                             <span className="flex gap-2 items-center mt-8">
@@ -171,10 +171,7 @@ export default function PricingPage() {
                                 </h2>
                             </span>
                         </div>
-                        <button
-                            className="w-full mt-10 py-3 bg-primary hover:bg-primary/50 rounded-lg text-sm text-on-primary font-medium transition-colors duration-300">
-                            Upgrade to Pro
-                        </button>
+                        <LemonButton yearly={annual} manage={false} />
                     </motion.div>
                     :
                     <motion.div 
@@ -192,10 +189,10 @@ export default function PricingPage() {
                                     $12
                                 </h2>
                                 <h2 className="text-3xl font-semibold mt-5 text-primary">
-                                    $10
+                                    $10 USD
                                 </h2>
                                 <h3 className="text-sm text-on-surface/50 font-semibold">
-                                    /month, billed yearly (120$)
+                                    /month, yearly
                                 </h3>
                             </span>
                             <span className="flex gap-2 items-center mt-8">
@@ -230,10 +227,7 @@ export default function PricingPage() {
                                 </h2>
                             </span>
                         </div>
-                        <button
-                            className="w-full mt-10 py-3 bg-primary hover:bg-primary/50 rounded-lg text-sm text-on-primary font-medium transition-colors duration-300">
-                            Upgrade to Pro
-                        </button>
+                        <LemonButton yearly={annual} manage={false} />
                     </motion.div>
                     }
                 </motion.div>
