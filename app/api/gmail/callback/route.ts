@@ -26,7 +26,6 @@ export async function GET(req: NextRequest) {
 
   const expiresAtISO = new Date(Date.now() + tokens.expires_in * 1000).toISOString()
 
-  // 🔒 SECURE RPC REPLACEMENT: Encrypting tokens directly into the database vault
   const { error: dbError } = await supabase.rpc('save_gmail_tokens', {
     p_user_id: user.id,
     p_access_token: tokens.access_token,
@@ -39,7 +38,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(`${baseUrl}/home?error=token_save_failed`);
   }
 
-  // Set up Gmail watch webhook (this uses the raw token sitting safely in server memory)
   await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/watch`, {
     method: 'POST',
     headers: { 

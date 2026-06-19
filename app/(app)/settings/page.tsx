@@ -170,7 +170,9 @@ export default function SettingsPage() {
         return applications;
         };
 
-    const handleConnect = () => {
+    const handleConnect = async () => {
+        const res = await fetch('/api/account/isPremium')
+        if (res.status != 200) return;
         const client_id = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!;
         const params = new URLSearchParams({
             client_id: client_id,
@@ -263,7 +265,7 @@ export default function SettingsPage() {
                             <span className="flex w-fit gap-2 rounded-full bg-secondary-container/50 px-3 py-2 text-secondary font-semibold">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
                             </svg>
-                            Pro member
+                            Pro Member
                         </span>}
                     </div>
                 </div>
@@ -308,6 +310,9 @@ export default function SettingsPage() {
                                 </h1>
                                 <p className="font-semibold">
                                     Connect your Gmail to automatically sync and organize job application confirmation emails directly into your board.
+                                </p>
+                                <p className="text-xs">
+                                    NOTE: Gmail syncing currently requires being manually added to the user test group which can take up to 24hrs after which you will be able to turn it on, sorry for any inconvenience this may cause.
                                 </p>
                             </div>
                         </div>
