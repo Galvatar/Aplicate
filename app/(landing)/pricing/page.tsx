@@ -123,7 +123,10 @@ export default function PricingPage() {
                     {!annual ? 
                     <motion.div 
                         variants={fadeInUp}
-                        className="flex h-full w-full justify-between flex-col items-start rounded-lg p-8 bg-surface-container">
+                        className="flex relative h-full w-full justify-between flex-col items-start rounded-lg p-8 bg-surface-container">
+                        <div className="flex absolute bg-primary text-sm font-semibold text-on-primary top-0 right-0 px-3 py-1 rounded-tr-lg rounded-bl-lg">
+                            Most Popular!
+                        </div>
                         <div className="flex flex-col items-start">
                             <h1 className="font-semibold text-2xl text-primary">
                                 Pro
@@ -176,7 +179,10 @@ export default function PricingPage() {
                     :
                     <motion.div 
                         variants={fadeInUp}
-                        className="flex h-full w-full justify-between flex-col items-start rounded-lg p-8 bg-surface-container">
+                        className="flex relative h-full w-full justify-between flex-col items-start rounded-lg p-8 bg-surface-container">
+                        <div className="flex absolute bg-primary text-sm font-semibold text-on-primary top-0 right-0 px-3 py-1 rounded-tr-lg rounded-bl-lg">
+                            Most Popular!
+                        </div>
                         <div className="flex flex-col items-start">
                             <h1 className="font-semibold text-2xl text-primary">
                                 Pro

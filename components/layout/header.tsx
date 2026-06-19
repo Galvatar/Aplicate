@@ -1,8 +1,10 @@
+import { useUser } from "@/hooks/use-user";
 import { usePathname, useRouter } from "next/navigation"
 
 export default function Header() {
     const router = useRouter();
     const pathname = usePathname();
+    const { user } = useUser();
 
     return (
         <div className="flex fixed w-full bg-background top-0 z-10 py-4 px-20 h-full max-h-20 border-b border-b-surface-container-high justify-between">
@@ -46,6 +48,16 @@ export default function Header() {
                     About
                 </button>
             </div>
+            {user ?
+            <div className="flex gap-5 font-semibold items-center">
+                <button
+                    onClick={() => router.push("/home")}
+                    className="px-8 rounded-full h-full bg-primary hover:bg-primary-container text-on-primary transition-colors shadow-lg shadow-primary/30"
+                >
+                    Go To Dashboard
+                </button>
+            </div>
+            :
             <div className="flex gap-5 font-semibold items-center">
                 <button
                     onClick={() => router.push("/login")}
@@ -59,7 +71,7 @@ export default function Header() {
                 >
                     Start Tracking (Free)
                 </button>
-            </div>
+            </div>}
         </div>
     )
 }
