@@ -52,7 +52,7 @@ export default function PricingPage() {
                 >
                     <h1>Monthly</h1>
                     <ToggleButton disabled={false} status={annual} onChange={setAnnual} />
-                    <h1>6-Months</h1>
+                    <h1>One Time</h1>
                 </motion.div>
                 <motion.div
                     initial="hidden"
@@ -127,7 +127,7 @@ export default function PricingPage() {
                         <div className="flex absolute bg-primary text-sm font-semibold text-on-primary top-0 right-0 px-3 py-1 rounded-tr-lg rounded-bl-lg">
                             Most Popular!
                         </div>
-                        <div className="flex flex-col items-start">
+                        <div className="flex flex-col items-start mb-10">
                             <h1 className="font-semibold text-2xl text-primary">
                                 Pro
                             </h1>
@@ -136,10 +136,10 @@ export default function PricingPage() {
                             </p>
                             <span className="flex items-end gap-1">
                                 <h2 className="text-3xl font-semibold mt-5 text-primary">
-                                    $18 AUD
+                                    $24 AUD
                                 </h2>
                                 <h3 className="text-sm text-on-surface/50 font-semibold">
-                                    /month, monthly
+                                    /mo, monthly
                                 </h3>
                             </span>
                             <span className="flex gap-2 items-center mt-8">
@@ -191,14 +191,11 @@ export default function PricingPage() {
                                 Stop typing it in. Stop checking your inbox.
                             </p>
                             <span className="flex items-end gap-1">
-                                <h2 className="text-3xl line-through font-semibold mt-5 text-on-surface/30">
-                                    $18
-                                </h2>
                                 <h2 className="text-3xl font-semibold mt-5 text-primary">
-                                    $15 AUD
+                                    $90 AUD
                                 </h2>
                                 <h3 className="text-sm text-on-surface/50 font-semibold">
-                                    /month, 6-months
+                                    /for 6 months
                                 </h3>
                             </span>
                             <span className="flex gap-2 items-center mt-8">
