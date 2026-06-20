@@ -87,7 +87,7 @@ export default function LemonButton({ yearly, manage }: BuyButtonProps) {
             onClick={handleUpgrade}
             className="w-full py-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary bg-primary rounded-lg text-on-primary text-center font-medium hover:bg-primary/60 transition-colors"
         >
-            Upgrade to Pro
+            {!user ? 'Sign up/Sign' : 'Upgrade to Pro'}
         </button>
     )
 }

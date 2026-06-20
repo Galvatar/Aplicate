@@ -1,13 +1,16 @@
 import { timeAgo } from "@/lib/timeAgo";
+import { useRouter } from "next/navigation";
 
 
 interface SignalCardProps {
+  id: string;
   company: string;
   title: string;
   timestamp: Date;
 }
 
 export default function SignalCard({
+  id,
   company,
   title,
   timestamp,
@@ -35,6 +38,7 @@ export default function SignalCard({
     "Nov",
     "Dec",
   ];
+  const router = useRouter();
 
   function GetPadded(count: number): string {
     if (count >= 10) {
@@ -45,7 +49,9 @@ export default function SignalCard({
   }
 
   return (
-    <div className="flex rounded-xl border-b border-surface-container justify-between p-5 hover:bg-surface-container-lowest transition-colors duration-500">
+    <div 
+      onClick={() => router.push(`/job/${id}`)}
+      className="flex cursor-pointer rounded-xl border-b border-surface-container justify-between p-5 hover:bg-surface-container-lowest transition-colors duration-500">
       <div className="flex flex-col gap-2">
         <h1 className="text-on-surface">
           {title} <b>{company}</b>

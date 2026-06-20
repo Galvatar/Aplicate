@@ -168,7 +168,7 @@ export default function Home() {
               {applications.length}
             </h1>
             {weekApplications.length > 0 && (
-              <h2 className="flex gap-1 text-sm text-secondary-fixed-dim items-center">
+              <h2 className="flex gap-1 text-sm text-secondary items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
@@ -331,6 +331,7 @@ export default function Home() {
             return (
               <div key={app.id}>
                 <SignalCard
+                  id={app.id!}
                   title={title}
                   company={app.company}
                   timestamp={new Date(app.lastUpdate)}

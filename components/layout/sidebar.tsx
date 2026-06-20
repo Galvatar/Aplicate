@@ -98,7 +98,7 @@ export default function Sidebar() {
               height="24px"
               viewBox="0 -960 960 960"
               width="24px"
-              fill="#e3e3e3"
+              fill="currentColor"
             >
               <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
             </svg>
@@ -266,7 +266,7 @@ export default function Sidebar() {
       <div className="flex-col w-full py-5 px-5 border-t border-surface-container-highest gap-3">
         <div
           onClick={() => router.push("/settings")}
-          className="flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high transition-colors"
+          className={`flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high ${pathname === "/settings" ? 'text-primary font-bold bg-surface-container-high' : ''} transition-colors`}
         >
           <div className="w-7 h-7 items-center justify-center">
             <svg
