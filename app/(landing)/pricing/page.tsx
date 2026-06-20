@@ -52,7 +52,7 @@ export default function PricingPage() {
                 >
                     <h1>Monthly</h1>
                     <ToggleButton disabled={false} status={annual} onChange={setAnnual} />
-                    <h1>Yearly</h1>
+                    <h1>6-Months</h1>
                 </motion.div>
                 <motion.div
                     initial="hidden"
@@ -72,7 +72,7 @@ export default function PricingPage() {
                             </p>
                             <span className="flex items-end gap-1">
                                 <h2 className="text-3xl font-semibold mt-5 text-primary">
-                                    $0 USD
+                                    $0 AUD
                                 </h2>
                                 <h3 className="text-sm text-on-surface/50 font-semibold">
                                     /forever
@@ -136,7 +136,7 @@ export default function PricingPage() {
                             </p>
                             <span className="flex items-end gap-1">
                                 <h2 className="text-3xl font-semibold mt-5 text-primary">
-                                    $12 USD
+                                    $18 AUD
                                 </h2>
                                 <h3 className="text-sm text-on-surface/50 font-semibold">
                                     /month, monthly
@@ -192,13 +192,13 @@ export default function PricingPage() {
                             </p>
                             <span className="flex items-end gap-1">
                                 <h2 className="text-3xl line-through font-semibold mt-5 text-on-surface/30">
-                                    $12
+                                    $18
                                 </h2>
                                 <h2 className="text-3xl font-semibold mt-5 text-primary">
-                                    $10 USD
+                                    $15 AUD
                                 </h2>
                                 <h3 className="text-sm text-on-surface/50 font-semibold">
-                                    /month, yearly
+                                    /month, 6-months
                                 </h3>
                             </span>
                             <span className="flex gap-2 items-center mt-8">

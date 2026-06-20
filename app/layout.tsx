@@ -23,7 +23,7 @@ const jakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Aplicate",
-  description: "Your personal job application tracker",
+  description: "The automated job tracker built for the AU/NZ market.",
   icons: {
     icon: "/icon.png",
   },

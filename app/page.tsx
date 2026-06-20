@@ -65,9 +65,9 @@ export default function Home() {
             variants={fadeInUp}
             className="mt-6 max-w-2xl text-lg md:text-xl text-on-surface-variant font-medium leading-relaxed"
           >
-            The seamless job application tracker built for job hunters. Free
-            forever core features, zero spreadsheet chaos, and absolutely no
-            account required to start.
+            The automated job tracker built for Australia & New Zealand.
+             Clip listings from favorite job boards, sync your Gmail, and update your application
+             dashboard automatically.
           </motion.h2>
 
           {/** Core Call-To-Action (CTA) */}
