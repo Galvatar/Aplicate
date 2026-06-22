@@ -44,6 +44,17 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
+  keywords: [
+    "job applications tracker", 
+    "career board", 
+    "interview tracker", 
+    "aplicate", 
+    "applicate",
+    "student job tracker",
+    "student application tracker",
+    "applications tracker",
+    "email application tracker"
+  ],
 };
 
 export default function RootLayout({
