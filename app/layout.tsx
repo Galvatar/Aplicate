@@ -23,10 +23,26 @@ const jakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Aplicate",
-  description: "The automated job tracker built for the AU/NZ market.",
-  icons: {
-    icon: "/icon.png",
+  metadataBase: new URL('https://yourproductiondomain.com'),
+  title: {
+    default: 'Aplicate | Your Career Companion',
+    template: '%s | Aplicate',
+  },
+  description: 'The global description of your SaaS app for search engines.',
+  openGraph: {
+    title: 'Aplicate',
+    description: 'Your personal job applications tracker with automatic email sync.',
+    url: 'https://aplicate.app',
+    siteName: 'Aplicate',
+    images: [
+      {
+        url: '/lightLogo.png',
+        width: 256,
+        height: 256,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
   },
 };
 

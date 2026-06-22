@@ -59,7 +59,7 @@ export default function Table({ applications }: TableProps) {
   }
 
   return (
-    <div className="flex flex-col items-start gap-3">
+    <div className="flex flex-col items-center gap-3">
         <TableDropdown active={activeCols} onChange={(e) => handleActiveCols(e)} />
         <div className="rounded-3xl border border-outline-variant/10 overflow-y-hidden overflow-x-scroll">
             <table className="w-full h-fit text-left border-collapse">

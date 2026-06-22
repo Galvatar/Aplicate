@@ -4,6 +4,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, Variants } from "framer-motion";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import Image from 'next/image';
+import analyticsLight from '@/public/analytics-light.png';
+import analyticsDark from '@/public/analytics.png';
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -65,9 +68,9 @@ export default function Home() {
             variants={fadeInUp}
             className="mt-6 max-w-2xl text-lg md:text-xl text-on-surface-variant font-medium leading-relaxed"
           >
-            The automated job tracker built for Australia & New Zealand.
-             Clip listings from favorite job boards, sync your Gmail, and update your application
-             dashboard automatically.
+            The automated job tracker built for Australia & New Zealand. Clip
+            listings from favorite job boards, sync your Gmail, and update your
+            application dashboard automatically.
           </motion.h2>
 
           {/** Core Call-To-Action (CTA) */}
@@ -105,13 +108,13 @@ export default function Home() {
           variants={fadeInUp}
           className="p-5 rounded-2xl mt-10 border border-surface-container-highest max-w-5xl mx-auto px-4"
         >
-          <img
-            src={"/analytics-light.png"}
+          <Image
+            src={analyticsLight}
             className="rounded-xl w-full block dark:hidden"
             alt="Aplicate statistics dashboard"
           />
-          <img
-            src={"/analytics.png"}
+          <Image
+            src={analyticsDark}
             className="rounded-xl w-full hidden dark:block"
             alt="Aplicate statistics dashboard"
           />

@@ -9,6 +9,9 @@ import { useUser } from "@/hooks/use-user";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useSettings } from "@/hooks/use-settings";
 import { Settings } from "@/lib/types";
+import Image from 'next/image';
+import lightLogo from '@/public/lightLogo.png';
+import darkLogo from '@/public/darkLogo.png';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -22,13 +25,13 @@ export default function Sidebar() {
   useEffect(() => {
     const settings = getSettings();
     if (settings == null) {
-        // first time user
-        const newSettings: Settings = {
-            active_columns: ["company"]
-        }
-        localStorage.setItem("settings", JSON.stringify(newSettings));
+      // first time user
+      const newSettings: Settings = {
+        active_columns: ["company"],
+      };
+      localStorage.setItem("settings", JSON.stringify(newSettings));
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (user != null) {
@@ -44,10 +47,11 @@ export default function Sidebar() {
     pathname.includes("/api") ||
     pathname === "/" ||
     pathname === "/pricing" ||
-    pathname === "/about" || 
+    pathname === "/about" ||
     pathname === "/privacy" ||
     pathname === "/terms"
-  ) return <></>;
+  )
+    return <></>;
 
   return (
     <div
@@ -66,15 +70,17 @@ export default function Sidebar() {
           className="hidden md:flex gap-3 items-center cursor-pointer"
         >
           <div className="h-15 aspect-square">
-            <img
-              src={"/lightLogo.png"}
+            <Image
+              src={lightLogo}
               className="aspect-square h-full block dark:hidden"
               alt="Aplicate Logo"
+              priority
             />
-            <img
-              src={"/darkLogo.png"}
+            <Image
+              src={darkLogo}
               className="aspect-square h-full hidden dark:block"
               alt="Aplicate Logo"
+              priority
             />
           </div>
           <div className="flex flex-col">
@@ -266,7 +272,7 @@ export default function Sidebar() {
       <div className="flex-col w-full py-5 px-5 border-t border-surface-container-highest gap-3">
         <div
           onClick={() => router.push("/settings")}
-          className={`flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high ${pathname === "/settings" ? 'text-primary font-bold bg-surface-container-high' : ''} transition-colors`}
+          className={`flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high ${pathname === "/settings" ? "text-primary font-bold bg-surface-container-high" : ""} transition-colors`}
         >
           <div className="w-7 h-7 items-center justify-center">
             <svg
@@ -318,10 +324,16 @@ export default function Sidebar() {
           </div>
         )}
         {/** Warning */}
-        {guestMode &&
-        <h1 className="flex items-center mt-3 px-3 text-xs text-error font-semibold text-center">
-          <p><b><u>WARNING:</u></b> Your applications are at risk of being deleted without an account.</p>
-        </h1>}
+        {guestMode && (
+          <h1 className="flex items-center mt-3 px-3 text-xs text-error font-semibold text-center">
+            <p>
+              <b>
+                <u>WARNING:</u>
+              </b>{" "}
+              Your applications are at risk of being deleted without an account.
+            </p>
+          </h1>
+        )}
       </div>
     </div>
   );
