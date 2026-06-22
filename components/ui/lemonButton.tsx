@@ -41,7 +41,7 @@ export default function LemonButton({ yearly, manage }: BuyButtonProps) {
         const checkoutUrl = new URL(`https://aplicate.lemonsqueezy.com/checkout/buy/${variantId}`);
         
         checkoutUrl.searchParams.set('embed', '1');
-        checkoutUrl.searchParams.set('logo', '0');
+        checkoutUrl.searchParams.set('logo', '1');
         checkoutUrl.searchParams.set('discount', '0');
 
         if (!user) {

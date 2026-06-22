@@ -5,6 +5,7 @@ import Sidebar from "@/components/layout/sidebar";
 import { ModalProvider } from "@/components/ui/modal";
 import { SidebarProvider } from "@/hooks/use-sidebar";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -61,6 +62,7 @@ export default function RootLayout({
               </div>
             </div>
           </ModalProvider>
+          <Analytics />
         </SidebarProvider>
       </body>
     </html>

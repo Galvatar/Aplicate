@@ -156,9 +156,9 @@ export default function PricingPage() {
                                 </div>
                                 <h2 className="flex flex-col font-semibold text-left">
                                     Automatic parsing browser extension
-                                    <h3 className="text-xs font-normal text-on-surface/80">
+                                    <p className="text-xs font-normal text-on-surface/80">
                                         One-click capture from any job website, no typing required.
-                                    </h3>
+                                    </p>
                                 </h2>
                             </span>
                             <span className="flex gap-2 items-center mt-4">
@@ -168,9 +168,9 @@ export default function PricingPage() {
                                 </div>
                                 <h2 className="flex flex-col font-semibold text-left">
                                     Email sync integration
-                                    <h3 className="text-xs font-normal text-on-surface/80">
+                                    <p className="text-xs font-normal text-on-surface/80">
                                         Auto-updates your board the moment an employer replies
-                                    </h3>
+                                    </p>
                                 </h2>
                             </span>
                         </div>
@@ -212,9 +212,9 @@ export default function PricingPage() {
                                 </div>
                                 <h2 className="flex flex-col font-semibold text-left">
                                     Automatic parsing browser extension
-                                    <h3 className="text-xs font-normal text-on-surface/80">
+                                    <p className="text-xs font-normal text-on-surface/80">
                                         One-click capture from any job website, no typing required.
-                                    </h3>
+                                    </p>
                                 </h2>
                             </span>
                             <span className="flex gap-2 items-center mt-4">
@@ -224,9 +224,9 @@ export default function PricingPage() {
                                 </div>
                                 <h2 className="flex flex-col font-semibold text-left">
                                     Email sync integration
-                                    <h3 className="text-xs font-normal text-on-surface/80">
+                                    <p className="text-xs font-normal text-on-surface/80">
                                         Auto-updates your board the moment an employer replies
-                                    </h3>
+                                    </p>
                                 </h2>
                             </span>
                         </div>
