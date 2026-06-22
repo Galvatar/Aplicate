@@ -14,20 +14,20 @@ const cspHeader = `
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com', // Allows Google profile pictures
+      },
+    ],
+  },
 
   async headers() {
     return [
       {
         // Apply these headers to all routes in your application
         source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
-        images: {
-          remotePatterns: [
-            {
-              protocol: 'https',
-              hostname: 'lh3.googleusercontent.com', // Allows Google profile pictures
-            },
-          ],
-        },
         headers: [
           {
             key: 'Content-Security-Policy',
