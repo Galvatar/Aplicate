@@ -28,7 +28,8 @@ export const metadata: Metadata = {
     default: 'Aplicate | Job applications tracker',
     template: '%s | Aplicate',
   },
-  description: 'The global description of your SaaS app for search engines.',
+  applicationName: "Aplicate",
+  description: 'The job applications tracker designed for Australians and New-Zealanders.',
   openGraph: {
     title: 'Aplicate',
     description: 'Your personal job applications tracker with automatic email sync.',
@@ -62,11 +63,26 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Aplicate",
+    "alternateName": "Applicate",
+    "url": "https://aplicate.app"
+  };
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${jakartaSans.variable} h-full antialiased`}
     >
+      <head>
+        {/* Inject the JSON-LD invisibly into the head */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex">
         <SidebarProvider>
           <ModalProvider>
