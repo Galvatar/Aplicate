@@ -23,7 +23,7 @@ const jakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://yourproductiondomain.com'),
+  metadataBase: new URL('https://aplicate.app'),
   title: {
     default: 'Aplicate | Job applications tracker',
     template: '%s | Aplicate',
