@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import lightLogo from '@/public/lightLogo.png';
 import darkLogo from '@/public/darkLogo.png';
+import Link from "next/link";
 
 export default function Footer() {
   const router = useRouter();
@@ -36,18 +37,18 @@ export default function Footer() {
         </h2>
       </div>
       <div className="flex gap-10 font-semibold">
-        <button
-          onClick={() => router.push("/privacy")}
+        <Link 
+          href="/privacy" 
           className="hover:text-on-surface-variant"
         >
           Privacy Policy
-        </button>
-        <button
-          onClick={() => router.push("/terms")}
+        </Link>
+        <Link
+          href="/terms"
           className="hover:text-on-surface-variant"
         >
           Terms of Service
-        </button>
+        </Link>
       </div>
     </div>
   );
