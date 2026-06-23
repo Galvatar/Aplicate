@@ -77,7 +77,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${jakartaSans.variable} h-full antialiased`}
     >
       <head>
-        {/* Inject the JSON-LD invisibly into the head */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
