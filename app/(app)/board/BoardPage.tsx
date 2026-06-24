@@ -129,7 +129,7 @@ export default function Board() {
   }
 
   return (
-    <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
+    <div className="flex flex-col w-full h-full font-jakarta py-10 md:py-20 px-5 md:px-15 gap-4 bg-background text-on-background">
       {/** Title */}
       <div className="flex justify-between items-end">
         <div className="flex flex-col">

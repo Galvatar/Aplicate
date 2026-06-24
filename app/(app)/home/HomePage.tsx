@@ -8,7 +8,6 @@ import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
 import { useRouter } from "next/navigation";
 import { useSidebar } from "@/hooks/use-sidebar";
-import { randomBytes } from "crypto";
 
 export default function Home() {
   const today = new Date();
@@ -109,7 +108,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
+    <div className="flex flex-col w-full h-full font-jakarta py-10 md:py-20 px-5 md:px-15 gap-4 bg-background text-on-background">
       <h3 className="text-outline text-sm">
         {daysOfTheWeek[today.getDay()]}, {months[today.getMonth()]}{" "}
         {today.getDate()}
@@ -143,7 +142,7 @@ export default function Home() {
         </h3>
       )}
       {/** Cards */}
-      <div className="grid grid-cols-2 gap-8 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
         {/** Active pipeline */}
         <div className="flex w-full relative flex-col gap-3 hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
           <div className="flex w-full justify-between items-start">
@@ -258,7 +257,7 @@ export default function Home() {
             </div>
           </div>
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700" />
-          <div className="flex flex-col -mt-3">
+          <div className="flex flex-col md:-mt-3">
             {followUpApplications.map((application, idx) => (
               <div
                 onClick={() => router.push(`/job/${application.id}?origin=home`)}
@@ -275,7 +274,7 @@ export default function Home() {
         </div>
       </div>
       {/** Momentum */}
-      <div className="flex flex-col mt-10 gap-3">
+      <div className="hidden md:flex flex-col mt-10 gap-3">
         {/** Title */}
         <div className="flex justify-between items-center">
           <h1 className="font-headline-lg-mobile font-semibold text-headline-lg-mobile text-on-surface">

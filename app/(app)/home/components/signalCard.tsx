@@ -51,7 +51,7 @@ export default function SignalCard({
   return (
     <div 
       onClick={() => router.push(`/job/${id}`)}
-      className="flex cursor-pointer rounded-xl border-b border-surface-container justify-between p-5 hover:bg-surface-container-lowest transition-colors duration-500">
+      className="flex gap-2 cursor-pointer rounded-xl border-b border-surface-container justify-between pb-2 md:p-5 hover:bg-surface-container-lowest transition-colors duration-500">
       <div className="flex flex-col gap-2">
         <h1 className="text-on-surface">
           {title} <b>{company}</b>

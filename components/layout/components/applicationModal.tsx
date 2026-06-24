@@ -62,9 +62,9 @@ export default function ApplicationModal({ app }: ApplicationProps) {
   }
 
   return (
-    <div className="font-jakarta flex flex-col relative h-full w-full max-w-160 rounded-xl border border-outline-variant/10 bg-surface-container text-on-background">
+    <div className="font-jakarta flex flex-col relative h-full w-full md:max-w-160 md:rounded-xl border border-outline-variant/10 bg-surface-container text-on-background">
       {/** Title */}
-      <div className="flex justify-between items-center p-8 border-b border-outline-variant/10">
+      <div className="fixed gap-2 md:relative z-5 bg-surface-container -mt-1 md:mt-0 flex justify-between items-center px-4 py-4 md:p-8 border-b border-outline-variant/10">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold">{app ? 'Update' : 'New'} Application</h1>
           <h2>
@@ -75,9 +75,25 @@ export default function ApplicationModal({ app }: ApplicationProps) {
             }
           </h2>
         </div>
+        <button
+          type="button"
+          disabled={loading}
+          onClick={handleSubmit}
+          className="flex text-nowrap md:hidden px-4 py-2.5 disabled:opacity-50 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary/50 hover:shadow-[0_0_20px_rgba(191,194,255,0.15)] transition-all"
+        >
+          {app ?
+            <h1>
+              {loading ? "Saving..." : "Save"}
+            </h1>
+            :
+            <h1>
+              {loading ? "Adding..." : "+ Add"}
+            </h1>
+          }
+        </button>
         <div
           onClick={() => modal.hide()}
-          className="p-1.5 rounded-full hover:bg-surface-bright transition-colors duration-500"
+          className="hidden md:flex p-1.5 rounded-full hover:bg-surface-bright transition-colors duration-500"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -92,15 +108,13 @@ export default function ApplicationModal({ app }: ApplicationProps) {
       </div>
       {/** Form data */}
       <form
-        className="flex flex-col overflow-scroll items-center p-8 gap-8"
+        className="flex md:mt-0 mt-30 flex-col overflow-scroll items-center p-8 gap-5 md:gap-8"
       >
-        <h1 className="flex font-bold text-xs gap-1 w-full text-left text-on-surface/50">
-          Fields marked with
-          <p className="text-red-500">*</p>
-          are mandatory, all else are optional.
-        </h1>
+        <h1 className="font-bold text-xs w-full text-left text-on-surface/50">
+        Fields marked with <span className="text-red-500">*</span> are mandatory, all else are optional.
+      </h1>
         {/** First line */}
-        <div className="flex w-full gap-5">
+        <div className="flex flex-col md:flex-row w-full gap-5">
           {/** Company */}
           <div className="flex w-full flex-col gap-3">
             <h1 className="flex font-bold text-sm">
@@ -153,7 +167,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
           </div>
         </div>
         {/** Second line */}
-        <div className="flex w-full gap-5">
+        <div className="flex flex-col md:flex-row w-full gap-5">
           {/** Location */}
           <div className="flex w-full flex-col gap-3">
             <h1 className="font-bold text-sm">Location</h1>
@@ -200,7 +214,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
           </div>
         </div>
         {/** Third line */}
-        <div className="flex w-full gap-5">
+        <div className="flex flex-col md:flex-row w-full gap-5">
           {/** Main Contact */}
           <div className="flex w-full flex-col gap-3">
             <h1 className="font-bold text-sm">Main Contact Details</h1>
@@ -231,7 +245,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
           </div>
         </div>
         {/** Fourth line */}
-        <div className="flex w-full gap-5">
+        <div className="flex flex-col md:flex-row w-full gap-5">
           {/** Closing date */}
           <div className="flex w-full flex-col gap-3">
             <h1 className="font-bold text-sm">Closing Date</h1>
@@ -429,7 +443,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         </h4>
       </form>
       {/** Buttons */}
-      <div className="flex justify-between items-center p-8 border-t border-outline-variant/10 gap-4">
+      <div className="hidden md:flex justify-between items-center p-8 border-t border-outline-variant/10 gap-4">
         {!app ?
         <div></div>
         :
@@ -446,7 +460,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
           <button
             type="button"
             onClick={() => modal.hide()}
-            className="px-6 py-2.5 rounded-lg text-sm font-bold text-on-surface-variant hover:text-on-background hover:bg-surface-container-high transition-all"
+            className="flex px-6 py-2.5 rounded-lg text-sm font-bold text-on-surface-variant hover:text-on-background hover:bg-surface-container-high transition-all"
           >
             Cancel
           </button>

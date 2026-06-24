@@ -6,6 +6,7 @@ import { ModalProvider } from "@/components/ui/modal";
 import { SidebarProvider } from "@/hooks/use-sidebar";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
+import MobileNavbar from "@/components/layout/mobileNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -85,12 +86,12 @@ export default function RootLayout({
       <body className="min-h-full flex">
         <SidebarProvider>
           <ModalProvider>
-            <div className="flex w-full md:hidden items-center justify-center text-center">
+            {/* <div className="flex w-full md:hidden items-center justify-center text-center">
               <h1>
                 This website is best viewed on desktop sorry for the inconvenience.
               </h1>
-            </div>
-            <div className="hidden md:flex h-screen w-screen overflow-hidden">
+            </div> */}
+            <div className="flex h-screen w-screen overflow-hidden">
               <Sidebar />
               <div className="flex-1 flex flex-col h-full overflow-y-auto bg-background ">
                 <div className="flex-1">
@@ -100,7 +101,8 @@ export default function RootLayout({
                     strategy="afterInteractive"
                   />
                 </div>
-                <div className="h-0 w-full shrink-0" aria-hidden="true" />
+                <div className="h-15 md:h-0 w-full shrink-0" aria-hidden="true" />
+                <MobileNavbar />
               </div>
             </div>
           </ModalProvider>

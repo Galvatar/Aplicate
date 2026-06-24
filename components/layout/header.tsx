@@ -10,7 +10,7 @@ export default function Header() {
   const { user, loading } = useUser();
 
   return (
-    <div className="grid grid-cols-3 items-center fixed w-full bg-background top-0 z-10 py-4 px-20 h-full max-h-20 border-b border-b-surface-container-high">
+    <div className="grid grid-cols-3 items-center fixed w-full bg-background top-0 z-10 py-4 px-5 md:px-10 lg:px-20 h-full max-h-20 border-b border-b-surface-container-high">
       <span
         onClick={() => router.push("/")}
         className="flex gap-2 items-center cursor-pointer justify-self-start"
@@ -34,7 +34,7 @@ export default function Header() {
         </h1>
       </span>
 
-      <div className="flex gap-15 tracking-tight text-lg font-medium items-center justify-self-center">
+      <div className="hidden md:flex gap-15 tracking-tight text-lg font-medium items-center justify-self-center">
         <button
           onClick={() => router.push("/")}
           className={`h-fit ${pathname === "/" ? "font-extrabold text-primary border-b-3 border-primary" : "hover:text-on-surface-variant"} transition-colors`}
@@ -55,7 +55,7 @@ export default function Header() {
         </button>
       </div>
 
-      <div className="flex gap-5 font-semibold items-center justify-self-end">
+      <div className="hidden md:flex gap-5 font-semibold items-center justify-self-end">
         {loading ? (
           <div className="w-32 h-10 bg-surface-container-high/60 animate-pulse rounded-full" />
         ) : user ? (
@@ -75,7 +75,7 @@ export default function Header() {
             </button>
             <button
               onClick={() => router.push("/signup")}
-              className="px-8 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary transition-colors shadow-lg shadow-primary/30"
+              className="lg:flex hidden px-8 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary transition-colors shadow-lg shadow-primary/30"
             >
               Start Tracking (Free)
             </button>

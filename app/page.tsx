@@ -30,7 +30,7 @@ export default function Home() {
       <Header />
 
       {/** Body */}
-      <div className="flex relative flex-col items-center ">
+      <div className="flex relative flex-col px-3 items-center ">
         <span className="" />
 
         {/** Landing card (Hero Section) - ANIMATES ON INITIAL PAGE LOAD */}
@@ -38,7 +38,7 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="flex flex-col items-center pt-40 pb-20 text-center relative max-w-5xl mx-auto px-4"
+          className="flex flex-col items-center pt-25 md:pt-40 pb-20 text-center relative max-w-5xl mx-auto px-4"
         >
           {/* Ambient background glow */}
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-62.5 bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
@@ -135,7 +135,7 @@ export default function Home() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="flex max-w-4/5 flex-col gap-6"
+          className="flex md:max-w-4/5 flex-col gap-6"
         >
           {/** Row 1: Workspace & Migration */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -196,12 +196,12 @@ export default function Home() {
                   instantly populate your board in seconds.
                 </p>
               </div>
-              <div className="flex gap-2 items-center border border-dashed border-surface-container-highest p-4 bg-surface-container-lowest rounded-lg mt-8">
+              <div className="flex items-center border border-dashed border-surface-container-highest p-4 bg-surface-container-lowest rounded-lg mt-8">
                 <span className="text-xs font-mono text-on-surface-variant/60">
                   my_tracker.csv
                 </span>
-                <div className="flex-1 h-px bg-dashed bg-surface-container-highest mx-2" />
-                <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-bold">
+                <div className="flex-1 h-px bg-dashed bg-surface-container-highest mx-1 md:mx-2" />
+                <span className="text-nowrap px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-bold">
                   Imported ✓
                 </span>
               </div>
@@ -314,14 +314,14 @@ export default function Home() {
           className="flex flex-col items-center gap-3 relative overflow-hidden py-24"
         >
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full hero-gradient pointer-events-none" />
-          <h1 className="font-bold text-2xl">
+          <h1 className="font-bold text-2xl text-center">
             Ready to clear the job search chaos?
           </h1>
           <p className="text-center max-w-160 text-on-surface-variant">
             Ditch the tabs, the notes, and the chaotic bookmarks. Start tracking
             your next big move in seconds.
           </p>
-          <div className="flex items-center gap-3 mt-3">
+          <div className="flex flex-col md:flex-row items-center gap-3 mt-3">
             <button
               onClick={() => router.push("/home")}
               className="px-8 mt-3 py-3 font-semibold text-sm rounded-full h-full bg-primary hover:bg-primary-container text-on-primary transition-colors shadow-xl shadow-primary/30"

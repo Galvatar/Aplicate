@@ -8,7 +8,7 @@ export default function Footer() {
   const router = useRouter();
 
   return (
-    <div className="flex items-center bg-surface-container-lowest justify-between px-20 py-10">
+    <div className="flex md:flex-row flex-col gap-3 md:items-center bg-surface-container-lowest justify-between px-5 md:px-20 py-5 md:py-10">
       <div className="flex flex-col gap-3">
         <span
           onClick={() => router.push("/")}
@@ -36,7 +36,7 @@ export default function Footer() {
           © 2026 Aplicate. Your career companion.
         </h2>
       </div>
-      <div className="flex gap-10 font-semibold">
+      <div className="flex md:flex-row flex-col gap-3 md:gap-10 font-semibold">
         <Link 
           href="/privacy" 
           className="hover:text-on-surface-variant"
