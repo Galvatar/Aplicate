@@ -11,6 +11,10 @@ export default function Board() {
 
   const [lists, setLists] = useState<Record<string, Application[]>>({});
   const [search, setSearch] = useState("");
+  
+  // Track the application object globally during a drag session
+  const [draggedApplication, setDraggedApplication] = useState<Application | null>(null);
+
   const searchedApplications = initialApplications
     .filter((app) => {
       if (search === "") return true;
@@ -44,28 +48,28 @@ export default function Board() {
   }, [initialApplications, search]);
 
   useEffect(() => {
-    if (loading) return
-    getApplications().then(setInitialApplications)
-  }, [loading])
+    if (loading) return;
+    getApplications().then(setInitialApplications);
+  }, [loading]);
 
   const handleDragStart = (
     e: React.DragEvent,
     listKey: string,
-    applicationId: string,
+    application: Application,
   ) => {
-    // 1. Check if the ID is already missing before the drag even begins!
-    console.log("🚀 Drag starting for ID:", applicationId, "from list:", listKey);
+    console.log("🚀 Drag starting for ID:", application.id, "from list:", listKey);
     
-    if (!applicationId) {
-      console.error("❌ Cannot start drag: applicationId is undefined or null! Check your database object properties.");
+    if (!application.id) {
+      console.error("❌ Cannot start drag: applicationId is undefined or null!");
       return;
     }
 
+    // Store the application reference for live ghost previews
+    setDraggedApplication(application);
+
     e.dataTransfer.effectAllowed = "move";
-    
-    // 2. CRUCIAL: Use kebab-case (lowercase with hyphens) to prevent browser normalization bugs
     e.dataTransfer.setData("source-list-key", listKey);
-    e.dataTransfer.setData("application-id", String(applicationId)); // Explicitly coerce to string
+    e.dataTransfer.setData("application-id", String(application.id));
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -73,47 +77,60 @@ export default function Board() {
     e.dataTransfer.dropEffect = "move";
   };
 
-  const handleDrop = (e: React.DragEvent, targetListKey: string) => {
+  // Clear global tracking states if a card is dropped out of bounds
+  const handleDragEnd = () => {
+    setDraggedApplication(null);
+  };
+
+  // Updated to accept the dynamic insertion index from ListCard
+  const handleDrop = (e: React.DragEvent, targetListKey: string, targetIndex: number) => {
     e.preventDefault();
+    setDraggedApplication(null); // Clean up layout tracking
     
-    // 3. Read using the corrected lowercase hyphenated keys
     const sourceListKey = e.dataTransfer.getData("source-list-key");
     const applicationId = e.dataTransfer.getData("application-id");
     
-    console.log("📥 Dropped onto:", targetListKey, "| Extracted ID:", applicationId, "| From:", sourceListKey);
+    console.log(`📥 Dropped onto: ${targetListKey} at index: ${targetIndex} | ID: ${applicationId}`);
 
     if (!applicationId || !sourceListKey) {
       console.error("❌ Drop failed: Lost track of dataTransfer variables during transport.");
       return;
     }
 
-    if (sourceListKey === targetListKey) return;
-
-    const sourceList = lists[sourceListKey as keyof typeof lists];
-    if (!sourceList) {
-      console.error(`❌ Source list "${sourceListKey}" not found in state.`);
-      return;
-    }
+    const sourceList = lists[sourceListKey];
+    if (!sourceList) return;
 
     const application = sourceList.find((app) => String(app.id) === applicationId);
-
-    if (!application) {
-      console.error(`❌ Application with ID "${applicationId}" not found in source list.`);
-      return;
-    }
+    if (!application) return;
     
-    updateStatus(application, targetListKey);
+    // Only update backend status schema if it actually changed columns
+    if (sourceListKey !== targetListKey) {
+      updateStatus(application, targetListKey);
+    }
 
-    setLists((prev) => ({
-      ...prev,
-      [sourceListKey]: prev[sourceListKey as keyof typeof prev].filter(
-        (app) => String(app.id) !== applicationId,
-      ),
-      [targetListKey]: [
-        ...prev[targetListKey as keyof typeof prev],
-        application,
-      ],
-    }));
+    setLists((prev) => {
+      const updatedLists = { ...prev };
+
+      // 1. Cleanly pull the target element out of its origin array position
+      const filteredSource = updatedLists[sourceListKey].filter(
+        (app) => String(app.id) !== applicationId
+      );
+
+      if (sourceListKey === targetListKey) {
+        // Intra-list sorting: Splicing into the modified same column
+        filteredSource.splice(targetIndex, 0, application);
+        updatedLists[sourceListKey] = filteredSource;
+      } else {
+        // Inter-list sorting: Update source column, slice into target column position
+        updatedLists[sourceListKey] = filteredSource;
+        
+        const targetList = [...(updatedLists[targetListKey] || [])];
+        targetList.splice(targetIndex, 0, application);
+        updatedLists[targetListKey] = targetList;
+      }
+
+      return updatedLists;
+    });
   };
 
   async function updateStatus(application: Application, status: string) {
@@ -121,7 +138,7 @@ export default function Board() {
     application.status = stat;
     const index = application.journey.indexOf(status);
     if (index != -1) {
-      application.journey = application.journey.slice(0, index+status.length)
+      application.journey = application.journey.slice(0, index+status.length);
     } else {
       application.journey = application.journey.concat(`,${status}`);
     }
@@ -137,39 +154,11 @@ export default function Board() {
             My Board
           </h1>
           <h2 className="text-on-surface-variant max-w-2xl">
-            A calm space to organise your career journey. Focus on the next
-            step.
+            A calm space to organise your career journey. Focus on the next step.
           </h2>
         </div>
-        <div className="flex gap-3">
-          {/* <button className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant font-bold text-sm hover:bg-surface-container transition-colors duration-300">
-            <svg
-              className="text-outline"
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="currentColor"
-            >
-              <path d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z" />
-            </svg>
-            Filter
-          </button>
-          <button className="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant font-bold text-sm hover:bg-surface-container transition-colors duration-300">
-            <svg
-              className="text-outline"
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="currentColor"
-            >
-              <path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z" />
-            </svg>
-            Sort
-          </button> */}
-        </div>
       </div>
+      
       {/** Search bar */}
       <div className="relative w-full mt-5">
         <svg
@@ -190,17 +179,24 @@ export default function Board() {
           className="w-full bg-surface-container text-on-surface outline-none border-none rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-50"
         />
       </div>
-      <div className="flex-1 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start content-start">
+
+      {/** Board Grid */}
+      <div 
+        className="flex-1 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start content-start"
+        onDragEnd={handleDragEnd}
+      >
         {Object.entries(lists).map(([listKey, applications]) => (
           <ListCard
             key={listKey}
             title={listKey}
             applications={applications}
+            draggedApplication={draggedApplication} // Sends active tracker object downstream
             onDragOver={handleDragOver}
-            onDrop={(e) => handleDrop(e, listKey)}
-            onCardDragStart={(appId) => (e: React.DragEvent) =>
-              handleDragStart(e, listKey, appId)
-            }
+            onDrop={(e, index) => handleDrop(e, listKey, index)} // Captures the exact destination split
+            onCardDragStart={(appId) => (e: React.DragEvent) => {
+              const targetApp = applications.find((a) => a.id === appId);
+              if (targetApp) handleDragStart(e, listKey, targetApp);
+            }}
           />
         ))}
       </div>
