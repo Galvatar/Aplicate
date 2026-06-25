@@ -77,7 +77,7 @@ export default function JobPage() {
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-10 px-5 md:px-15 gap-10 bg-background text-on-background">
       {/** Top band */}
-      <div className="flex md:flex-row flex-col gap-5 justify-between items-center">
+      <div className="flex md:flex-row flex-col gap-5 justify-between md:items-center">
         <div className="flex flex-col gap-5">
           <button
             onClick={() => router.push(`/${origin}`)}
@@ -103,13 +103,13 @@ export default function JobPage() {
               <h2 className="flex flex-col text-on-surface mb-2 font-bold">
                 {application.title}
               </h2>
-              <h3 className="flex text-on-surface-variant items-center gap-2">
+              <h3 className="flex md:flex-row flex-col text-on-surface-variant md:items-center gap-2">
                 {application.company}
-                <span className="w-1 h-1 rounded-full bg-outline-variant" />
+                <span className="hidden md:flex w-1 h-1 rounded-full bg-outline-variant" />
                 <div className="h-5">
                   <Rating editable={false} app={application} />
                 </div>
-                <span className="w-1 h-1 rounded-full bg-outline-variant" />
+                <span className="hidden md:flex w-1 h-1 rounded-full bg-outline-variant" />
                 <span className="flex items-center gap-1">
                   <svg
                     className="material-symbols-outlined text-body-lg"
