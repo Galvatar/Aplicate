@@ -26,7 +26,8 @@ export default function ApplicationModal({ app }: ApplicationProps) {
     lastUpdate: new Date(),
     journey: '',
     rating: 0,
-    followUpDate: future
+    followUpDate: future,
+    autoUpdated: false
   };
   const modal = useModal();
   const storage = useApplications();

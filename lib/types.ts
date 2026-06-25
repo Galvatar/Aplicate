@@ -25,6 +25,7 @@ export interface Application {
     rating: number
     closingDate?: Date | null
     followUpDate?: Date | null
+    autoUpdated: boolean
 }
 
 export enum Status {

@@ -37,8 +37,8 @@ export default function ApplicationCard({
       className="bg-surface-container-low hover:bg-surface-container-highest transition-all duration-300 rounded-xl p-4 border border-outline-variant/10 flex flex-col gap-3 group cursor-move relative overflow-hidden hover:shadow-lg"
     >
       <div className="absolute inset-0 bg-linear-to-br from-white/2 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-      <h2 className="text-xl text-on-surface font-bold leading-tight">
-        {application.title}
+      <h2 className="flex items-center gap-2 text-xl text-on-surface font-bold leading-tight">
+        {application.autoUpdated && <div className="w-3 h-3 bg-primary rounded-full" />} {application.title}
       </h2>
       <h3 className="text-on-surface-variant font-semibold text-sm">
         {application.company}

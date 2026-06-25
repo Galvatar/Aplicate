@@ -166,6 +166,8 @@ export default function SettingsPage() {
         maxPay: row.maxPay ? Number(row.maxPay) : undefined,
         currency: row.currency || undefined,
         rating: row.rating ? parseInt(row.rating, 10) : 0,
+
+        autoUpdated: false
       });
     }
 

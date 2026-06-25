@@ -148,6 +148,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                 rating: row.rating ? parseInt(row.rating, 10) : 0,
                 closingDate: row.closingDate ? new Date(row.closingDate) : undefined,
                 followUpDate: row.followUpDate ? new Date(row.followUpDate) : undefined,
+                autoUpdated: false
             });
         }
         return applications;

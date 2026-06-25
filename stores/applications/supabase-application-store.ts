@@ -24,6 +24,12 @@ export class SupabaseApplicationStore implements ApplicationStoreInterface {
             .select('*')
             .eq('id', id)
             .single()
+        var app = data as Application;
+        app.autoUpdated = false;
+        await this.client
+            .from('Applications')
+            .update(app)
+            .eq('id', app.id)
         if (error) {
             console.error("Supabase fetch failed for ID:", id, error); 
             return undefined;
