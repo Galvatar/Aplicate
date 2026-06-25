@@ -13,6 +13,7 @@ import UploadSection from "./components/uploadSection";
 import { useRouter } from "next/navigation";
 import LemonButton from "@/components/ui/lemonButton";
 import Image from 'next/image';
+import { signOut } from "@/lib/auth";
 
 export default function SettingsPage() {
   const [userProfile, setUserProfile] = useState<User | null>();
@@ -237,22 +238,45 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
-      <h1 className="text-4xl font-bold text-on-surface tracking-tight">
-        Settings
-      </h1>
-      <div className="flex flex-col mt-5 ml-5 gap-5">
+    <div className="flex flex-col w-full h-full font-jakarta py-10 md:py-20 px-5 md:px-15 gap-4 bg-background text-on-background">
+      
+      <span className="flex items-center justify-between">
+        <h1 className="text-4xl font-bold text-on-surface tracking-tight">
+            Settings
+        </h1>
+        {userProfile ?
+        <button
+            onClick={async () => {
+                await signOut();
+                router.push("/home");
+            }}
+            className="flex md:hidden font-semibold bg-primary-container text-on-primary-container px-4 py-1.5 rounded-lg shadow-md shadow-primary-container/50"
+        >
+            Sign out
+        </button>
+        :
+        <button
+            onClick={async () => {
+                router.push("/login");
+            }}
+            className="flex md:hidden font-semibold bg-primary-container text-on-primary-container px-4 py-1.5 rounded-lg shadow-md shadow-primary-container/50"
+        >
+            Sign in
+        </button>
+        }
+      </span>
+      <div className="flex flex-col mt-5 md:ml-5 gap-5">
         {/** Profile */}
         <div className="flex gap-3">
           <div className="flex gap-3">
             {userProfile?.user_metadata.picture != undefined ? (
               <Image
-                className="w-30 h-30 rounded-2xl"
+                className="w-15 md:w-30 h-15 md:h-30 rounded-2xl"
                 src={userProfile.user_metadata.picture}
                 alt="User profile picture"
               />
             ) : (
-              <div className="flex w-30 h-30 items-center justify-center bg-surface-container-high rounded-2xl">
+              <div className="flex w-15 h-15 md:w-30 md:h-30 items-center justify-center bg-surface-container-high rounded-2xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="72px"
@@ -269,7 +293,7 @@ export default function SettingsPage() {
             <h1 className="text-3xl font-bold text-on-surface tracking-tight">
               {userProfile ? capitalize(fullName) : "Guest"}
             </h1>
-            <h2 className="text-on-surface-variant font-bold tracking-tight">
+            <h2 className="text-on-surface-variant font-bold tracking-tight break-all">
               {userProfile?.user_metadata.email}
             </h2>
             {/** Premium tag */}
@@ -306,7 +330,7 @@ export default function SettingsPage() {
         </div>
 
         {/** Integrations */}
-        <div className="flex relative flex-col gap-3">
+        <div className="hidden md:flex relative flex-col gap-3">
           {!proUser && (
             <div className="flex flex-col absolute w-full h-full z-10 bg-surface-container/80 rounded-xl items-center justify-center text-on-surface gap-3">
               <div className="flex items-center gap-3 text-2xl font-bold">
@@ -417,7 +441,7 @@ export default function SettingsPage() {
               These actions are permanent and cannot be undone. Please be
               certain before proceeding.
             </p>
-            <div className="flex pt-5 gap-5">
+            <div className="flex flex-col md:flex-row pt-5 gap-5">
               <div className="flex flex-col border border-surface-container-highest p-3 rounded-xl items-start gap-3">
                 <h1 className="font-semibold text-lg">Reset My Data</h1>
                 <p>

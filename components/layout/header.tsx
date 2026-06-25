@@ -54,14 +54,15 @@ export default function Header() {
           About
         </button>
       </div>
+      <div className="flex md:hidden" />
 
-      <div className="hidden md:flex gap-5 font-semibold items-center justify-self-end">
+      <div className="flex gap-5 font-semibold items-center justify-self-end">
         {loading ? (
           <div className="w-32 h-10 bg-surface-container-high/60 animate-pulse rounded-full" />
         ) : user ? (
           <button
             onClick={() => router.push("/home")}
-            className="px-8 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary transition-colors shadow-lg shadow-primary/30"
+            className="hidden md:flex px-8 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary transition-colors shadow-lg shadow-primary/30"
           >
             Go To Dashboard
           </button>

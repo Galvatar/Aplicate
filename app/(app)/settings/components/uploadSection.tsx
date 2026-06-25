@@ -155,7 +155,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
     if (uploaded) {
         return (
-            <div className="flex flex-col gap-3">
+            <div className="hidden md:flex flex-col gap-3">
                 <h1 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight">
                     <svg className="text-primary" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor">
                         <path d="M440-200h80v-167l64 64 56-57-160-160-160 160 57 56 63-63v167ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
@@ -174,7 +174,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
 
     return (
-        <div className="flex flex-col gap-3">
+        <div className="hidden md:flex flex-col gap-3">
             <h1 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight">
                 <svg className="text-primary" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor">
                     <path d="M440-200h80v-167l64 64 56-57-160-160-160 160 57 56 63-63v167ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />

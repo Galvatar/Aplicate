@@ -55,7 +55,7 @@ export function ModalProvider({ children }: { children: ReactNode }) {
       {children}
       {isOpen && (
         <div
-          className={`fixed p-10 inset-0 z-50 flex items-center justify-center bg-surface/50 backdrop-blur-xs transition-opacity duration-300 ease-out ${
+          className={`fixed md:p-10 inset-0 z-50 flex items-center justify-center bg-surface/50 backdrop-blur-xs transition-opacity duration-300 ease-out ${
             isVisible ? "opacity-100" : "opacity-0"
           }`}
           onClick={hide}
