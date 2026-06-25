@@ -349,7 +349,7 @@ export default function JobPage() {
                   <h4 className="text-on-surface font-semibold">Applied</h4>
                   <h5>
                     {getPadding(new Date(application.applied).getDate())}/
-                    {getPadding(new Date(application.applied).getMonth())}/
+                    {getPadding(new Date(application.applied).getMonth()+1)}/
                     {new Date(application.applied).getFullYear()}
                   </h5>
                 </div>
@@ -372,7 +372,7 @@ export default function JobPage() {
                   <h4 className="text-on-surface font-semibold">Last Update</h4>
                   <h5>
                     {getPadding(new Date(application.lastUpdate).getDate())}/
-                    {getPadding(new Date(application.lastUpdate).getMonth())}/
+                    {getPadding(new Date(application.lastUpdate).getMonth()+1)}/
                     {new Date(application.lastUpdate).getFullYear()}
                   </h5>
                 </div>
@@ -397,7 +397,7 @@ export default function JobPage() {
                   </h4>
                   <h5>
                     {getPadding(new Date(application.closingDate).getDate())}/
-                    {getPadding(new Date(application.closingDate).getMonth())}/
+                    {getPadding(new Date(application.closingDate).getMonth()+1)}/
                     {new Date(application.closingDate).getFullYear()}
                   </h5>
                 </div>
@@ -420,7 +420,7 @@ export default function JobPage() {
                   <h4 className="text-on-surface font-semibold">Follow-Up</h4>
                   <h5>
                     {getPadding(new Date(application.followUpDate).getDate())}/
-                    {getPadding(new Date(application.followUpDate).getMonth())}/
+                    {getPadding(new Date(application.followUpDate).getMonth()+1)}/
                     {new Date(application.followUpDate).getFullYear()}
                   </h5>
                 </div>
