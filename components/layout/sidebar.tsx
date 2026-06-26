@@ -41,18 +41,19 @@ export default function Sidebar() {
     }
   }, [user]);
 
-  if (
-    pathname === "/signup" ||
-    pathname === "/login" ||
-    pathname.includes("/api") ||
-    pathname === "/" ||
-    pathname === "/pricing" ||
-    pathname === "/about" ||
-    pathname === "/privacy" ||
-    pathname === "/terms" ||
-    pathname === "/refund"
-  )
-    return <></>;
+  const excludeList = [
+    "/signup",
+    "/login",
+    "/api",
+    "/",
+    "/pricing",
+    "/about",
+    "/privacy",
+    "/terms",
+    "/refund"
+  ]
+
+  if (excludeList.includes(pathname)) return <></>;
 
   return (
     <div
