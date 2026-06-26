@@ -12,8 +12,8 @@ interface BuyButtonProps {
 
 
 export default function PaddleButton({ yearly, manage }: BuyButtonProps) {
-    const { user, subscription, isProUser } = useUser();
-    const [isPro, setIsPro] = useState(false);
+    const { subscription, isProUser } = useUser();
+    const [isPro, setIsPro] = useState(true);
     const [isPaddleReady, setIsPaddleReady] = useState(false);
     const router = useRouter();
     const paddleToken = process.env.NEXT_PUBLIC_PADDLE_TOKEN ?? "";
@@ -39,30 +39,30 @@ export default function PaddleButton({ yearly, manage }: BuyButtonProps) {
     }
   };
 
-  const openCheckout = () => {
-    const priceId = yearly ? 'pri_01kw0kc6fff7rf8y0dqfxzj9vh' : 'pri_01kw0kd93jv2jazwb0sbewqh8n';
+    const openCheckout = () => {
+        // const priceId = yearly ? 'pri_01kw0kc6fff7rf8y0dqfxzj9vh' : 'pri_01kw0kd93jv2jazwb0sbewqh8n';
 
-    if (!user || user == null || user == undefined) router.push('/signup');
-    
-    if (typeof window !== 'undefined' && (window as any).Paddle) {
-        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // if (!user || user == null || user == undefined) router.push('/signup');
+        
+        // if (typeof window !== 'undefined' && (window as any).Paddle) {
+        //     const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-        (window as any).Paddle.Checkout.open({
-        settings: {
-            displayMode: 'overlay',
-            theme: isDarkMode ? 'dark' : 'light',
-        },
-        items: [
-            {
-                priceId: priceId,
-                quantity: 1,
-            },
-        ],
-        customData: {
-            user_id: String(user!.id), 
-        }
-        });
-    }
+        //     (window as any).Paddle.Checkout.open({
+        //     settings: {
+        //         displayMode: 'overlay',
+        //         theme: isDarkMode ? 'dark' : 'light',
+        //     },
+        //     items: [
+        //         {
+        //             priceId: priceId,
+        //             quantity: 1,
+        //         },
+        //     ],
+        //     customData: {
+        //         user_id: String(user!.id), 
+        //     }
+        //     });
+        // }
     };
 
     useEffect(() => {
@@ -102,7 +102,8 @@ export default function PaddleButton({ yearly, manage }: BuyButtonProps) {
                 onClick={openCheckout}
                 className="w-full py-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary bg-primary rounded-lg text-on-primary text-center font-medium hover:bg-primary/60 transition-colors"
             >
-                {!user ? 'Sign up/Sign' : 'Upgrade to Pro'}
+                {/* {!user ? 'Sign up/Sign' : 'Upgrade to Pro'} */}
+                Coming soon...
             </button>
         </div>
     )
