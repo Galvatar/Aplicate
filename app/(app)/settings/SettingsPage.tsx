@@ -11,8 +11,8 @@ import DeleteApplications from "@/components/layout/components/deleteApplication
 import DeleteUser from "@/components/layout/components/deleteUser";
 import UploadSection from "./components/uploadSection";
 import { useRouter } from "next/navigation";
-import LemonButton from "@/components/ui/lemonButton";
-import Image from 'next/image';
+import LemonButton from "@/components/ui/paddleButton";
+import Image from "next/image";
 import { signOut } from "@/lib/auth";
 
 export default function SettingsPage() {
@@ -24,6 +24,21 @@ export default function SettingsPage() {
   const modal = useModal();
   const router = useRouter();
   const { user, subscription, isProUser } = useUser();
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   useEffect(() => {
     const handleOAuthMessage = (event: MessageEvent) => {
@@ -100,80 +115,6 @@ export default function SettingsPage() {
     return result;
   }
 
-  /**
-   * Native CSV Parser that requires zero external libraries.
-   */
-  const parseApplicationsCSV = async (
-    csvInput: string | File,
-    currentUserId: string,
-  ): Promise<Application[]> => {
-    // 1. Read the input natively (Browser handles the File API seamlessly)
-    const csvText =
-      typeof csvInput === "string" ? csvInput : await csvInput.text();
-
-    // 2. Split text into lines, handling both Windows (\r\n) and Mac/Linux (\n)
-    const lines = csvText.split(/\r?\n/).filter((line) => line.trim() !== "");
-
-    if (lines.length < 2) return [];
-
-    // 3. Extract and normalize headers
-    const headers = parseCSVLine(lines[0]);
-
-    const applications: Application[] = [];
-
-    // 4. Map the remaining rows
-    for (let i = 1; i < lines.length; i++) {
-      const rowValues = parseCSVLine(lines[i]);
-      const row: Record<string, string> = {};
-
-      // Map values to their corresponding header keys
-      headers.forEach((header, index) => {
-        row[header] = rowValues[index] || "";
-      });
-
-      applications.push({
-        id: crypto.randomUUID(),
-        userId: currentUserId,
-        title: row.title || "Unknown Title",
-        company: row.company || "Unknown Company",
-        employmentType: row.employmentType || undefined,
-        foundOn: row.foundOn || undefined,
-
-        // Cast the string to the Status enum safely. Fallback to Apply if invalid.
-        status: Object.values(Status).includes(row.status as Status)
-          ? (row.status as Status)
-          : Status.Apply,
-
-        location: row.location || undefined,
-
-        // Native JS Date handles ISO 8601 strings perfectly
-        applied: row.applied ? new Date(row.applied) : new Date(),
-        lastUpdate: row.lastUpdate ? new Date(row.lastUpdate) : new Date(),
-        closingDate: row.closingDate ? new Date(row.closingDate) : new Date(),
-        followUpDate: row.followUpDate
-          ? new Date(row.followUpDate)
-          : new Date(),
-
-        journey: row.journey || row.status || "Apply",
-        notes: row.notes || undefined,
-        jobDescription: row.jobDescription || undefined,
-        pay: row.pay || undefined,
-        url: row.url || undefined,
-        mainContact: row.mainContact || undefined,
-
-        // Handle numbers cleanly
-        minPay: row.minPay ? Number(row.minPay) : undefined,
-        maxPay: row.maxPay ? Number(row.maxPay) : undefined,
-        currency: row.currency || undefined,
-        rating: row.rating ? parseInt(row.rating, 10) : 0,
-
-        autoUpdated: false
-      });
-    }
-
-    return applications;
-  };
-
   const handleConnect = async () => {
     const res = await fetch("/api/account/isPremium");
     if (res.status != 200) return;
@@ -239,38 +180,42 @@ export default function SettingsPage() {
     }
   }
 
+  function formatDate(date: string): string {
+    const expire = new Date(date);
+    return `${expire.getDay()} ${months[expire.getMonth()]}, ${expire.getFullYear()}`
+  }
+
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-10 md:py-20 px-5 md:px-15 gap-4 bg-background text-on-background">
-      
       <span className="flex items-center justify-between">
         <h1 className="text-4xl font-bold text-on-surface tracking-tight">
-            Settings
+          Settings
         </h1>
-        {userProfile ?
-        <button
+        {userProfile ? (
+          <button
             onClick={async () => {
-                await signOut();
-                router.push("/home");
+              await signOut();
+              router.push("/home");
             }}
             className="flex md:hidden font-semibold bg-primary-container text-on-primary-container px-4 py-1.5 rounded-lg shadow-md shadow-primary-container/50"
-        >
+          >
             Sign out
-        </button>
-        :
-        <button
+          </button>
+        ) : (
+          <button
             onClick={async () => {
-                router.push("/login");
+              router.push("/login");
             }}
             className="flex md:hidden font-semibold bg-primary-container text-on-primary-container px-4 py-1.5 rounded-lg shadow-md shadow-primary-container/50"
-        >
+          >
             Sign in
-        </button>
-        }
+          </button>
+        )}
       </span>
       <div className="flex flex-col mt-5 md:ml-5 gap-5">
         {/** Profile */}
         <div className="flex gap-3">
-          <div className="flex gap-3">
+          <div className="hidden md:flex gap-3">
             {userProfile?.user_metadata.picture != undefined ? (
               <Image
                 className="w-15 md:w-30 h-15 md:h-30 rounded-2xl"
@@ -291,43 +236,67 @@ export default function SettingsPage() {
               </div>
             )}
           </div>
-          <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold text-on-surface tracking-tight">
-              {userProfile ? capitalize(fullName) : "Guest"}
-            </h1>
-            <h2 className="text-on-surface-variant font-bold tracking-tight break-all">
-              {userProfile?.user_metadata.email}
-            </h2>
-            {/** Premium tag */}
-            {subscription?.subscription_id === "owner" ? (
-              <span className="flex w-fit gap-2 rounded-full bg-yellow-200 text-yellow-700 px-3 py-2 font-semibold">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="currentColor"
-                >
-                  <path d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm34-102 102-44 104 44 56-96 110-26-10-112 74-84-74-86 10-112-110-24-58-96-102 44-104-44-56 96-110 24 10 112-74 86 74 84-10 114 110 24 58 96Zm102-318Zm-42 142 226-226-56-58-170 170-86-84-56 56 142 142Z" />
-                </svg>
-                Owner
-              </span>
-            ) : (
-              proUser && (
-                <span className="flex w-fit gap-2 rounded-full bg-secondary-container/50 px-3 py-2 text-secondary font-semibold">
-                  <svg
+          <div className="flex flex-col gap-3 md:flex-row w-full justify-between md:items-center">
+            <div className="flex flex-col gap-2">
+                <h1 className="text-3xl font-bold text-on-surface tracking-tight">
+                {userProfile ? capitalize(fullName) : "Guest"}
+                </h1>
+                <h2 className="text-on-surface-variant font-bold tracking-tight break-all">
+                {userProfile?.user_metadata.email}
+                </h2>
+                {/** Premium tag */}
+                {subscription?.subscription_id === "owner" ? (
+                <span className="flex w-fit gap-2 rounded-full bg-yellow-200 text-yellow-700 px-3 py-2 font-semibold">
+                    <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="24px"
                     viewBox="0 -960 960 960"
                     width="24px"
                     fill="currentColor"
-                  >
-                    <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-                  </svg>
-                  Pro User
+                    >
+                    <path d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm34-102 102-44 104 44 56-96 110-26-10-112 74-84-74-86 10-112-110-24-58-96-102 44-104-44-56 96-110 24 10 112-74 86 74 84-10 114 110 24 58 96Zm102-318Zm-42 142 226-226-56-58-170 170-86-84-56 56 142 142Z" />
+                    </svg>
+                    Owner
                 </span>
-              )
-            )}
+                ) : (
+                proUser && (
+                    <span className="flex w-fit gap-2 rounded-full bg-secondary-container/50 px-3 py-2 text-secondary font-semibold">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        fill="currentColor"
+                    >
+                        <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+                    </svg>
+                    Pro User
+                    </span>
+                )
+                )}
+            </div>
+            <div className="flex flex-col h-fit w-full max-w-55 items-center">
+                {proUser && subscription?.renews_at ?
+                    <div className="flex flex-col gap-3">
+                        <LemonButton yearly={false} manage={true} />
+                        <h1 className="flex gap-1">
+                            <b>Renews:</b>
+                            {formatDate(subscription?.renews_at)}
+                        </h1>
+                    </div>
+                    :
+                proUser && subscription?.ends_at ?
+                    <div className="flex flex-col gap-3">
+                        <LemonButton yearly={false} manage={true} />
+                        <h1 className="flex gap-1">
+                            <b>Ends on:</b>
+                            {formatDate(subscription?.ends_at)}
+                        </h1>
+                    </div>
+                    :
+                ''
+                }
+            </div>
           </div>
         </div>
 
@@ -378,9 +347,6 @@ export default function SettingsPage() {
               </svg>
               Integrations
             </h1>
-            <div className="flex h-fit w-full max-w-55 items-center">
-              <LemonButton yearly={false} manage={true} />
-            </div>
           </div>
           <div className="flex p-5 bg-surface-container rounded-xl border border-surface-container-highest justify-between">
             <div className="flex gap-3">

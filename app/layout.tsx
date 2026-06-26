@@ -23,8 +23,10 @@ const jakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
 });
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://aplicate.app';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aplicate.app'),
+  metadataBase: new URL(appUrl),
   title: {
     default: 'Aplicate | Job applications tracker',
     template: '%s | Aplicate',
@@ -34,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Aplicate',
     description: 'Your personal job applications tracker with automatic email sync.',
-    url: 'https://aplicate.app',
+    url: appUrl,
     siteName: 'Aplicate',
     images: [
       {
@@ -69,7 +71,7 @@ export default function RootLayout({
     "@type": "WebSite",
     "name": "Aplicate",
     "alternateName": "Applicate",
-    "url": "https://aplicate.app"
+    "url": appUrl
   };
 
   return (
@@ -96,10 +98,6 @@ export default function RootLayout({
               <div className="flex-1 flex flex-col h-full overflow-y-auto bg-background ">
                 <div className="flex-1">
                   {children}
-                  <Script
-                    src="https://assets.lemonsqueezy.com/lemon.js"
-                    strategy="afterInteractive"
-                  />
                 </div>
                 <div className="h-15 md:h-0 w-full shrink-0" aria-hidden="true" />
                 <MobileNavbar />

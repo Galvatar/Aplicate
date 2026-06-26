@@ -21,7 +21,7 @@ export async function DELETE() {
                 cookieStore.set(name, value, options)
               );
             } catch {
-
+              // Ignore cookie setting errors during deletion
             }
           },
         },
@@ -50,6 +50,7 @@ export async function DELETE() {
       }
     );
 
+    // 1. Get the user's active subscription ID
     const { data: sub } = await supabaseAdmin
         .from('Subscriptions')
         .select('subscription_id')
@@ -60,21 +61,25 @@ export async function DELETE() {
         .maybeSingle();
 
     if (sub?.subscription_id) {
-        const response = await fetch(`https://api.lemonsqueezy.com/v1/subscriptions/${sub.subscription_id}`, {
-            method: 'DELETE',
+        // 2. Call the Paddle API to cancel the subscription
+        // NOTE: Remember to change 'sandbox-api.paddle.com' to 'api.paddle.com' in production
+        const response = await fetch(`https://sandbox-api.paddle.com/subscriptions/${sub.subscription_id}/cancel`, {
+            method: 'POST',
             headers: {
-                'Accept': 'application/vnd.api+json',
-                'Content-Type': 'application/vnd.api+json',
-                'Authorization': `Bearer ${process.env.LEMON_SQUEEZY_API_KEY}`
-            }
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.PADDLE_API_KEY}`
+            },
+            // Force immediate cancellation since their entire account is being deleted
+            body: JSON.stringify({ effective_from: 'immediately' })
         });
 
         if (!response.ok) {
-            console.error("Failed to cancel subscription:", await response.text());
+            console.error("Failed to cancel Paddle subscription:", await response.text());
             throw new Error("Failed to cancel billing");
         }
     }
 
+    // 3. Delete the user from Supabase Auth
     const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(userId);
 
     if (deleteError) {
