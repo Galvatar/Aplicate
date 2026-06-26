@@ -49,6 +49,12 @@ export default function Footer() {
         >
           Terms of Service
         </Link>
+        <Link
+          href="/refund"
+          className="hover:text-on-surface-variant"
+        >
+          Refund Policy
+        </Link>
       </div>
     </div>
   );

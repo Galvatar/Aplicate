@@ -49,7 +49,8 @@ export default function Sidebar() {
     pathname === "/pricing" ||
     pathname === "/about" ||
     pathname === "/privacy" ||
-    pathname === "/terms"
+    pathname === "/terms" ||
+    pathname === "/refund"
   )
     return <></>;
 
