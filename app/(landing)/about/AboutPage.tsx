@@ -9,6 +9,7 @@ import deskLight from '@/public/deskLight.png';
 import deskDark from '@/public/deskDark.png';
 import statsLight from '@/public/statsLight.png';
 import statsDark from '@/public/statsDark.png';
+import Game from "./components/game";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -90,7 +91,8 @@ export default function AboutPage() {
             variants={fadeInUp}
             className="max-w-xl text-on-surface/80 mb-8"
           >
-            We believe focus is the ultimate competitive advantage. Our platform
+            <Game />
+            Our platform
             is designed to eliminate the anxiety of the hunt and replace it with
             calm, structured progress.
           </motion.p>
