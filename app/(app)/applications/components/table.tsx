@@ -45,13 +45,15 @@ export default function Table({ applications }: TableProps) {
   function handleActiveCols(newCol: string) {
     if (activeCols.includes(newCol)) {
         const newSettings: Settings = {
-            active_columns: activeCols.filter(cols => cols !== newCol)
+            active_columns: activeCols.filter(cols => cols !== newCol),
+            first_time: false
         }
         updateSettings(newSettings);
         setActiveCols(activeCols.filter(cols => cols !== newCol));
     } else {
         const newSettings: Settings = {
-            active_columns: [...activeCols, newCol]
+            active_columns: [...activeCols, newCol],
+            first_time: false
         }
         updateSettings(newSettings);
         setActiveCols(activeCols => [...activeCols, newCol]);
