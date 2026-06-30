@@ -4,7 +4,6 @@ import { Application } from "@/lib/types";
 import { useUser } from "./use-user";
 import { useMemo } from "react";
 import { supabase } from "@/lib/supabase/client";
-import DeleteApplication from "@/components/layout/components/deleteApplication";
 
 export const useApplications = () => {
     const { user, loading } = useUser();
@@ -17,6 +16,7 @@ export const useApplications = () => {
 
     return {
         loading,
+        supabase,
         syncGuestApplications: () => store.syncGuestApplications(),
         getApplications: () => store.getApplications(),
         getApplication: (id: string) => store.getApplication(id),

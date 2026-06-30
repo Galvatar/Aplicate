@@ -100,7 +100,12 @@ export default function LoginPage() {
           <div className="space-y-2">
             <label className="flex items-center text-on-surface-variant font-semibold justify-between">
               Password
-              <button className="text-sm text-primary hover:underline font-bold transition-all">
+              <button 
+                onClick={(e) => {
+                  e.preventDefault()
+                  router.push('/forgot')
+                }}
+                className="text-sm text-primary hover:underline font-bold transition-all">
                 Forgot Password?
               </button>
             </label>

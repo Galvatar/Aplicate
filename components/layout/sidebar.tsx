@@ -67,7 +67,9 @@ export default function Sidebar() {
     "/about",
     "/privacy",
     "/terms",
-    "/refund"
+    "/refund",
+    "/forgot",
+    "/reset"
   ]
 
   if (excludeList.includes(pathname)) return <></>;
