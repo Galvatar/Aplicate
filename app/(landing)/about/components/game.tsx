@@ -29,7 +29,7 @@ export default function Game() {
                 onClick={() => handleChange(0)}
                 className={`${active[0] ? 'font-bold text-secondary' : ''}`}
             >
-                We
+                I
             </button>
             <button
                 onClick={() => handleChange(1)}

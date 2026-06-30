@@ -54,7 +54,7 @@ export default function AboutPage() {
               in your career journey.
             </h1>
             <p className="text-lg text-on-surface/80">
-              Modern job hunting is fragmented, noisy, and draining. We built
+              Modern job hunting is fragmented, noisy, and draining. I built
               Aplicate to be the quiet, organized center of your professional
               life, giving you clarity when you need it most.
             </p>
@@ -85,15 +85,15 @@ export default function AboutPage() {
             variants={fadeInUp}
             className="font-semibold text-2xl mb-4"
           >
-            Our Mission
+            The Mission
           </motion.h1>
           <motion.p
             variants={fadeInUp}
             className="max-w-xl text-on-surface/80 mb-8"
           >
             <Game />
-            Our platform
-            is designed to eliminate the anxiety of the hunt and replace it with
+            So this platform
+            was designed to eliminate the anxiety of the hunt and replace it with
             calm, structured progress.
           </motion.p>
 
@@ -119,8 +119,8 @@ export default function AboutPage() {
                     Reducing Cognitive Load
                   </h1>
                   <p className="text-sm text-on-surface/80">
-                    By centralizing every application, status, and follow-up, we
-                    free your mind to focus on what matters: your craft.
+                    By centralizing every application, status, and follow-up, it
+                    frees your mind to focus on what matters: your craft.
                   </p>
                 </div>
               </motion.div>
@@ -165,7 +165,7 @@ export default function AboutPage() {
                   </svg>
                   <h1 className="font-semibold text-xl">Data Privacy</h1>
                   <p className="text-sm text-on-surface/80">
-                    Your career data is yours alone. We will never sell your
+                    Your career data is yours alone. I will never sell your
                     personal insights.
                   </p>
                 </div>
@@ -189,8 +189,8 @@ export default function AboutPage() {
                 <div className="flex flex-col gap-2">
                   <h1 className="font-semibold text-xl">Statistical Growth</h1>
                   <p className="text-sm text-on-surface/80">
-                    We believe in the power of data to illuminate your pipeline.
-                    Our insights help you stay ahead of the curve.
+                    I believe in the power of data to illuminate your pipeline.
+                    Aplicate insights help you stay ahead of the curve.
                   </p>
                 </div>
               </motion.div>
@@ -207,7 +207,7 @@ export default function AboutPage() {
         >
           <h1 className="font-bold text-2xl mb-4">A Future of Growth</h1>
           <p className="max-w-xl mb-8 text-on-surface/80">
-            Our vision extends beyond the job search. We are building the
+            My vision extends beyond the job search. I am trying to build the
             infrastructure for a lifetime of professional serenity, where your
             career moves with intention, not impulse.
           </p>
