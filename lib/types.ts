@@ -45,6 +45,7 @@ export interface GmailToken {
 
 export interface Settings {
     active_columns: string[]
+    first_time: boolean
 }
 
 export interface Subscription {

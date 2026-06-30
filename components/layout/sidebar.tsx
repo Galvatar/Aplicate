@@ -20,18 +20,25 @@ export default function Sidebar() {
   const modal = useModal();
   const { user } = useUser();
   const { isOpen, setIsOpen } = useSidebar();
-  const { getSettings } = useSettings();
+  const { getSettings, updateSettings } = useSettings();
+  const [firstTime, setFirstTime] = useState(false)
 
   useEffect(() => {
     const settings = getSettings();
     if (settings == null) {
-      // first time user
       const newSettings: Settings = {
         active_columns: ["company"],
+        first_time: true
       };
       localStorage.setItem("settings", JSON.stringify(newSettings));
     }
   }, []);
+
+  useEffect(() => {
+    if (pathname === "/home" && getSettings()?.first_time) {
+        setFirstTime(true);
+    }
+  }, [pathname])
 
   useEffect(() => {
     if (user != null) {
@@ -40,6 +47,16 @@ export default function Sidebar() {
       setGuestMode(true);
     }
   }, [user]);
+
+  function handleFirstTime() {
+    if (!firstTime) return;
+    var currSettings = getSettings();
+    if (currSettings) {
+        currSettings.first_time = false;
+        updateSettings(currSettings)
+    }
+    setFirstTime(false);
+  }
 
   const excludeList = [
     "/signup",
@@ -284,10 +301,30 @@ export default function Sidebar() {
         </div>
       </div>
       {/** Footer */}
-      <div className="flex-col w-full py-5 px-5 border-t border-surface-container-highest gap-3">
+      <div className="relative flex-col w-full py-5 px-5 border-t border-surface-container-highest gap-3">
+        {firstTime &&
+            <div 
+                onClick={() => {
+                    handleFirstTime()
+                }}
+                className="hidden md:flex">
+                <div
+                    className="absolute z-15 items-center justify-center text-2xl bg-black/70 w-screen h-screen bottom-0 left-0">
+                    <h1 className="absolute font-bold z-20 bottom-1/2 left-1/2">Click anywhere to dismiss.</h1>
+                </div>
+                <h1 className={`flex flex-col items-center gap-3 absolute z-20 text-on-surface font-bold text-lg ${guestMode ? 'bottom-40' : 'bottom-30'} left-5`}>
+                    We recommend starting here!
+                    <svg className="animate-bounce" xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px" fill="currentColor"><path d="M480-80 200-360l56-56 184 183v-647h80v647l184-184 56 57L480-80Z"/>
+                    </svg>
+                </h1>
+            </div>
+        }
         <div
-          onClick={() => router.push("/settings")}
-          className={`flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high ${pathname === "/settings" ? "text-primary font-bold bg-surface-container-high" : ""} transition-colors`}
+          onClick={() => {
+            handleFirstTime()
+            router.push("/settings")
+          }}
+          className={`relative bg-surface-container z-20 flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high ${pathname === "/settings" ? "text-primary font-bold bg-surface-container-high" : ""} transition-colors`}
         >
           <div className="w-7 h-7 items-center justify-center">
             <svg
