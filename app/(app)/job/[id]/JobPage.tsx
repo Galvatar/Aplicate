@@ -180,7 +180,7 @@ export default function JobPage() {
                   </div>
                 </h3>
               </div>
-              <p className="text-on-surface">
+              <p className="whitespace-pre-wrap text-on-surface">
                 {application.notes ?? "No notes for this application"}
               </p>
             </div>
@@ -207,7 +207,7 @@ export default function JobPage() {
                 </h3>
               </div>
               <div
-                className="pl-6 space-y-2 mb-6 text-on-surface-variant outline-none font-body-lg leading-[1.8]"
+                className="whitespace-pre-wrap pl-6 space-y-2 mb-6 text-on-surface-variant outline-none font-body-lg leading-[1.8]"
                 dangerouslySetInnerHTML={{
                   __html:
                     application?.jobDescription ||
