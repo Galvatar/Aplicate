@@ -4,9 +4,8 @@ import "./globals.css";
 import Sidebar from "@/components/layout/sidebar";
 import { ModalProvider } from "@/components/ui/modal";
 import { SidebarProvider } from "@/hooks/use-sidebar";
-import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next";
 import MobileNavbar from "@/components/layout/mobileNavbar";
+import AnalyticsWrapper from "@/components/layout/analyticsWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -104,7 +103,7 @@ export default function RootLayout({
               </div>
             </div>
           </ModalProvider>
-          <Analytics />
+          <AnalyticsWrapper />
         </SidebarProvider>
       </body>
     </html>
