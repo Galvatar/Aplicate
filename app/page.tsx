@@ -57,9 +57,9 @@ export default function Home() {
             variants={fadeInUp}
             className="mt-6 font-extrabold text-5xl md:text-6xl tracking-tight leading-[1.15] max-w-3xl text-on-background"
           >
-            Take Control Of Your <br />
+            Stop Copy-Pasting<br />
             <span className="bg-linear-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
-              Job Hunt Instantly
+              Your Job Search
             </span>
           </motion.h1>
 
@@ -70,7 +70,8 @@ export default function Home() {
           >
             The automated job tracker built for Australia & New Zealand. Clip
             listings from favorite job boards, sync your Gmail, and update your
-            application dashboard automatically.
+            application dashboard automatically. Already applying? Parse your
+            current data automatically in less than a minute.
           </motion.h2>
 
           {/** Core Call-To-Action (CTA) */}

@@ -6,6 +6,7 @@ import ApplicationFlow from "./components/sankeyDiagram";
 import Dropdown from "@/components/ui/dropdown";
 import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
+import PieChart, { PieSlice } from "./components/pieChart";
 
 type RangeMode = "current" | "previous";
 
@@ -51,6 +52,7 @@ function filterApplicationsBySelectedPeriod(
 export default function Statistics() {
   const [selected, setSelected] = useState("Last 30 Days");
   const [applications, setApplications] = useState([] as Application[]);
+  const [slices2, setSlices2] = useState([] as PieSlice[]);
   const options = ["Last 30 Days", "Last 90 Days", "Last Year", "All Time"];
   const { getApplications, loading } = useApplications();
   const currentApplications = filterApplicationsBySelectedPeriod(
@@ -76,6 +78,12 @@ export default function Statistics() {
     (a) => a.status === Status.Offer,
   );
 
+  const slices: PieSlice[] = [
+    { name: "test", percentage: 30},
+    { name: "test2", percentage: 15},
+  ]
+
+
   function getRate(partial: number, total: number) {
     if (total === 0) return 0;
     return Math.round((partial / total) * 100);
@@ -89,11 +97,30 @@ export default function Statistics() {
   useEffect(() => {
     if (loading) return;
     getApplications().then(setApplications);
+    SetupSlices()
   }, [loading]);
 
   useEffect(() => {
-    console.log(applications)
-  }, [applications])
+    SetupSlices()
+  }, [applications]);
+
+  function SetupSlices() {
+    const frequencies = new Map<string, number>();
+    var total = 0
+    applications.forEach(app => {
+        const word = app.foundOn?.toLowerCase().trim();
+        if (word) {
+          const currentCount = frequencies.get(word) || 0
+          frequencies.set(word,currentCount + 1)
+          total++
+        }
+    });
+    console.log(frequencies)
+    const finalised = Array.from(frequencies.entries())
+      .map(([word, count]) => ({ name: word, percentage: (count/total)*100 }));
+    setSlices2(finalised)
+    console.log(finalised)
+  }
 
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-20 px-15 gap-4 bg-background text-on-background">
@@ -193,6 +220,8 @@ export default function Statistics() {
 
       {/** Sankey Diagram */}
       <ApplicationFlow applications={currentApplications} />
+
+      <PieChart slices={slices2} />
     </div>
   );
 }
