@@ -191,7 +191,12 @@ export var columns: ColumnConfig[] = [
         key: "closingDate",
         label: "Closing Date",
         active: false,
-        sortStrategy: (a, b) => new Date(b.closingDate).getTime() - new Date(a.closingDate).getTime(),
+        sortStrategy: (a, b) => {
+            if (a.closingDate == null && b.closingDate == null) return 0;
+            if (a.closingDate == null) return 1;
+            if (b.closingDate == null) return -1;
+            return new Date(a.closingDate).getTime() - new Date(b.closingDate).getTime();
+        },
         format: (a) => {
             if (a.closingDate == null) return;
             const date = new Date(a.closingDate);
@@ -208,7 +213,12 @@ export var columns: ColumnConfig[] = [
         key: "followUpDate",
         label: "Follow Up Date",
         active: false,
-        sortStrategy: (a, b) => new Date(b.followUpDate).getTime() - new Date(a.followUpDate).getTime(),
+        sortStrategy: (a, b) =>  {
+            if (a.followUpDate == null && b.followUpDate == null) return 0;
+            if (a.followUpDate == null) return 1;
+            if (b.followUpDate == null) return -1;
+            return new Date(a.followUpDate).getTime() - new Date(b.followUpDate).getTime();
+        },
         format: (a) => {
             return (
                 <FollowUp app={a} />
