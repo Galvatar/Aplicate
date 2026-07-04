@@ -79,9 +79,10 @@ export default function Sidebar() {
       className={`fixed md:relative inset-y-0 
             left-0 z-50 flex flex-col font-jakarta h-screen 
             w-full md:max-w-75 bg-surface-container-low 
+            overflow-scroll
             justify-between transition-transform duration-300 ${
-              isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-            }`}
+              isOpen ? "translate-x-0" : "-translate-x-full"
+            } md:transform-none`}
     >
       {/** Top half */}
       <div className="flex flex-col w-full px-5 py-8 gap-12">
@@ -133,7 +134,7 @@ export default function Sidebar() {
         </div>
         {/** New Application */}
         <button
-          onClick={async () => {
+          onClick={() => {
             modal.show(<NewApplication />);
           }}
           className="flex items-center justify-center py-3 px-3 font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200 gap-3"
@@ -304,29 +305,30 @@ export default function Sidebar() {
       </div>
       {/** Footer */}
       <div className="relative flex-col w-full py-5 px-5 border-t border-surface-container-highest gap-3">
-        {firstTime &&
-            <div 
-                onClick={() => {
-                    handleFirstTime()
-                }}
-                className="hidden md:flex">
-                <div
-                    className="absolute z-15 items-center justify-center text-2xl bg-black/70 w-screen h-screen bottom-0 left-0">
-                    <h1 className="absolute font-bold z-20 bottom-1/2 left-1/2">Click anywhere to dismiss.</h1>
+        {firstTime && (
+            <div className="hidden md:block">
+                
+                <div 
+                    onClick={() => handleFirstTime()}
+                    className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 cursor-pointer"
+                >
+                    <h1 className="font-bold text-2xl text-white">Click anywhere to dismiss.</h1>
                 </div>
-                <h1 className={`flex flex-col items-center gap-3 absolute z-20 text-on-surface font-bold text-lg ${guestMode ? 'bottom-40' : 'bottom-30'} left-5`}>
+
+                <h1 className={`flex flex-col items-center gap-3 absolute z-70 text-on-surface font-bold text-lg ${guestMode ? 'bottom-40' : 'bottom-30'} left-5 pointer-events-none`}>
                     We recommend starting here!
                     <svg className="animate-bounce" xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px" fill="currentColor"><path d="M480-80 200-360l56-56 184 183v-647h80v647l184-184 56 57L480-80Z"/>
                     </svg>
                 </h1>
+                
             </div>
-        }
+        )}
         <div
           onClick={() => {
             handleFirstTime()
             router.push("/settings")
           }}
-          className={`relative bg-surface-container z-20 flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high ${pathname === "/settings" ? "text-primary font-bold bg-surface-container-high" : ""} transition-colors`}
+          className={`relative z-70 bg-surface-container flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high ${pathname === "/settings" ? "text-primary font-bold bg-surface-container-high" : ""} transition-colors`}
         >
           <div className="w-7 h-7 items-center justify-center">
             <svg
