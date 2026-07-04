@@ -150,7 +150,7 @@ export default function Sidebar() {
           </svg>
           New Application
         </button>
-        <button
+        {!guestMode && <button
             hidden={false}
             onClick={() => window.open("https://chromewebstore.google.com/detail/aplicate-extension/hjbabhplfgdanjklmfpigbfoeiiolhhh?authuser=0&hl=en-GB", "_blank")}
             className="flex cursor-pointer gap-2 justify-between -mt-8 text-primary font-bold text-sm px-3 py-2 bg-primary-container/30 rounded-full border border-primary/50">
@@ -162,7 +162,7 @@ export default function Sidebar() {
             <span className="text-xs uppercase bg-primary text-on-primary py-0.5 px-1.5 rounded-full">
                 new
             </span>
-        </button>
+        </button>}
         {/** Content links */}
         <div className="flex flex-col gap-3">
           {/** Home */}
