@@ -11,7 +11,7 @@ interface SidebarContextProps {
 const SidebarContext = createContext<SidebarContextProps | undefined>(undefined);
 
 export function SidebarProvider({ children }: { children: ReactNode }) {
-  const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
