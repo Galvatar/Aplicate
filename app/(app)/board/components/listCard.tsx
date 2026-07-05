@@ -98,13 +98,13 @@ export default function ListCard({
       <div className="flex items-center justify-between px-2 py-1">
         <div className={`w-2 h-2 rounded-full transition-colors ${ghostIndex !== null ? "bg-primary" : "bg-outline"}`} />
         <div className="flex gap-2 text-sm font-bold">
-          <h1 className="text-on-surface-variant uppercase tracking-wider">
+          <h2 className="text-on-surface-variant uppercase tracking-wider">
             {title === Status.PreRegister ? (
               <p>{title.slice(0, 3)}-{title.slice(3)}</p>
             ) : (
               <p>{title}</p>
             )}
-          </h1>
+          </h2>
           <h2 className="bg-surface-container px-2 py-0.5 rounded-full text-outline">
             {applications.length}
           </h2>
@@ -114,9 +114,9 @@ export default function ListCard({
       <div className="flex flex-col gap-3 h-full justify-start">
         {applications.length === 0 && ghostIndex === null && (
           <div className="flex p-5 items-center justify-center text-center h-20 border border-on-surface-variant/20 rounded-xl border-dashed">
-            <h1 className="text-xs font-bold text-outline">
+            <h2 className="text-xs font-bold text-outline">
               Nothing yet, drag applications to add.
-            </h1>
+            </h2>
           </div>
         )}
 

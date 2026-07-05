@@ -24,9 +24,9 @@ export default function PrivacyPolicyPage() {
                 </h3>
                 <div className="flex gap-5 items-start w-full">
                     <div className="flex flex-col p-5 bg-surface-container border border-surface-container-high rounded-lg gap-2">
-                        <h1 className="uppercase font-semibold text-xs text-on-surface/50">
+                        <h2 className="uppercase font-semibold text-xs text-on-surface/50">
                             On this page
-                        </h1>
+                        </h2>
                         <h2 
                             onClick={() => {
                                 document.getElementById("data")?.scrollIntoView({
@@ -109,9 +109,9 @@ export default function PrivacyPolicyPage() {
                         </h2>
                     </div>
                     <div className="flex w-full h-fit flex-col p-5 bg-surface-container border border-surface-container-high rounded-lg gap-3">
-                        <h1 id="data" className="font-bold text-2xl">
+                        <h2 id="data" className="font-bold text-2xl">
                             1. Information We Collect
-                        </h1>
+                        </h2>
                         <ul 
                             className="flex flex-col list-disc gap-2 px-5">
                             <li>
@@ -127,9 +127,9 @@ export default function PrivacyPolicyPage() {
                                 <b>Website Content (Chrome Extension):</b> When you use the Aplicate browser extension, we read and extract text data directly from the specific job listing webpages you visit (such as Seek, Trade Me, and Glassdoor). This includes information like job titles, company names, locations, and salary data. The extension only reads data on supported job boards and does not track or record your general web browsing history.
                             </li>
                         </ul>
-                        <h1 id="usage" className="font-bold text-2xl mt-3">
+                        <h2 id="usage" className="font-bold text-2xl mt-3">
                             2. How We Use Your Data
-                        </h1>
+                        </h2>
                         <ul 
                             className="flex flex-col list-disc gap-2 px-5">
                             <li>
@@ -148,9 +148,9 @@ export default function PrivacyPolicyPage() {
                                <b>Extension Data Syncing:</b> The job details extracted by the browser extension are temporarily held in your browser's local storage before being securely synced to your personal Aplicate database (hosted on Supabase). We use this data solely to populate your personal job tracking dashboard.
                             </li>
                         </ul>
-                        <h1 id="sharing" className="font-bold text-2xl mt-3">
+                        <h2 id="sharing" className="font-bold text-2xl mt-3">
                             3. Data Sharing and Third Parties
-                        </h1>
+                        </h2>
                         <ul 
                             className="flex flex-col list-disc gap-2 px-5">
                             <li>
@@ -163,9 +163,9 @@ export default function PrivacyPolicyPage() {
                                 <b>Compliance with Laws:</b> We may disclose your information if required by law, regulation, or to protect the safety of our users.
                             </li>
                         </ul>
-                        <h1 id="google" className="font-bold text-2xl mt-3">
+                        <h2 id="google" className="font-bold text-2xl mt-3">
                             4. Google API Services User Data Policy
-                        </h1>
+                        </h2>
                         <p>
                             Aplicate's use and transfer to any other app of information received from Google APIs will adhere to the {" "}
                             <span
@@ -188,15 +188,15 @@ export default function PrivacyPolicyPage() {
                                 <b>No Advertising:</b> We do not use your email data for advertising, marketing, or any purpose other than providing our core job tracking service.
                             </li>
                         </ul>
-                        <h1 id="chrome" className="font-bold text-2xl mt-3">
+                        <h2 id="chrome" className="font-bold text-2xl mt-3">
                             5. Chrome Web Store User Data Policy
-                        </h1>
+                        </h2>
                         <p>
                             The Aplicate Chrome extension's use and transfer of information adheres to the Chrome Web Store User Data Policy, including the Limited Use requirements. We only request the minimum browser permissions necessary to extract job data on supported sites. We do not use your extracted website data for personalized advertising, nor do we sell it to third-party data brokers.
                         </p>
-                        <h1 id="deletion" className="font-bold text-2xl mt-3">
+                        <h2 id="deletion" className="font-bold text-2xl mt-3">
                             6. Your Rights and Data Deletion
-                        </h1>
+                        </h2>
                         <ul 
                             className="flex flex-col list-disc gap-2 px-5">
                             <li>
@@ -215,15 +215,15 @@ export default function PrivacyPolicyPage() {
                                 </span>
                             </li>
                         </ul>
-                        <h1 id="changes" className="font-bold text-2xl mt-3">
+                        <h2 id="changes" className="font-bold text-2xl mt-3">
                             7. Changes to this Policy
-                        </h1>
+                        </h2>
                         <p>
                             We may update this Privacy Policy from time to time to reflect changes in our service. We will notify you of any significant changes by updating the "Last Updated" date at the top of this page.
                         </p>
-                        <h1 id="contact" className="font-bold text-2xl mt-3">
+                        <h2 id="contact" className="font-bold text-2xl mt-3">
                             8. Contact Us
-                        </h1>
+                        </h2>
                         <p>
                             If you have any questions or concerns about this policy or your data, please contact us at:
                         </p>

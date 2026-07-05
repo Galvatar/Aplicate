@@ -67,15 +67,15 @@ export default function SignupPage() {
           priority
         />
       </div>
-      <h1 className="text-primary text-3xl font-bold text-center">Aplicate</h1>
+      <h2 className="text-primary text-3xl font-bold text-center">Aplicate</h2>
       <h2 className="text-on-surface-variant text-sm font-medium text-center max-w-xs">
         Your journey to employment starts here.
       </h2>
       <div className="glass-panel w-full max-w-md rounded-xl p-8 md:p-10 shadow-xl relative overflow-hidden bg-surface-container-low border-outline-variant/30">
         <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-        <h2 className="text-on-surface text-3xl font-semibold mb-8 text-center relative z-10">
+        <h1 className="text-on-surface text-3xl font-semibold mb-8 text-center relative z-10">
           Create Account
-        </h2>
+        </h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -226,7 +226,7 @@ export default function SignupPage() {
         </form>
         <div className="flex w-full mt-5 gap-5 items-center">
           <div className="h-fit w-full p-px bg-on-surface/20" />
-          <h1 className="text-xs font-semibold text-on-surface/80">OR</h1>
+          <h2 className="text-xs font-semibold text-on-surface/80">OR</h2>
           <div className="h-fit w-full p-px bg-on-surface/20" />
         </div>
         <button
@@ -253,7 +253,7 @@ export default function SignupPage() {
           Continue as Guest
         </button>
         <div className="flex gap-2 w-full items-center justify-center mt-5">
-          <h1>Already have an account?</h1>
+          <h2>Already have an account?</h2>
           <button
             onClick={() => router.push("/login")}
             className="text-primary hover:underline font-bold transition-all"

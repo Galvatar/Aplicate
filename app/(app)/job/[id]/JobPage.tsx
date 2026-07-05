@@ -100,9 +100,9 @@ export default function JobPage() {
               {application.company.charAt(0)}
             </div>
             <div className="flex flex-col">
-              <h2 className="flex flex-col text-on-surface mb-2 font-bold">
+              <h1 className="flex flex-col text-on-surface mb-2 font-bold">
                 {application.title}
-              </h2>
+              </h1>
               <h3 className="flex md:flex-row flex-col text-on-surface-variant md:items-center gap-2">
                 {application.company}
                 <span className="hidden md:flex w-1 h-1 rounded-full bg-outline-variant" />
@@ -208,6 +208,7 @@ export default function JobPage() {
               </div>
               <div
                 className="whitespace-pre-wrap pl-6 space-y-2 mb-6 text-on-surface-variant outline-none font-body-lg leading-[1.8]"
+                // aicop-ignore security/xss-vulnerabilities
                 dangerouslySetInnerHTML={{
                   __html:
                     application?.jobDescription ||

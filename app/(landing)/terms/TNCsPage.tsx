@@ -24,9 +24,9 @@ export default function TermsAndConditionsPage() {
                 </h3>
                 <div className="flex gap-5 items-start w-full">
                     <div className="flex flex-col p-5 bg-surface-container border border-surface-container-high rounded-lg gap-2">
-                        <h1 className="uppercase font-semibold text-xs text-on-surface/50">
+                        <h2 className="uppercase font-semibold text-xs text-on-surface/50">
                             On this page
-                        </h1>
+                        </h2>
                         <h2 
                             onClick={() => {
                                 document.getElementById("accept")?.scrollIntoView({
@@ -139,15 +139,15 @@ export default function TermsAndConditionsPage() {
                         </h2>
                     </div>
                     <div className="flex w-full h-fit flex-col p-5 bg-surface-container border border-surface-container-high rounded-lg gap-3">
-                        <h1 id="accept" className="font-bold text-2xl">
+                        <h2 id="accept" className="font-bold text-2xl">
                             1. Acceptance of Terms
-                        </h1>
+                        </h2>
                         <p>
                             By creating an account or using Aplicate, you confirm that you are at least 18 years old and capable of entering into a legally binding agreement. If you do not agree to these terms, you may not use the service.
                         </p>
-                        <h1 id="description" className="font-bold text-2xl mt-3">
+                        <h2 id="description" className="font-bold text-2xl mt-3">
                             2. Description of Service
-                        </h1>
+                        </h2>
                         <p>
                             Aplicate provides a tool for tracking job applications. Our core features include:
                         </p>
@@ -169,9 +169,9 @@ export default function TermsAndConditionsPage() {
                         <p>
                             We reserve the right to modify, suspend, or discontinue any aspect of the service at any time without notice.
                         </p>
-                        <h1 id="responsibility" className="font-bold text-2xl mt-3">
+                        <h2 id="responsibility" className="font-bold text-2xl mt-3">
                             3. User Responsibilities
-                        </h1>
+                        </h2>
                         <ul 
                             className="flex flex-col list-disc gap-2 px-5">
                             <li>
@@ -184,9 +184,9 @@ export default function TermsAndConditionsPage() {
                                 <b>Permitted Use:</b> You agree not to use Aplicate for any unlawful purpose or to interfere with the operation of our systems (including the Hugging Face and Supabase infrastructure).
                             </li>
                         </ul>
-                        <h1 id="auto" className="font-bold text-2xl mt-3">
+                        <h2 id="auto" className="font-bold text-2xl mt-3">
                             4. Automated Processing & AI Limitations
-                        </h1>
+                        </h2>
                         <ul 
                             className="flex flex-col list-disc gap-2 px-5">
                             <li>
@@ -196,9 +196,9 @@ export default function TermsAndConditionsPage() {
                                 <b>Verification:</b> You agree that it is your responsibility to verify the accuracy of the status labels applied by our system before making career decisions. Aplicate is provided "as is," and we do not guarantee the perfection of automated results.
                             </li>
                         </ul>
-                        <h1 id="subscription" className="font-bold text-2xl mt-3">
+                        <h2 id="subscription" className="font-bold text-2xl mt-3">
                             5. Subscription and Payments
-                        </h1>
+                        </h2>
                         <ul 
                             className="flex flex-col gap-2 px-3">
                             <li>
@@ -211,39 +211,39 @@ export default function TermsAndConditionsPage() {
                                 <b>Refunds:</b> We generally do not offer refunds, but please contact us at aplicate.jobs@gmail.com if you believe an error has occurred.
                             </li>
                         </ul>
-                        <h1 id="ip" className="font-bold text-2xl mt-3">
+                        <h2 id="ip" className="font-bold text-2xl mt-3">
                             6. Intellectual Property
-                        </h1>
+                        </h2>
                         <p>
                             All content, design, and software functionality provided by Aplicate are the exclusive property of Aplicate. You are granted a limited, non-exclusive license to use the service for your personal, non-commercial purposes.
                         </p>
-                        <h1 id="liability" className="font-bold text-2xl mt-3">
+                        <h2 id="liability" className="font-bold text-2xl mt-3">
                             7. Limitation of Liability
-                        </h1>
+                        </h2>
                         <p>
                             To the maximum extent permitted by law, Aplicate shall not be liable for any indirect, incidental, or consequential damages arising out of your use of the service. This includes, but is not limited to, damages for loss of job opportunities, missed deadlines, or errors caused by the AI classification system. Our total liability to you for any claim shall not exceed the amount paid by you for the service in the previous month.
                         </p>
-                        <h1 id="termination" className="font-bold text-2xl mt-3">
+                        <h2 id="termination" className="font-bold text-2xl mt-3">
                             8. Termination
-                        </h1>
+                        </h2>
                         <p>
                             You may delete your account at any time. We reserve the right to terminate or suspend your account if you violate these Terms or if we determine that your usage presents a risk to the security or integrity of our service.
                         </p>
-                        <h1 id="law" className="font-bold text-2xl mt-3">
+                        <h2 id="law" className="font-bold text-2xl mt-3">
                             9. Governing Law
-                        </h1>
+                        </h2>
                         <p>
                             These terms are governed by the laws of New Zealand. Any disputes arising from these terms shall be resolved in the courts of New Zealand.
                         </p>
-                        <h1 id="law" className="font-bold text-2xl mt-3">
+                        <h2 id="law" className="font-bold text-2xl mt-3">
                             10. Change to Terms
-                        </h1>
+                        </h2>
                         <p>
                             We may update these terms from time to time. If a revision is material, we will make reasonable efforts to provide notice via our website or email. By continuing to use the service after those revisions become effective, you agree to be bound by the revised terms.
                         </p>
-                        <h1 id="contact" className="font-bold text-2xl mt-3">
+                        <h2 id="contact" className="font-bold text-2xl mt-3">
                             11. Contact Information
-                        </h1>
+                        </h2>
                         <p>
                             If you have any questions about these Terms and Conditions, please contact us at:
                         </p>

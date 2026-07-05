@@ -91,13 +91,13 @@ export default function ApplicationModal({ app }: ApplicationProps) {
             className="flex w-full justify-center text-nowrap md:hidden px-4 py-2.5 disabled:opacity-50 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary/50 hover:shadow-[0_0_20px_rgba(191,194,255,0.15)] transition-all"
           >
             {app ?
-              <h1>
+              <h2>
                 {loading ? "Saving..." : "Save"}
-              </h1>
+              </h2>
               :
-              <h1>
+              <h2>
                 {loading ? "Adding..." : "+ Add"}
-              </h1>
+              </h2>
             }
           </button>
         </div>
@@ -120,17 +120,17 @@ export default function ApplicationModal({ app }: ApplicationProps) {
       <form
         className="flex py-20 md:py-5 mt-30 md:mt-0 flex-col overflow-scroll items-center p-8 gap-5 md:gap-8"
       >
-        <h1 className="font-bold text-xs w-full text-left text-on-surface/50">
+        <h2 className="font-bold text-xs w-full text-left text-on-surface/50">
           Fields marked with <span className="text-red-500">*</span> are mandatory, all else are optional.
-        </h1>
+        </h2>
         {/** First line */}
         <div className="flex flex-col md:flex-row w-full gap-5">
           {/** Company */}
           <div className="flex w-full flex-col gap-3">
-            <h1 className="flex font-bold text-sm">
+            <h2 className="flex font-bold text-sm">
               Company
               <p className="text-red-500">*</p>
-            </h1>
+            </h2>
             <div className="flex bg-surface-container-highest px-5 py-3 rounded-lg gap-2">
               <svg
                 className="text-on-surface-variant/50"
@@ -152,10 +152,10 @@ export default function ApplicationModal({ app }: ApplicationProps) {
           </div>
           {/** Role */}
           <div className="flex w-full flex-col gap-3">
-            <h1 className="flex font-bold text-sm">
+            <h2 className="flex font-bold text-sm">
               Role / Title
               <p className="text-red-500">*</p>
-            </h1>
+            </h2>
             <div className="flex bg-surface-container-highest px-5 py-3 rounded-lg gap-2">
               <svg
                 className="text-on-surface-variant/50"
@@ -180,7 +180,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         <div className="flex flex-col md:flex-row w-full gap-5">
           {/** Location */}
           <div className="flex w-full flex-col gap-3">
-            <h1 className="font-bold text-sm">Location</h1>
+            <h2 className="font-bold text-sm">Location</h2>
             <div className="flex bg-surface-container-highest px-5 py-3 rounded-lg gap-2">
               <svg
                 className="text-on-surface-variant/50"
@@ -202,7 +202,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
           </div>
           {/** Found via */}
           <div className="flex w-full flex-col gap-3">
-            <h1 className="font-bold text-sm">Found via</h1>
+            <h2 className="font-bold text-sm">Found via</h2>
             <div className="flex bg-surface-container-highest px-5 py-3 rounded-lg gap-2">
               <svg
                 className="text-on-surface-variant/50"
@@ -227,7 +227,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         <div className="flex flex-col md:flex-row w-full gap-5">
           {/** Main Contact */}
           <div className="flex w-full flex-col gap-3">
-            <h1 className="font-bold text-sm">Main Contact Details</h1>
+            <h2 className="font-bold text-sm">Main Contact Details</h2>
             <div className="flex bg-surface-container-highest px-5 py-3 rounded-lg gap-2">
               <svg className="text-on-surface-variant/50" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-400q33 0 56.5-23.5T560-480q0-33-23.5-56.5T480-560q-33 0-56.5 23.5T400-480q0 33 23.5 56.5T480-400ZM320-240h320v-23q0-24-13-44t-36-30q-26-11-53.5-17t-57.5-6q-30 0-57.5 6T369-337q-23 10-36 30t-13 44v23ZM720-80H240q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80Zm0-80v-446L526-800H240v640h480Zm-480 0v-640 640Z"/>
               </svg>
@@ -241,7 +241,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
           </div>
           {/** Pay */}
           <div className="flex w-full flex-col gap-3">
-            <h1 className="font-bold text-sm">Pay</h1>
+            <h2 className="font-bold text-sm">Pay</h2>
             <div className="flex bg-surface-container-highest px-5 py-3 rounded-lg gap-2">
               <svg className="text-on-surface-variant/50" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-400q33 0 56.5-23.5T560-480q0-33-23.5-56.5T480-560q-33 0-56.5 23.5T400-480q0 33 23.5 56.5T480-400ZM320-240h320v-23q0-24-13-44t-36-30q-26-11-53.5-17t-57.5-6q-30 0-57.5 6T369-337q-23 10-36 30t-13 44v23ZM720-80H240q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80Zm0-80v-446L526-800H240v640h480Zm-480 0v-640 640Z"/>
               </svg>
@@ -258,7 +258,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         <div className="flex flex-col md:flex-row w-full gap-5">
           {/** Closing date */}
           <div className="flex w-full flex-col gap-3">
-            <h1 className="font-bold text-sm">Closing Date</h1>
+            <h2 className="font-bold text-sm">Closing Date</h2>
             <div className="flex bg-surface-container-highest px-3 py-3 rounded-lg gap-2">
               <input
                 type="date"
@@ -277,7 +277,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
           </div>
           {/** Follow up date */}
           <div className="flex w-full flex-col gap-3">
-            <h1 className="font-bold text-sm">Follow Up Date</h1>
+            <h2 className="font-bold text-sm">Follow Up Date</h2>
             <div className="flex bg-surface-container-highest px-3 py-3 rounded-lg gap-2">
               <input
                 type="date"
@@ -297,7 +297,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         </div>
         {/** Ratings */}
         <div className="flex w-full flex-col gap-3">
-          <h1 className="font-bold text-sm">Rating</h1>
+          <h2 className="font-bold text-sm">Rating</h2>
           <div className="flex w-full items-center justify-center">
             <div className="max-w-70">
               <Rating editable={true} app={application} />
@@ -322,7 +322,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         </div>
         {/** Employment type */}
         <div className="flex w-full flex-col gap-3">
-          <h1 className="font-bold text-sm">Employment Type</h1>
+          <h2 className="font-bold text-sm">Employment Type</h2>
           <div className="flex flex-wrap gap-3">
             {["full-time", "contract", "freelance", "part-time", "casual", "graduate", "internship"].map((type) => (
               <button
@@ -338,9 +338,9 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         </div>
         {/** Posting URL */}
         <div className="flex w-full flex-col gap-3">
-          <h1 className="font-bold text-sm">
+          <h2 className="font-bold text-sm">
             Posting URL
-          </h1>
+          </h2>
           <div className="flex w-full bg-surface-container-highest px-5 py-3 rounded-lg gap-2">
             <svg
               className="text-on-surface-variant/50"
@@ -362,7 +362,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         </div>
         {/** Notes */}
         <div className="flex w-full flex-col gap-3">
-          <h1 className="font-bold text-sm">Notes</h1>
+          <h2 className="font-bold text-sm">Notes</h2>
           <div className="flex gap-2 bg-surface-container-highest px-5 py-3 rounded-lg">
             <svg
               className="text-on-surface-variant/50"
@@ -385,7 +385,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         </div>
         {/** Job Description */}
         <div className="flex w-full flex-col gap-3">
-          <h1 className="font-bold text-sm">Job Description</h1>
+          <h2 className="font-bold text-sm">Job Description</h2>
           <div className="flex gap-2 bg-surface-container-highest px-5 py-3 rounded-lg">
             <svg
               className="text-on-surface-variant/50"
@@ -420,9 +420,9 @@ export default function ApplicationModal({ app }: ApplicationProps) {
             </svg>
           </div>
           <div className="flex flex-col gap-0">
-            <h1 className="text-on-background text-sm font-bold">
+            <h2 className="text-on-background text-sm font-bold">
               Automate tracking
-            </h1>
+            </h2>
             <h2 className="text-on-surface-variant mt-1 text-xs font-semibold">
               Connect your inbox to automatically sync status updates and
               interview invites for this application.
@@ -481,13 +481,13 @@ export default function ApplicationModal({ app }: ApplicationProps) {
             className="px-8 py-2.5 disabled:opacity-50 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary/50 hover:shadow-[0_0_20px_rgba(191,194,255,0.15)] transition-all"
           >
             {app ?
-              <h1>
+              <h2>
                 {loading ? "Saving..." : "Save Application"}
-              </h1>
+              </h2>
               :
-              <h1>
+              <h2>
                 {loading ? "Creating..." : "Create Application"}
-              </h1>
+              </h2>
             }
           </button>
         </div>

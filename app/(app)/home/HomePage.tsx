@@ -113,12 +113,12 @@ export default function Home() {
         {daysOfTheWeek[today.getDay()]}, {months[today.getMonth()]}{" "}
         {today.getDate()}
       </h3>
-      <h1
+      <h2
         onClick={() => setIsOpen(!isOpen)}
         className="text-4xl font-bold text-primary tracking-tight"
       >
         Good {GetGreeting(today.getHours())}, {username}.
-      </h1>
+      </h2>
       <h2 className="text-on-surface-variant max-w-xl">
         Keep working at it. You have{" "}
         <span className="text-secondary">
@@ -163,9 +163,9 @@ export default function Home() {
           </div>
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700" />
           <div className="flex gap-3 items-end">
-            <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
+            <h2 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
               {applications.length}
-            </h1>
+            </h2>
             {weekApplications.length > 0 && (
               <h2 className="flex gap-1 text-sm text-secondary items-center">
                 <svg
@@ -185,9 +185,9 @@ export default function Home() {
         {/** Next steps */}
         <div className="flex w-full relative flex-col gap-3 hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
           <div className="flex w-full justify-between items-start">
-            <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
+            <h2 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
               Next Steps
-            </h1>
+            </h2>
             <div className="flex text-secondary w-10 h-10 rounded-full bg-surface-container items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -202,9 +202,9 @@ export default function Home() {
           </div>
           <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all duration-700" />
           <div className="flex gap-3 items-end">
-            <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
+            <h2 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
               {interviewApplications.length}
-            </h1>
+            </h2>
             <h2 className="flex gap-1 text-sm text-outline items-center">
               Interviews pending
             </h2>
@@ -213,9 +213,9 @@ export default function Home() {
         {/** Follow ups */}
         <div className="flex w-full justify-between relative flex-col gap-3 hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
           <div className="flex w-full justify-between items-start">
-            <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
+            <h2 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
               Follow ups
-            </h1>
+            </h2>
             <div className="flex text-secondary w-10 h-10 rounded-full bg-surface-container items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -230,9 +230,9 @@ export default function Home() {
           </div>
           <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-all duration-700" />
           <div className="flex gap-3 items-end">
-            <h1 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
+            <h2 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
               {followUpApplications.length}
-            </h1>
+            </h2>
             <h2 className="flex gap-1 text-sm text-outline items-center">
               To follow up
             </h2>
@@ -241,9 +241,9 @@ export default function Home() {
         {/** Active pipeline */}
         <div className="flex w-full relative flex-col hover:bg-surface-container-low bg-surface-container-low/50 backdrop-blur-xl transition-colors duration-500 rounded-2xl p-8 border border-outline-variant/5">
           <div className="flex z-10 w-full justify-between items-start">
-            <h1 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
+            <h2 className="font-label-md text-xs font-semibold text-outline tracking-wider uppercase">
               Applications to follow up
-            </h1>
+            </h2>
             <div className="flex text-primary w-10 h-10 rounded-full bg-surface-container items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -262,9 +262,9 @@ export default function Home() {
               <div
                 onClick={() => router.push(`/job/${application.id}?origin=home`)}
                 key={application.id} className={`flex px-2 cursor-pointer transition-colors gap-1 hover:bg-surface-container-lowest rounded-lg ${idx > 0 ? 'border-t border-t-surface-container-highest mt-1 pt-1' : ''}`}>
-                <h1 className="font-bold">
+                <h2 className="font-bold">
                   {application.company}
-                </h1>
+                </h2>
                 <h2>
                   - {application.title}
                 </h2>
@@ -277,9 +277,9 @@ export default function Home() {
       <div className="hidden md:flex flex-col mt-10 gap-3">
         {/** Title */}
         <div className="flex justify-between items-center">
-          <h1 className="font-headline-lg-mobile font-semibold text-headline-lg-mobile text-on-surface">
+          <h2 className="font-headline-lg-mobile font-semibold text-headline-lg-mobile text-on-surface">
             Momentum
-          </h1>
+          </h2>
           <button
             onClick={() => router.push("/board")}
             className="rounded-full px-2 py-1 text-primary hover:text-primary/50 text-sm font-semibold transition-colors duration-500"
@@ -297,9 +297,9 @@ export default function Home() {
       <div className="flex flex-col mt-10 gap-3">
         {/** Title */}
         <div className="flex justify-between items-center">
-          <h1 className="font-headline-lg-mobile font-semibold text-headline-lg-mobile text-on-surface">
+          <h2 className="font-headline-lg-mobile font-semibold text-headline-lg-mobile text-on-surface">
             Recent Signals
-          </h1>
+          </h2>
         </div>
         <div className="flex flex-col">
           {orderedApplications.map((app) => { 

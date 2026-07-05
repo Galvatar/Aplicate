@@ -51,9 +51,9 @@ export default function PricingPage() {
           variants={fadeInUp}
           className="flex items-center mt-15 mb-5 gap-2 font-semibold"
         >
-          <h1>Monthly</h1>
+          <h2>Monthly</h2>
           <ToggleButton disabled={false} status={annual} onChange={setAnnual} />
-          <h1>One Time</h1>
+          <h2>One Time</h2>
         </motion.div>
         <motion.div
           initial="hidden"
@@ -66,7 +66,7 @@ export default function PricingPage() {
             className="flex flex-col h-full w-full justify-between items-start rounded-lg p-8 bg-surface-container"
           >
             <div className="flex flex-col items-start">
-              <h1 className="font-semibold text-2xl">Essential</h1>
+              <h2 className="font-semibold text-2xl">Essential</h2>
               <p className="text-sm mt-3 text-on-surface/50 text-left">
                 Everything you need to stay organized.
               </p>
@@ -165,7 +165,7 @@ export default function PricingPage() {
                 Most Popular!
               </div> */}
               <div className="flex flex-col items-start mb-10">
-                <h1 className="font-semibold text-2xl text-primary">Pro</h1>
+                <h2 className="font-semibold text-2xl text-primary">Pro</h2>
                 <p className="text-sm mt-3 text-on-surface/50 text-left">
                   Stop typing it in. Stop checking your inbox.
                 </p>
@@ -242,7 +242,7 @@ export default function PricingPage() {
                 Most Popular!
               </div> */}
               <div className="flex flex-col items-start mb-10">
-                <h1 className="font-semibold text-2xl text-primary">Pro</h1>
+                <h2 className="font-semibold text-2xl text-primary">Pro</h2>
                 <p className="text-sm mt-3 text-on-surface/50 text-left">
                   Stop typing it in. Stop checking your inbox.
                 </p>

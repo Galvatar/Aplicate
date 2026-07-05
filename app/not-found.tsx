@@ -24,9 +24,9 @@ export default function NotFoundPage() {
                     priority
                     />
                 </div>
-                <h1 className="font-bold text-5xl text-primary">
+                <h2 className="font-bold text-5xl text-primary">
                     404
-                </h1>
+                </h2>
             </div>
             <h1 className="font-bold text-3xl">
                 Sorry, this page does not exist...

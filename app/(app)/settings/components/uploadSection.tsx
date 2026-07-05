@@ -157,18 +157,18 @@ export default function UploadSection({ userId }: { userId: string }) {
     if (uploaded) {
         return (
             <div className="hidden md:flex flex-col gap-3">
-                <h1 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight">
+                <h2 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight">
                     <svg className="text-primary" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor">
                         <path d="M440-200h80v-167l64 64 56-57-160-160-160 160 57 56 63-63v167ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
                     </svg>
                     Import Data
-                </h1>
+                </h2>
                 <div 
                     className={`group flex flex-col items-center p-5 bg-surface-container rounded-xl border-2 border-dashed border-primary justify-between transition-colors`}
                 >
-                    <h1 className="font-bold py-5 text-2xl text-on-surface pointer-events-none">
+                    <h2 className="font-bold py-5 text-2xl text-on-surface pointer-events-none">
                         Parsed Successfully!
-                    </h1>
+                    </h2>
                 </div>
             </div>
         )
@@ -176,12 +176,12 @@ export default function UploadSection({ userId }: { userId: string }) {
 
     return (
         <div className="hidden md:flex flex-col gap-3">
-            <h1 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight">
+            <h2 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight">
                 <svg className="text-primary" xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="currentColor">
                     <path d="M440-200h80v-167l64 64 56-57-160-160-160 160 57 56 63-63v167ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
                 </svg>
                 Import Data
-            </h1>
+            </h2>
 
             <ul className="flex flex-col font-semibold gap-3 my-5">
                 <li className="list-decimal pl-3 ml-6">
@@ -215,9 +215,9 @@ export default function UploadSection({ userId }: { userId: string }) {
                     </svg>
                 </div>
                 
-                <h1 className="font-bold mt-5 text-xl text-on-surface pointer-events-none">
+                <h2 className="font-bold mt-5 text-xl text-on-surface pointer-events-none">
                     CSV Auto-Parse
-                </h1>
+                </h2>
                 
                 <p className="max-w-150 text-center font-semibold text-sm mt-3 text-on-surface/80 pointer-events-none">
                     Drag and drop your job applications CSV file here. This action will add the applications to your existing ones.

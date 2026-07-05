@@ -53,7 +53,7 @@ export default function Home() {
           </motion.div>
 
           {/** Main Title Header */}
-          <motion.h1
+          <motion.h2
             variants={fadeInUp}
             className="mt-6 font-extrabold text-5xl md:text-6xl tracking-tight leading-[1.15] max-w-3xl text-on-background"
           >
@@ -61,17 +61,17 @@ export default function Home() {
             <span className="bg-linear-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
               Your Job Search
             </span>
-          </motion.h1>
+          </motion.h2>
 
           {/** Subtitle Description */}
-          <motion.h2
+          <motion.p
             variants={fadeInUp}
             className="mt-6 max-w-2xl text-lg md:text-xl text-on-surface-variant font-medium leading-relaxed"
           >
-            The automated job tracker built for Australia & New Zealand. 
+            <h1>The automated job tracker built for Australia & New Zealand.</h1>
             Optional power-tools let you clip listings and auto-sync Gmail when you're ready.
             Already applying? Parse your current data automatically in less than a minute.
-          </motion.h2>
+          </motion.p>
 
           {/** Core Call-To-Action (CTA) */}
           <motion.div
@@ -158,7 +158,7 @@ export default function Home() {
                     <path d="M666-360q33 2 65.5-3.5T794-382q-21 131-121 216.5T440-80q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T80-440q0-133 85.5-233T382-794q-13 30-18.5 62.5T360-666q-72 25-116 87t-44 139q0 100 70 170t170 70q77 0 139-44t87-116Zm14-560q100 0 170 70t70 170q0 100-70 170t-170 70q-100 0-170-70t-70-170q0-100 70-170t170-70Zm0 360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0-120ZM433-433Z" />
                   </svg>
                 </div>
-                <h1 className="font-bold text-2xl">Clutter-Free Tracking</h1>
+                <h2 className="font-bold text-2xl">Clutter-Free Tracking</h2>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
                   Say goodbye to messy spreadsheets. Experience a streamlined,
                   distraction-free Kanban workspace built to keep you focused on
@@ -189,9 +189,9 @@ export default function Home() {
                     <path d="M440-200h80v-167l64 64 56-57-160-160-160 160 56 57 64-64v167ZM240-80q-33 0-56.5-23.5T160-200v-560q0-33 23.5-56.5T240-840h320l240 240v400q0 33-23.5 56.5T720-80H240Zm280-520v-160H240v560h480v-400H520ZM240-760v160-160 560-560Z" />
                   </svg>
                 </div>
-                <h1 className="font-bold text-2xl">
+                <h2 className="font-bold text-2xl">
                   1-Click Spreadsheet Import
-                </h1>
+                </h2>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
                   Already tracking elsewhere? Don't start from scratch. Upload
                   your existing job search data via CSV file, and Aplicate will
@@ -229,7 +229,7 @@ export default function Home() {
                     <path d="M280-280h80v-200h-80v200Zm320 0h80v-400h-80v400Zm-160 0h80v-120h-80v120Zm0-200h80v-80h-80v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" />
                   </svg>
                 </div>
-                <h1 className="font-bold text-2xl">Visual Progress</h1>
+                <h2 className="font-bold text-2xl">Visual Progress</h2>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
                   Turn your job hunt into a data pipeline. Track conversion
                   rates from applied to offered, and instantly see where your
@@ -261,7 +261,7 @@ export default function Home() {
                     <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" />
                   </svg>
                 </div>
-                <h1 className="font-bold text-2xl">Automated Inbox Sync</h1>
+                <h2 className="font-bold text-2xl">Automated Inbox Sync</h2>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
                   Put your tracking on autopilot. Aplicate securely detects
                   application confirmation emails in your inbox and updates your
@@ -316,9 +316,9 @@ export default function Home() {
           className="flex flex-col items-center gap-3 relative overflow-hidden py-24"
         >
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full hero-gradient pointer-events-none" />
-          <h1 className="font-bold text-2xl text-center">
+          <h2 className="font-bold text-2xl text-center">
             Ready to clear the job search chaos?
-          </h1>
+          </h2>
           <p className="text-center max-w-160 text-on-surface-variant">
             Ditch the tabs, the notes, and the chaotic bookmarks. Start tracking
             your next big move in seconds.

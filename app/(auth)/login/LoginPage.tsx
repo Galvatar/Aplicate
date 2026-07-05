@@ -56,9 +56,9 @@ export default function LoginPage() {
           priority
         />
       </div>
-      <h1 className="text-on-surface text-3xl font-bold text-center">
+      <h2 className="text-on-surface text-3xl font-bold text-center">
         Welcome back
-      </h1>
+      </h2>
       <h2 className="text-on-surface-variant text-sm font-medium text-center max-w-xs">
         Enter your details to access your workspace.
       </h2>
@@ -163,7 +163,7 @@ export default function LoginPage() {
             className="flex w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary-container rounded-lg py-3 px-4 justify-center items-center gap-2 font-semibold bg-primary-container hover:bg-primary text-on-primary-container transition-colors"
             type="submit"
           >
-            Log in
+            <h1>Log in</h1>
           </button>
           {error !== "" && (
             <h4 className="bg-red-300 text-sm font-semibold border border-red-500 text-red-700 rounded-lg p-3">
@@ -173,7 +173,7 @@ export default function LoginPage() {
         </form>
         <div className="flex w-full mt-5 gap-5 items-center">
           <div className="h-fit w-full p-px bg-on-surface/20" />
-          <h1 className="text-xs font-semibold text-on-surface/80">OR</h1>
+          <h2 className="text-xs font-semibold text-on-surface/80">OR</h2>
           <div className="h-fit w-full p-px bg-on-surface/20" />
         </div>
         <button
@@ -200,7 +200,7 @@ export default function LoginPage() {
           Continue as Guest
         </button>
         <div className="flex gap-2 w-full items-center justify-center mt-5">
-          <h1>Don't have an account?</h1>
+          <h2>Don't have an account?</h2>
           <button
             onClick={() => router.push("/signup")}
             className="text-primary hover:underline font-bold transition-all"

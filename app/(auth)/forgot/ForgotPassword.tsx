@@ -55,9 +55,9 @@ export default function ForgotPasswordPage() {
           Enter your email to get a reset link.
         </h2>
         <div className="glass-panel w-full max-w-md rounded-xl p-8 md:p-10 shadow-xl relative overflow-hidden bg-surface-container-low border-outline-variant/30">
-          <h1 className="font-bold text-2xl">
+          <h2 className="font-bold text-2xl">
             Link Sent!
-          </h1>
+          </h2>
           <p className="my-3">
             If we found an account matching this email, we sent a link in order to reset the associated account's password. If you dont see it check your spam inbox.
           </p>

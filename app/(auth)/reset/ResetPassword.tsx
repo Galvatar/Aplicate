@@ -59,9 +59,9 @@ export default function ResetPasswordPage() {
           Enter your new password and confirm it.
         </h2>
         <div className="glass-panel w-full max-w-md rounded-xl p-8 md:p-10 shadow-xl relative overflow-hidden bg-surface-container-low border-outline-variant/30">
-          <h1 className="font-bold text-2xl">
+          <h2 className="font-bold text-2xl">
             Password Changed!
-          </h1>
+          </h2>
           <p className="my-3">
             Go back to the login page to login with your new password.
           </p>

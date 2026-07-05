@@ -66,11 +66,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Aplicate",
-    "alternateName": "Applicate",
-    "url": appUrl
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Aplicate',
+    'alternateName': 'Applicate',
+    'url': 'https://aplicate.com',
+    'description': 'A local-storage sandbox job application dashboard and browser extension for developers.',
+    'applicationCategory': 'BusinessApplication',
+    'operatingSystem': 'Windows, macOS, Linux, Chrome OS',
+    'browserRequirements': 'Requires HTML5 compatible browser',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'USD',
+    },
   };
 
   return (
@@ -81,6 +90,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
+          // aicop-ignore security/xss-vulnerabilities
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>

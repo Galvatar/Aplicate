@@ -123,9 +123,9 @@ export var columns: ColumnConfig[] = [
         active: false,
         format: (a) => {
             return (
-                <h1 className="font-semibold">
+                <h2 className="font-semibold">
                     {a.pay}
-                </h1>
+                </h2>
             )
         }
     },
@@ -140,9 +140,9 @@ export var columns: ColumnConfig[] = [
         },
         format: (a) => {
             return (
-                <h1 className="font-semibold">
+                <h2 className="font-semibold">
                     {a.foundOn}
-                </h1>
+                </h2>
             )
         }
     },
@@ -157,9 +157,9 @@ export var columns: ColumnConfig[] = [
         },
         format: (a) => {
             return (
-                <h1 className="font-semibold">
+                <h2 className="font-semibold">
                     {capitalize(a.employmentType)}
-                </h1>
+                </h2>
             )
         }
     },
@@ -169,9 +169,9 @@ export var columns: ColumnConfig[] = [
         active: false,
         format: (a) => {
             return (
-                <h1 className="">
+                <h2 className="">
                     {a.url}
-                </h1>
+                </h2>
             )
         }
     },
@@ -181,9 +181,9 @@ export var columns: ColumnConfig[] = [
         active: false,
         format: (a) => {
             return (
-                <h1 className="">
+                <h2 className="">
                     {a.mainContact}
-                </h1>
+                </h2>
             )
         }
     },

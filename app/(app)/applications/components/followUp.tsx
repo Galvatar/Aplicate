@@ -30,11 +30,11 @@ export default function FollowUp({ app }: FollowUpProps) {
 
     return (
         <div className={`flex flex-col ${today > date ? 'text-on-error bg-error font-semibold py-2 px-2 rounded-lg' : ''}`}>
-            <h1>
+            <h2>
                 {months[date.getMonth()]}{" "}
                 {date.getDate()},{" "}
                 {date.getFullYear()}
-            </h1>
+            </h2>
             {today > date &&
                 <button onClick={(e) => {
                     e.stopPropagation();

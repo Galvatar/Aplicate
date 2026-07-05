@@ -203,7 +203,7 @@ export default function SettingsPage() {
           </button>
         ) : (
           <button
-            onClick={async () => {
+            onClick={() => {
               router.push("/login");
             }}
             className="flex md:hidden font-semibold bg-primary-container text-on-primary-container px-4 py-1.5 rounded-lg shadow-md shadow-primary-container/50"
@@ -238,9 +238,9 @@ export default function SettingsPage() {
           </div>
           <div className="flex flex-col gap-3 md:flex-row w-full justify-between md:items-center">
             <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold text-on-surface tracking-tight">
+                <h2 className="text-3xl font-bold text-on-surface tracking-tight">
                 {userProfile ? capitalize(fullName) : "Guest"}
-                </h1>
+                </h2>
                 <h2 className="text-on-surface-variant font-bold tracking-tight break-all">
                 {userProfile?.user_metadata.email}
                 </h2>
@@ -279,19 +279,19 @@ export default function SettingsPage() {
                 {proUser && subscription?.renews_at ?
                     <div className="flex flex-col gap-3">
                         <LemonButton yearly={false} manage={true} />
-                        <h1 className="flex gap-1">
+                        <h2 className="flex gap-1">
                             <b>Renews:</b>
                             {formatDate(subscription?.renews_at)}
-                        </h1>
+                        </h2>
                     </div>
                     :
                 proUser && subscription?.ends_at ?
                     <div className="flex flex-col gap-3">
                         <LemonButton yearly={false} manage={true} />
-                        <h1 className="flex gap-1">
+                        <h2 className="flex gap-1">
                             <b>Ends on:</b>
                             {formatDate(subscription?.ends_at)}
-                        </h1>
+                        </h2>
                     </div>
                     :
                 ''
@@ -334,7 +334,7 @@ export default function SettingsPage() {
             </div>
           )}
           <div className="flex items-center justify-between mt-5">
-            <h1 className="flex items-center gap-3 ml-5 font-bold text-3xl text-on-surface tracking-tight">
+            <h2 className="flex items-center gap-3 ml-5 font-bold text-3xl text-on-surface tracking-tight">
               <svg
                 className="text-primary"
                 xmlns="http://www.w3.org/2000/svg"
@@ -346,7 +346,7 @@ export default function SettingsPage() {
                 <path d="M155-75q-35-35-35-85t35-85q35-35 85-35 14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35q-50 0-85-35Zm-35-465q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm148.5 408.5Q280-143 280-160t-11.5-28.5Q257-200 240-200t-28.5 11.5Q200-177 200-160t11.5 28.5Q223-120 240-120t28.5-11.5Zm240-680Q520-823 520-840t-11.5-28.5Q497-880 480-880t-28.5 11.5Q440-857 440-840t11.5 28.5Q463-800 480-800t28.5-11.5ZM480-360q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm268.5 228.5Q760-143 760-160t-11.5-28.5Q737-200 720-200t-28.5 11.5Q680-177 680-160t11.5 28.5Q703-120 720-120t28.5-11.5Zm120-420Q880-563 880-580t-11.5-28.5Q857-620 840-620t-28.5 11.5Q800-597 800-580t11.5 28.5Q823-540 840-540t28.5-11.5ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z" />
               </svg>
               Integrations
-            </h1>
+            </h2>
           </div>
           <div className="flex p-5 bg-surface-container rounded-xl border border-surface-container-highest justify-between">
             <div className="flex gap-3">
@@ -362,7 +362,7 @@ export default function SettingsPage() {
                 </svg>
               </div>
               <div className="flex flex-col gap-2">
-                <h1 className="font-bold text-xl">Gmail Integration</h1>
+                <h2 className="font-bold text-xl">Gmail Integration</h2>
                 <p className="font-semibold">
                   Connect your Gmail to automatically sync and organize job
                   application confirmation emails directly into your board.
@@ -390,7 +390,7 @@ export default function SettingsPage() {
 
         {/** Data and privacy */}
         <div className="flex flex-col gap-3">
-          <h1 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight py-5 border-t border-surface-container-high">
+          <h2 className="flex items-center gap-3 mt-5 ml-5 font-bold text-3xl text-on-surface tracking-tight py-5 border-t border-surface-container-high">
             <svg
               className="text-error"
               xmlns="http://www.w3.org/2000/svg"
@@ -402,16 +402,16 @@ export default function SettingsPage() {
               <path d="M508.5-331.5Q520-343 520-360t-11.5-28.5Q497-400 480-400t-28.5 11.5Q440-377 440-360t11.5 28.5Q463-320 480-320t28.5-11.5ZM440-480h80v-200h-80v200Zm40 400q-139-35-229.5-159.5T160-516v-244l320-120 320 120v244q0 152-90.5 276.5T480-80Zm0-84q104-33 172-132t68-220v-189l-240-90-240 90v189q0 121 68 220t172 132Zm0-316Z" />
             </svg>
             Data & Privacy
-          </h1>
+          </h2>
           <div className="flex flex-col border border-error/50 bg-surface-container p-7 rounded-xl">
-            <h1 className="font-bold text-lg">Danger Zone</h1>
+            <h2 className="font-bold text-lg">Danger Zone</h2>
             <p className="font-medium">
               These actions are permanent and cannot be undone. Please be
               certain before proceeding.
             </p>
             <div className="flex flex-col md:flex-row pt-5 gap-5">
               <div className="flex flex-col border border-surface-container-highest p-3 rounded-xl items-start gap-3">
-                <h1 className="font-semibold text-lg">Reset My Data</h1>
+                <h2 className="font-semibold text-lg">Reset My Data</h2>
                 <p>
                   Wipe all application history and analytics but keep your
                   account active.
@@ -425,7 +425,7 @@ export default function SettingsPage() {
               </div>
               {userProfile && (
                 <div className="flex flex-col border border-error/30 bg-error-container/20 p-3 rounded-xl items-start gap-3">
-                  <h1 className="font-semibold text-lg">Delete Account</h1>
+                  <h2 className="font-semibold text-lg">Delete Account</h2>
                   <p>
                     Delete your account completely along with all your
                     applications and integrations

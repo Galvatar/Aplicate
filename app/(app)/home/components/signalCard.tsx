@@ -53,17 +53,17 @@ export default function SignalCard({
       onClick={() => router.push(`/job/${id}`)}
       className="flex gap-2 cursor-pointer rounded-xl border-b border-surface-container justify-between pb-2 md:p-5 hover:bg-surface-container-lowest transition-colors duration-500">
       <div className="flex flex-col gap-2">
-        <h1 className="text-on-surface">
+        <h2 className="text-on-surface">
           {title} <b>{company}</b>
-        </h1>
+        </h2>
         <h2 className="text-on-surface-variant text-sm">
             {daysOfTheWeek[timestamp.getDay()]}, {months[timestamp.getMonth()]} {timestamp.getDate()} at {GetPadded(timestamp.getHours())}:{GetPadded(timestamp.getMinutes())}
         </h2>
       </div>
       <div className="flex flex-col">
-        <h1 className="text-xs font-semibold text-outline">
+        <h2 className="text-xs font-semibold text-outline">
           {timeAgo(timestamp)}
-        </h1>
+        </h2>
       </div>
     </div>
   );

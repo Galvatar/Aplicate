@@ -21,9 +21,9 @@ export default function RefundsPage() {
                 </h2>
                 <div className="flex gap-5 items-start w-full">
                     <div className="flex flex-col p-5 bg-surface-container border border-surface-container-high rounded-lg gap-2">
-                        <h1 className="uppercase font-semibold text-xs text-on-surface/50">
+                        <h2 className="uppercase font-semibold text-xs text-on-surface/50">
                             On this page
-                        </h1>
+                        </h2>
                         <h2 
                             onClick={() => {
                                 document.getElementById("philosophy")?.scrollIntoView({
@@ -86,15 +86,15 @@ export default function RefundsPage() {
                         </h2>
                     </div>
                     <div className="flex w-full h-fit flex-col p-5 bg-surface-container border border-surface-container-high rounded-lg gap-3">
-                        <h1 id="philosophy" className="font-bold text-2xl">
+                        <h2 id="philosophy" className="font-bold text-2xl">
                             1. Our Core Philosophy
-                        </h1>
+                        </h2>
                         <p>
                             We want you to love our product. If you are unhappy with your purchase for any reason within your first <b>14 days</b> of signing up, just drop us a line. We will happily issue a full refund, no questions asked, subject to our fair use guidelines below.
                         </p>
-                        <h1 id="eligibility" className="font-bold text-2xl mt-3">
+                        <h2 id="eligibility" className="font-bold text-2xl mt-3">
                             2. Eligibility Breakdown
-                        </h1>
+                        </h2>
                         <p>
                             To keep things fair for both our users and our development team, we use the following guidelines to process refund requests:
                         </p>
@@ -170,29 +170,29 @@ export default function RefundsPage() {
                                 </tr>
                             </tbody>
                         </table>
-                        <h1 id="access" className="font-bold text-2xl mt-3">
+                        <h2 id="access" className="font-bold text-2xl mt-3">
                             3. Immediate Revocation of Access
-                        </h1>
+                        </h2>
                         <p>
                             <b>Important:</b> Processing a refund will immediately terminate your active subscription, access tokens, and account privileges. You will lose access to all premium features and data on the spot. We do not offer prorated usage after a refund has been issued.
                         </p>
-                        <h1 id="abuse" className="font-bold text-2xl mt-3">
+                        <h2 id="abuse" className="font-bold text-2xl mt-3">
                             4. Fair use & Abuse Prevention
-                        </h1>
+                        </h2>
                         <p>
                             To prevent abuse of our 14-day money-back guarantee (such as using our service as a temporary free trial), refunds are subject to a data and resource consumption limit.<br /><br />
 
                             We reserve the right to deny a refund request if, within the 14-day window, your account exceeds reasonable fair-use thresholds (such as excessive API utilization, bulk data extraction, or heavy server operations). Refund requests will be evaluated at <b>our sole discretion</b> to ensure the guarantee is being used in good faith.
                         </p>
-                        <h1 id="request" className="font-bold text-2xl mt-3">
+                        <h2 id="request" className="font-bold text-2xl mt-3">
                             5. How to Request a Refund
-                        </h1>
+                        </h2>
                         <p>
                             To initiate a refund, please email us at <b>aplicate.jobs@gmail.com</b> from the email address associated with your account. Please include your Paddle Order ID (found on your email receipt) so we can locate your transaction instantly.
                         </p>
-                        <h1 id="time" className="font-bold text-2xl mt-3">
+                        <h2 id="time" className="font-bold text-2xl mt-3">
                             6. Processing Time
-                        </h1>
+                        </h2>
                         <p>
                             Once approved, refunds are processed immediately through our payment provider (Paddle). It typically takes <b>5 to 10 business days</b> for the funds to reappear on your original payment method (bank account or credit card statement).
                         </p>

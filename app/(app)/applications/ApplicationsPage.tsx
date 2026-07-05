@@ -52,9 +52,9 @@ export default function Applications() {
           </h2>
         </div>
         <div className="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-lg border border-outline-variant/20">
-          <h1 className="text-secondary font-bold">
+          <h2 className="text-secondary font-bold">
             {activeApplications.length}
-          </h1>
+          </h2>
           <h2 className="text-on-surface-variant text-xs font-semibold uppercase tracking-widest">
             Active
           </h2>
