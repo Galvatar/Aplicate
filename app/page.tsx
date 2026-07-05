@@ -80,7 +80,7 @@ export default function Home() {
           >
             <button
               onClick={() => router.push("/home")}
-              className="flex group w-full justify-center items-center gap-2 bg-primary hover:bg-primary-container text-on-primary max-w-xs py-4 rounded-full font-bold text-base shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 transform hover:-translate-y-0.5"
+              className="flex group w-full justify-center items-center gap-2 bg-primary hover:bg-primary-container text-on-primary max-w-md py-4 rounded-full font-bold text-base shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 transform hover:-translate-y-0.5"
             >
               Open Dashboard (No Account Required)
               <svg
