@@ -68,10 +68,9 @@ export default function Home() {
             variants={fadeInUp}
             className="mt-6 max-w-2xl text-lg md:text-xl text-on-surface-variant font-medium leading-relaxed"
           >
-            The automated job tracker built for Australia & New Zealand. Clip
-            listings from favorite job boards, sync your Gmail, and update your
-            application dashboard automatically. Already applying? Parse your
-            current data automatically in less than a minute.
+            The automated job tracker built for Australia & New Zealand. 
+            Optional power-tools let you clip listings and auto-sync Gmail when you're ready.
+            Already applying? Parse your current data automatically in less than a minute.
           </motion.h2>
 
           {/** Core Call-To-Action (CTA) */}
@@ -83,7 +82,7 @@ export default function Home() {
               onClick={() => router.push("/home")}
               className="flex group w-full justify-center items-center gap-2 bg-primary hover:bg-primary-container text-on-primary max-w-xs py-4 rounded-full font-bold text-base shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 transform hover:-translate-y-0.5"
             >
-              Try it now (No Login Required)
+              Open Dashboard (No Account Required)
               <svg
                 className="group-hover:translate-x-1.5 transition-transform duration-300"
                 xmlns="http://www.w3.org/2000/svg"
