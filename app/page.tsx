@@ -31,7 +31,7 @@ export default function Home() {
 
       {/** Body */}
       <div className="flex relative flex-col px-3 items-center ">
-        <span className="" />
+        <span className="h-30 fixed z-100 left-0 bottom-0 w-full bg-linear-to-t from-[#09090b] via-transparent to-transparent pointer-events-none" />
 
         {/** Landing card (Hero Section) - ANIMATES ON INITIAL PAGE LOAD */}
         <motion.div

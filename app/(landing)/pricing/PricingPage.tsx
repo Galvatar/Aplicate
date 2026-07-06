@@ -31,6 +31,7 @@ export default function PricingPage() {
 
       {/** Body */}
       <div className="flex relative flex-col items-center mb-30">
+        <span className="h-30 fixed z-100 left-0 bottom-0 w-full bg-linear-to-t from-[#09090b] via-transparent to-transparent pointer-events-none" />
         <motion.div
           initial="hidden"
           animate="visible"
