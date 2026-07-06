@@ -2,11 +2,11 @@ import type { NextConfig } from "next";
 
 const cspHeader = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.paddle.com https://va.vercel-scripts.com https://public.profitwell.com;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.paddle.com https://va.vercel-scripts.com https://public.profitwell.com https://www.redditstatic.com;
   style-src 'self' 'unsafe-inline' https://cdn.paddle.com https://va.vercel-scripts.com;
-  img-src 'self' blob: data: https://*.supabase.co;
+  img-src 'self' blob: data: https://*.supabase.co https://alb.reddit.com;
   font-src 'self' data:;
-  connect-src 'self' https://*.supabase.co http://localhost:54321 https://va.vercel-scripts.com ws://localhost:54321 https://api.paddle.com https://sandbox-api.paddle.com https://cdn.paddle.com;
+  connect-src 'self' https://*.supabase.co http://localhost:54321 https://va.vercel-scripts.com ws://localhost:54321 https://api.paddle.com https://sandbox-api.paddle.com https://cdn.paddle.com https://alb.reddit.com;
   frame-src 'self' https://checkout.paddle.com https://sandbox-checkout.paddle.com https://sandbox-buy.paddle.com;
   frame-ancestors 'none';
   form-action 'self';
