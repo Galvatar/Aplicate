@@ -60,7 +60,7 @@ export default function Home() {
             className="mt-6 max-w-2xl text-lg md:text-xl text-on-surface-variant font-medium leading-relaxed"
           >
             <h1>The automated job tracker built for Australia & New Zealand.</h1>
-            Optional power-tools let you clip listings and auto-sync Gmail when you're ready.
+            Optional tools let you clip listings and sync Gmail when you need them.
             Already applying? Parse your current data automatically in less than a minute.
           </motion.div>
 
