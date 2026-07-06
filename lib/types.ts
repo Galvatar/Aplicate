@@ -1,5 +1,7 @@
-export interface SankeyData {
-
+declare global {
+  interface Window {
+    rdt: (command: string, eventName: string, properties?: Record<string, any>) => void;
+  }
 }
 
 export interface Application {
@@ -61,3 +63,5 @@ export interface Subscription {
     created_at: string
     updated_at: string
 }
+
+export {};

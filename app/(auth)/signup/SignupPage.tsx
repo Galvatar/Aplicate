@@ -42,6 +42,7 @@ export default function SignupPage() {
     if (error !== "") {
       setError(error);
     } else {
+      window.rdt('track', 'SignUp');
       router.push("/home");
     }
     setDisableSubmit(false);
