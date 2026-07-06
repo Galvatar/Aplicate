@@ -4,11 +4,11 @@ import { useApplications } from "@/hooks/use-applications";
 import { signInWithGoogle, signUp } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Image from 'next/image';
-import lightLogo from '@/public/lightLogo.png';
-import darkLogo from '@/public/darkLogo.png';
-import googleIcon from '@/public/Google.png';
-import { sendRedditEvent } from "@/app/api/reddit-capi/route";
+import Image from "next/image";
+import lightLogo from "@/public/lightLogo.png";
+import darkLogo from "@/public/darkLogo.png";
+import googleIcon from "@/public/Google.png";
+import { sendRedditEvent } from "@/app/api/reddit-capi/reddit-capi";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -45,14 +45,14 @@ export default function SignupPage() {
     } else {
       const uniqueConversionId = crypto.randomUUID();
 
-      window.rdt('track', 'SignUp', {
-        conversionId: email
+      window.rdt("track", "SignUp", {
+        conversionId: email,
       });
 
       await sendRedditEvent({
-        eventName: 'SignUp',
+        eventName: "SignUp",
         conversionId: uniqueConversionId,
-        email: email
+        email: email,
       });
       router.push("/home");
     }
@@ -250,21 +250,26 @@ export default function SignupPage() {
             signInWithGoogle();
             const uniqueConversionId = crypto.randomUUID();
 
-            window.rdt('track', 'SignUp', {
-              conversionId: email
+            window.rdt("track", "SignUp", {
+              conversionId: email,
             });
 
             await sendRedditEvent({
-              eventName: 'SignUp',
+              eventName: "SignUp",
               conversionId: uniqueConversionId,
-              email: email
+              email: email,
             });
             setDisableSubmit(false);
             setDisableGoogle(false);
           }}
           className="w-full font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent text-lg rounded-lg py-3 px-4 border border-outline-variant/50 flex justify-center items-center gap-2 mt-5 hover:bg-surface-container-lowest transition-colors duration-300"
         >
-          <Image src={googleIcon} alt="Google logo" className="w-5 h-5" priority />
+          <Image
+            src={googleIcon}
+            alt="Google logo"
+            className="w-5 h-5"
+            priority
+          />
           Signup with Google
         </button>
         <button
