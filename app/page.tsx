@@ -97,7 +97,7 @@ export default function Home() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, amount: 0.10 }}
           variants={fadeInUp}
           className="p-5 rounded-2xl border border-surface-container-highest max-w-5xl mx-auto px-4"
         >
