@@ -42,7 +42,9 @@ export default function SignupPage() {
     if (error !== "") {
       setError(error);
     } else {
-      window.rdt('track', 'SignUp');
+      window.rdt('track', 'SignUp', {
+        conversionId: email
+      });
       router.push("/home");
     }
     setDisableSubmit(false);
