@@ -5,6 +5,7 @@ import { Application } from "@/lib/types";
 import { ReactNode } from "react";
 import DoneButton from "./followUp";
 import FollowUp from "./followUp";
+import { capitalize } from "@/lib/capitalize";
 
 export interface ColumnConfig {
     key: keyof Application;
@@ -28,13 +29,6 @@ const months = [
     "Nov",
     "Dec",
 ];
-
-function capitalize(word: string): string {
-    if (word == null) return "";
-    const firstLetter = word.substring(0, 1).toUpperCase();
-    const lastLetters = word.substring(1, word.length);
-    return firstLetter.concat(lastLetters);
-}
 
 export var columns: ColumnConfig[] = [
     {

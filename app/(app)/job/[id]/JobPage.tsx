@@ -6,6 +6,7 @@ import { useModal } from "@/components/ui/modal";
 import Rating from "@/components/ui/rating";
 import StatusLabel from "@/components/ui/statusLabel";
 import { useApplications } from "@/hooks/use-applications";
+import { capitalize } from "@/lib/capitalize";
 import { Application } from "@/lib/types";
 import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -54,12 +55,6 @@ export default function JobPage() {
     }
 
     return null;
-  }
-
-  function capitalize(word: string): string {
-    const firstLetter = word.substring(0, 1).toUpperCase();
-    const lastLetters = word.substring(1, word.length);
-    return firstLetter.concat(lastLetters);
   }
 
   function getPadding(num: number): string {

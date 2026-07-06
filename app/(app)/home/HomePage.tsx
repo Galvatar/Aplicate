@@ -8,6 +8,7 @@ import { Application, Status } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
 import { useRouter } from "next/navigation";
 import { useSidebar } from "@/hooks/use-sidebar";
+import { capitalize } from "@/lib/capitalize";
 
 export default function Home() {
   const today = new Date();
@@ -90,12 +91,6 @@ export default function Home() {
     if (loading) return;
     getApplications().then(setApplications);
   }, [loading]);
-
-  function capitalize(word: string): string {
-    const firstLetter = word.substring(0, 1).toUpperCase();
-    const lastLetters = word.substring(1, word.length);
-    return firstLetter.concat(lastLetters);
-  }
 
   function GetGreeting(hour: number): string {
     if (hour < 12) {

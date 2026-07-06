@@ -69,10 +69,15 @@ export default function Sidebar() {
     "/terms",
     "/refund",
     "/forgot",
-    "/reset"
+    "/reset",
+    "/vs"
   ]
 
-  if (excludeList.includes(pathname)) return <></>;
+  const shouldExclude = excludeList.some((path) => 
+    pathname === path || pathname.startsWith(`${path}/`)
+  );
+
+  if (shouldExclude) return <></>;
 
   return (
     <div

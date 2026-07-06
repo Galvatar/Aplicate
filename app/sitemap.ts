@@ -1,7 +1,15 @@
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://career-flow.com';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://aplicate.app';
+  const competitors = ['teal', 'huntr', 'excel', 'notion'];
+
+  const vsRoutes = competitors.map((comp) => ({
+    url: `${baseUrl}/vs/${comp}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
 
   const routes = [
     '',
@@ -25,5 +33,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1 : 0.8,
   }));
 
-  return [...routes];
+  return [...routes, ...vsRoutes];
 }

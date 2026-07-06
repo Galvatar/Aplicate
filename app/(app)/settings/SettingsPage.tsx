@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import LemonButton from "@/components/ui/paddleButton";
 import Image from "next/image";
 import { signOut } from "@/lib/auth";
+import { capitalize } from "@/lib/capitalize";
 
 export default function SettingsPage() {
   const [userProfile, setUserProfile] = useState<User | null>();
@@ -73,12 +74,6 @@ export default function SettingsPage() {
       setUserProfile(null);
     }
   }, [user]);
-
-  function capitalize(word: string): string {
-    const firstLetter = word.substring(0, 1).toUpperCase();
-    const lastLetters = word.substring(1, word.length);
-    return firstLetter.concat(lastLetters);
-  }
 
   function parseCSVLine(text: string): string[] {
     const result: string[] = [];

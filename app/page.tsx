@@ -64,14 +64,14 @@ export default function Home() {
           </motion.h2>
 
           {/** Subtitle Description */}
-          <motion.p
+          <motion.div
             variants={fadeInUp}
             className="mt-6 max-w-2xl text-lg md:text-xl text-on-surface-variant font-medium leading-relaxed"
           >
             <h1>The automated job tracker built for Australia & New Zealand.</h1>
             Optional power-tools let you clip listings and auto-sync Gmail when you're ready.
             Already applying? Parse your current data automatically in less than a minute.
-          </motion.p>
+          </motion.div>
 
           {/** Core Call-To-Action (CTA) */}
           <motion.div

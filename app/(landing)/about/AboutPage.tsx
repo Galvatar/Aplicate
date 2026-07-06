@@ -87,7 +87,7 @@ export default function AboutPage() {
           >
             The Mission
           </motion.h2>
-          <motion.p
+          <motion.div
             variants={fadeInUp}
             className="max-w-xl text-on-surface/80 mb-8"
           >
@@ -95,7 +95,7 @@ export default function AboutPage() {
             So this platform
             was designed to eliminate the anxiety of the hunt and replace it with
             calm, structured progress.
-          </motion.p>
+          </motion.div>
 
           {/** Grid of Mission Points */}
           <div className="flex flex-col gap-5">

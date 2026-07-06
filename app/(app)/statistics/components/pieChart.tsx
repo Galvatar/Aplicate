@@ -1,3 +1,4 @@
+import { capitalize } from "@/lib/capitalize";
 import { useState } from "react";
 
 const colors = [
@@ -25,11 +26,6 @@ export default function PieChart({ slices }: PieChartProps) {
   const cy = size / 2;
   const radius = size / 2; // We can use the full radius now!
   const [selected, setSelected] = useState(-1);
-
-  function capitalize(word: string): string {
-    if (!word) return "";
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }
 
   return (
     <div className="w-full max-w-5xl mx-auto p-6 bg-surface-container-low rounded-2xl border border-outline-variant/40 shadow-xl relative font-sans select-none transition-colors duration-300">
