@@ -8,6 +8,7 @@ import Image from 'next/image';
 import lightLogo from '@/public/lightLogo.png';
 import darkLogo from '@/public/darkLogo.png';
 import googleIcon from '@/public/Google.png';
+import { sendRedditEvent } from "@/app/api/reddit-capi/route";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -42,8 +43,16 @@ export default function SignupPage() {
     if (error !== "") {
       setError(error);
     } else {
+      const uniqueConversionId = crypto.randomUUID();
+
       window.rdt('track', 'SignUp', {
         conversionId: email
+      });
+
+      await sendRedditEvent({
+        eventName: 'SignUp',
+        conversionId: uniqueConversionId,
+        email: email
       });
       router.push("/home");
     }
@@ -234,11 +243,22 @@ export default function SignupPage() {
         </div>
         <button
           disabled={disableGoogle}
-          onClick={() => {
+          onClick={async () => {
             setError("");
             setDisableSubmit(true);
             setDisableGoogle(true);
             signInWithGoogle();
+            const uniqueConversionId = crypto.randomUUID();
+
+            window.rdt('track', 'SignUp', {
+              conversionId: email
+            });
+
+            await sendRedditEvent({
+              eventName: 'SignUp',
+              conversionId: uniqueConversionId,
+              email: email
+            });
             setDisableSubmit(false);
             setDisableGoogle(false);
           }}
