@@ -38,19 +38,10 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="flex flex-col items-center pt-25 md:pt-40 pb-20 text-center relative max-w-5xl mx-auto px-4"
+          className="flex flex-col items-center pt-25 md:pt-30 pb-20 text-center relative max-w-5xl mx-auto px-4"
         >
           {/* Ambient background glow */}
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-62.5 bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
-
-          {/** Feature Pill Badge */}
-          <motion.div
-            variants={fadeInUp}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-high border border-surface-container-highest text-xs font-medium tracking-wide text-primary"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-            100% Frictionless Tracking
-          </motion.div>
 
           {/** Main Title Header */}
           <motion.h2
@@ -108,7 +99,7 @@ export default function Home() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeInUp}
-          className="p-5 rounded-2xl mt-10 border border-surface-container-highest max-w-5xl mx-auto px-4"
+          className="p-5 rounded-2xl border border-surface-container-highest max-w-5xl mx-auto px-4"
         >
           <Image
             src={analyticsLight}

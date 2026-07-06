@@ -85,7 +85,8 @@ export class SupabaseApplicationStore implements ApplicationStoreInterface {
         const json = localStorage.getItem('applications');
         localStorage.removeItem('applications');
         if (json != undefined && json!.length > 0) {
-            const applications = json ? JSON.parse(json) as Application[] : [];
+            var applications = json ? JSON.parse(json) as Application[] : [];
+            applications = applications.filter(a => a.userId != "demo")
             const userId = (await this.client.auth.getUser()).data.user?.id ?? ""
 
             const applicationsToSync = applications.map((app) => {

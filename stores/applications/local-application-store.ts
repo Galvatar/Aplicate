@@ -17,7 +17,7 @@ export class LocalApplicationStore implements ApplicationStoreInterface {
     }
 
     async createApplication(application: Application): Promise<void> {
-        application.id = crypto.randomUUID();
+        application.id = application.id ? application.id : crypto.randomUUID();
         const data = localStorage.getItem('applications');
         var applications = data ? JSON.parse(data) as Application[] : [];
         applications.push(application);
@@ -25,7 +25,7 @@ export class LocalApplicationStore implements ApplicationStoreInterface {
     }
 
     async createApplications(applications: Application[]): Promise<void> {
-        applications.forEach((app) => {app.id = crypto.randomUUID();})
+        applications.forEach((app) => {app.id = app.id ? app.id : crypto.randomUUID();})
         const data = localStorage.getItem('applications');
         var existing = data ? JSON.parse(data) as Application[] : [];
         const toSave = existing.concat(applications);

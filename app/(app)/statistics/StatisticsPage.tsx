@@ -50,7 +50,7 @@ function filterApplicationsBySelectedPeriod(
 }
 
 export default function Statistics() {
-  const [selected, setSelected] = useState("Last 30 Days");
+  const [selected, setSelected] = useState("Last 90 Days");
   const [applications, setApplications] = useState([] as Application[]);
   const [slices2, setSlices2] = useState([] as PieSlice[]);
   const options = ["Last 30 Days", "Last 90 Days", "Last Year", "All Time"];
