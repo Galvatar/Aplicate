@@ -67,6 +67,12 @@ export default function PaddleButton({ yearly, manage }: BuyButtonProps) {
     };
 
     useEffect(() => {
+        if (typeof window !== 'undefined' && (window as any).Paddle) {
+            handlePaddleInit();
+        }
+    }, []);
+
+    useEffect(() => {
         if (subscription == null) return;
         setIsPro(isProUser());
     }, [subscription])
