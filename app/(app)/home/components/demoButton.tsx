@@ -2,6 +2,7 @@ import { useApplications } from "@/hooks/use-applications"
 import { demoApplications } from "./demoData";
 import { useEffect, useState } from "react";
 import { Application } from "@/lib/types";
+import { useSettings } from "@/hooks/use-settings";
 
 interface DemoButtonProps {
     setApplications(apps: Application[]): void
@@ -9,6 +10,7 @@ interface DemoButtonProps {
 export default function DemoButton({ setApplications }: DemoButtonProps) {
     const { getApplications, createApplications, deleteApplication } = useApplications();
     const [hasDemo, setHasDemo] = useState(false);
+    const { getSettings, updateSettings } = useSettings();
 
     async function handleData(add: boolean) {
         if (add) {
@@ -33,6 +35,12 @@ export default function DemoButton({ setApplications }: DemoButtonProps) {
         const apps = await getApplications();
         const hasDemoUser = apps.some(app => app.userId === "demo")
         setHasDemo(hasDemoUser)
+        var settings = getSettings();
+        if (settings && settings.first_time) {
+            handleData(true);
+            settings.first_time = false;
+            updateSettings(settings);
+        }
     }
 
     return (

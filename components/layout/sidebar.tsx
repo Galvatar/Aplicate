@@ -310,24 +310,6 @@ export default function Sidebar() {
       </div>
       {/** Footer */}
       <div className="relative flex-col w-full py-5 px-5 border-t border-surface-container-highest gap-3">
-        {firstTime && (
-            <div className="hidden md:block">
-                
-                <div 
-                    onClick={() => handleFirstTime()}
-                    className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 cursor-pointer"
-                >
-                    <h1 className="font-bold text-2xl text-white">Click anywhere to dismiss.</h1>
-                </div>
-
-                <h1 className={`flex flex-col items-center gap-3 absolute z-70 text-on-surface font-bold text-lg ${guestMode ? 'bottom-40' : 'bottom-30'} left-5 pointer-events-none`}>
-                    We recommend starting here!
-                    <svg className="animate-bounce" xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px" fill="currentColor"><path d="M480-80 200-360l56-56 184 183v-647h80v647l184-184 56 57L480-80Z"/>
-                    </svg>
-                </h1>
-                
-            </div>
-        )}
         <div
           onClick={() => {
             handleFirstTime()
