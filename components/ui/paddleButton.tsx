@@ -13,16 +13,17 @@ interface BuyButtonProps {
 
 export default function PaddleButton({ yearly, manage }: BuyButtonProps) {
     const { subscription, isProUser } = useUser();
-    const [isPro, setIsPro] = useState(true);
+    const [isPro, setIsPro] = useState(false);
     const [isPaddleReady, setIsPaddleReady] = useState(false);
     const router = useRouter();
     const paddleToken = process.env.NEXT_PUBLIC_PADDLE_TOKEN ?? "";
+    const { user } = useUser();
 
   const handlePaddleInit = () => {
     if (typeof window !== 'undefined' && (window as any).Paddle) {
       const paddle = (window as any).Paddle;
       
-      paddle.Environment.set('sandbox'); 
+      paddle.Environment.set('production'); 
       
       paddle.Initialize({ 
         token: paddleToken,
@@ -40,29 +41,29 @@ export default function PaddleButton({ yearly, manage }: BuyButtonProps) {
   };
 
     const openCheckout = () => {
-        // const priceId = yearly ? 'pri_01kw0kc6fff7rf8y0dqfxzj9vh' : 'pri_01kw0kd93jv2jazwb0sbewqh8n';
+        const priceId = yearly ? 'pri_01kw1626h6g1ngj91v80bysqf1' : 'pri_01kw1643fg9r3a8b8ap9ckqt90';
 
-        // if (!user || user == null || user == undefined) router.push('/signup');
+        if (!user || user == null || user == undefined) router.push('/signup');
         
-        // if (typeof window !== 'undefined' && (window as any).Paddle) {
-        //     const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (typeof window !== 'undefined' && (window as any).Paddle) {
+            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-        //     (window as any).Paddle.Checkout.open({
-        //     settings: {
-        //         displayMode: 'overlay',
-        //         theme: isDarkMode ? 'dark' : 'light',
-        //     },
-        //     items: [
-        //         {
-        //             priceId: priceId,
-        //             quantity: 1,
-        //         },
-        //     ],
-        //     customData: {
-        //         user_id: String(user!.id), 
-        //     }
-        //     });
-        // }
+            (window as any).Paddle.Checkout.open({
+            settings: {
+                displayMode: 'overlay',
+                theme: isDarkMode ? 'dark' : 'light',
+            },
+            items: [
+                {
+                    priceId: priceId,
+                    quantity: 1,
+                },
+            ],
+            customData: {
+                user_id: String(user!.id), 
+            }
+            });
+        }
     };
 
     useEffect(() => {
@@ -100,10 +101,9 @@ export default function PaddleButton({ yearly, manage }: BuyButtonProps) {
             <button
                 disabled={isPro || !isPaddleReady}
                 onClick={openCheckout}
-                className="w-full py-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary bg-primary rounded-lg text-on-primary text-center font-medium hover:bg-primary/60 transition-colors"
+                className="w-full py-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary bg-primary rounded-lg text-on-primary text-center font-medium hover:bg-primary/60 transition-colors font-semibold"
             >
-                {/* {!user ? 'Sign up/Sign' : 'Upgrade to Pro'} */}
-                Coming soon...
+                {!user ? 'Sign up/Sign' : 'Upgrade to Pro'}
             </button>
         </div>
     )

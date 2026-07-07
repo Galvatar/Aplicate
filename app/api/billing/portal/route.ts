@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     }
 
     const paddleResponse = await fetch(
-      `https://sandbox-api.paddle.com/customers/${subData.customer_id}/portal-sessions`,
+      `https://api.paddle.com/customers/${subData.customer_id}/portal-sessions`,
       {
         method: 'POST',
         headers: {

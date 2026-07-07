@@ -63,7 +63,7 @@ export async function DELETE() {
     if (sub?.subscription_id && sub?.customer_id) {
         // 2. Call the Paddle API to cancel the subscription
         // NOTE: Remember to change 'sandbox-api.paddle.com' to 'api.paddle.com' in production
-        const response = await fetch(`https://sandbox-api.paddle.com/subscriptions/${sub.subscription_id}/cancel`, {
+        const response = await fetch(`https://api.paddle.com/subscriptions/${sub.subscription_id}/cancel`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

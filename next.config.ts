@@ -6,8 +6,8 @@ const cspHeader = `
   style-src 'self' 'unsafe-inline' https://cdn.paddle.com https://va.vercel-scripts.com;
   img-src 'self' blob: data: https://*.supabase.co https://alb.reddit.com;
   font-src 'self' data:;
-  connect-src 'self' https://*.supabase.co http://localhost:54321 https://va.vercel-scripts.com ws://localhost:54321 https://api.paddle.com https://sandbox-api.paddle.com https://cdn.paddle.com https://alb.reddit.com https://pixel-config.reddit.com;
-  frame-src 'self' https://checkout.paddle.com https://sandbox-checkout.paddle.com https://sandbox-buy.paddle.com;
+  connect-src 'self' https://*.supabase.co http://localhost:54321 https://va.vercel-scripts.com ws://localhost:54321 https://api.paddle.com https://cdn.paddle.com https://alb.reddit.com https://pixel-config.reddit.com;
+  frame-src 'self' https://checkout.paddle.com https://buy.paddle.com;
   frame-ancestors 'none';
   form-action 'self';
 `;
