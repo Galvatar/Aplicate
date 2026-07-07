@@ -53,14 +53,14 @@ export async function DELETE() {
     // 1. Get the user's active subscription ID
     const { data: sub } = await supabaseAdmin
         .from('Subscriptions')
-        .select('subscription_id')
+        .select('subscription_id, customer_id')
         .eq('user_id', userId)
         .eq('status', 'active')
         .order('created_at', { ascending: false })
         .limit(1)
         .maybeSingle();
 
-    if (sub?.subscription_id) {
+    if (sub?.subscription_id && sub?.customer_id) {
         // 2. Call the Paddle API to cancel the subscription
         // NOTE: Remember to change 'sandbox-api.paddle.com' to 'api.paddle.com' in production
         const response = await fetch(`https://sandbox-api.paddle.com/subscriptions/${sub.subscription_id}/cancel`, {
