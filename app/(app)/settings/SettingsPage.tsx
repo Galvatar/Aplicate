@@ -363,10 +363,9 @@ export default function SettingsPage() {
                   application confirmation emails directly into your board.
                 </p>
                 <p className="text-xs">
-                  NOTE: Gmail syncing currently requires being manually added to
-                  the user test group which can take up to 24hrs after which you
-                  will be able to turn it on, sorry for any inconvenience this
-                  may cause.
+                  IMPORTANT: Aplicate is currently being verified, as such you will need to
+                  bypass the warning that Google hasn't verified the app by clicking on
+                  advanced and then go to Aplicate (unsafe). We apologise for the inconvenience.
                 </p>
               </div>
             </div>
