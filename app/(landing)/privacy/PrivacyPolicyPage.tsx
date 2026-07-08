@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
                     At Aplicate, your trust is our most important asset. We believe that your job search data is yours alone. This Privacy Policy explains how we handle your information and how we protect your privacy while providing you with our automated job tracking services.
                 </h2>
                 <h3 className="text-sm font-semibold text-on-surface/50 mb-10">
-                    Last Updated: June 19, 2026
+                    Last Updated: July 8, 2026
                 </h3>
                 <div className="flex gap-5 items-start w-full">
                     <div className="flex flex-col p-5 bg-surface-container border border-surface-container-high rounded-lg gap-2">
@@ -180,13 +180,19 @@ export default function PrivacyPolicyPage() {
                         <ul 
                             className="flex flex-col list-disc gap-2 px-5">
                             <li>
-                                <b>Limited Use:</b> We only use the data access granted (via Gmail API) to perform the automated classification of your application status.
+                                <b>Limited Use &amp; Purpose:</b> We only request and use the minimum data access granted (via the gmail.readonly scope) to perform the automated classification of your job application statuses.
                             </li>
                             <li>
-                                <b>No Human Access:</b> We do not allow any humans to read your emails. All classification is performed by automated, secure, ephemeral code.
+                                <b>Ephemeral Processing (No Permanent Storage):</b> Information retrieved from the Google Gmail API (including sender, subject line, and email body) is processed strictly ephemerally in-memory. **We do not permanently store, log, or save your email content anywhere on our databases or servers.** Once the automated classification is complete, the email data is immediately and permanently discarded.
                             </li>
                             <li>
-                                <b>No Advertising:</b> We do not use your email data for advertising, marketing, or any purpose other than providing our core job tracking service.
+                                <b>No Human Access:</b> We implement a strict policy prohibiting human review of your Google user data. All email parsing and classification is performed entirely by automated, secure, machine-driven code.
+                            </li>
+                            <li>
+                                <b>Data Security &amp; Protection Mechanisms:</b> We implement robust technical safeguards to protect your sensitive information. All data transferred between your browser, Google APIs, and our servers is secured using industry-standard encryption in transit (HTTPS/TLS protocols). Furthermore, all sensitive user credentials—including Google OAuth access tokens and refresh tokens—are securely encrypted at rest at the database layer using industry-standard symmetric cryptographic encryption algorithms (such as AES) via secure key management protocols.
+                            </li>
+                            <li>
+                                <b>Strict Transfer Restrictions:</b> We do not sell, rent, or trade your Google user data to third parties. We only transfer email data to our secure processing infrastructure (hosted on Hugging Face) solely to execute the in-memory classification feature requested by the user. We do not transfer this data for any other purpose, including advertising, marketing, analytics, or user profiling.
                             </li>
                         </ul>
                         <h2 id="chrome" className="font-bold text-2xl mt-3">
