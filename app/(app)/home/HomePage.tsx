@@ -105,7 +105,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full h-full font-jakarta py-10 md:py-20 px-5 md:px-15 gap-4 bg-background text-on-background">
-      <div className="flex justify-between items-center">
+      <div className="flex md:flex-row flex-col gap-5 justify-between items-center">
         <div className="flex flex-col gap-4">
           <h3 className="text-outline text-sm">
             {daysOfTheWeek[today.getDay()]}, {months[today.getMonth()]}{" "}

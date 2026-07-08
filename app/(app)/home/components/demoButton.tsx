@@ -46,7 +46,7 @@ export default function DemoButton({ setApplications }: DemoButtonProps) {
     return (
         <button
             onClick={() => handleData(!hasDemo)}
-            className="flex h-fit items-center justify-center py-3 px-3 font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200 gap-3"
+            className="flex w-full md:w-fit h-fit items-center justify-center py-3 px-3 font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200 gap-3"
         >
             {!hasDemo ? 
                 <>
