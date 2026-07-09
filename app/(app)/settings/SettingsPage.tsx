@@ -15,6 +15,7 @@ import LemonButton from "@/components/ui/paddleButton";
 import Image from "next/image";
 import { signOut } from "@/lib/auth";
 import { capitalize } from "@/lib/capitalize";
+import DownloadButton from "./components/downloadButton";
 
 export default function SettingsPage() {
   const [userProfile, setUserProfile] = useState<User | null>();
@@ -397,6 +398,7 @@ export default function SettingsPage() {
             </svg>
             Data & Privacy
           </h2>
+          <DownloadButton />
           <div className="flex flex-col border border-error/50 bg-surface-container p-7 rounded-xl">
             <h2 className="font-bold text-lg">Danger Zone</h2>
             <p className="font-medium">
