@@ -61,7 +61,7 @@ export default function DownloadButton() {
             disabled={loading}
             className="flex items-center justify-center py-3 px-3 font-semibold rounded-lg bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200 gap-3"
         >
-            Download My Data (CSV)
+            Download My Applications (CSV)
         </button>
     )
 }

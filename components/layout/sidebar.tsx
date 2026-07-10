@@ -315,7 +315,7 @@ export default function Sidebar() {
             handleFirstTime()
             router.push("/settings")
           }}
-          className={`relative z-70 bg-surface-container flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high ${pathname === "/settings" ? "text-primary font-bold bg-surface-container-high" : ""} transition-colors`}
+          className={`relative z-70 bg-surface-container-low flex cursor-pointer items-center font-semibold rounded-lg gap-3 py-3 px-5 hover:bg-surface-container-high ${pathname === "/settings" ? "text-primary font-bold bg-surface-container" : ""} transition-colors`}
         >
           <div className="w-7 h-7 items-center justify-center">
             <svg
@@ -368,12 +368,9 @@ export default function Sidebar() {
         )}
         {/** Warning */}
         {guestMode && (
-          <h1 className="flex items-center mt-3 px-3 text-xs text-error font-semibold text-center">
+          <h1 className="flex flex-col w-full items-center pt-3 mt-3 px-3 text-xs text-secondary border-t border-surface-container-highest font-semibold text-center">
             <p>
-              <b>
-                <u>WARNING:</u>
-              </b>{" "}
-              Your applications are at risk of being deleted without an account.
+              You're browsing in Guest Mode. Your progress is saved locally to this device. Create a free account to sync your job hunt securely to the cloud.
             </p>
           </h1>
         )}
