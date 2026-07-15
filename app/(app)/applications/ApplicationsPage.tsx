@@ -47,7 +47,7 @@ export default function Applications() {
             Application Journey
           </h1>
           <h2 className="text-on-surface-variant max-w-2xl">
-            Track your proffesional progress with focus and clarity. All your
+            Track your profesional progress with focus and clarity. All your
             opportunities, managed in one serene workspace.
           </h2>
         </div>
