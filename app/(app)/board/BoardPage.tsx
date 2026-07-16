@@ -154,7 +154,7 @@ export default function Board() {
             My Board
           </h1>
           <h2 className="text-on-surface-variant max-w-2xl">
-            A calm space to organise your career journey. Focus on the next step.
+            A space to organise your career journey. Focus on the next step.
           </h2>
         </div>
       </div>
