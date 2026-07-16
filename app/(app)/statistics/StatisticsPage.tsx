@@ -81,7 +81,7 @@ export default function Statistics() {
   );
   const ghosted = currentApplications.filter((a) => {
     return new Date(a.lastUpdate) < ghostedDate; 
-  });
+  }).filter((a) => a.status != Status.Rejected);
 
   const slices: PieSlice[] = [
     { name: "test", percentage: 30},

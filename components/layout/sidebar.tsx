@@ -177,7 +177,7 @@ export default function Sidebar() {
                         ${
                           pathname !== "/home"
                             ? "hover:bg-surface-container-lowest font-semibold text-on-surface-variant"
-                            : "text-primary font-bold bg-surface-container-high border-r-4 border-primary"
+                            : "text-primary font-bold bg-surface-container-high/50 border-r-4 border-primary"
                         }
                         gap-3 px-5 transition-all`}
           >
