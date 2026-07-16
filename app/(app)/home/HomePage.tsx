@@ -29,7 +29,9 @@ export default function Home() {
   );
   const followUpApplications = applications.filter(
     (app) => app.followUpDate ? new Date(app.followUpDate) < new Date() : 0
-  ).sort((a,b) => (a.followUpDate ? (new Date(a.followUpDate).getTime()) : 0) - (b.followUpDate ? (new Date(b.followUpDate).getTime()) : 0))
+  )
+  .filter((app) => app.status != Status.Rejected)
+  .sort((a,b) => (a.followUpDate ? (new Date(a.followUpDate).getTime()) : 0) - (b.followUpDate ? (new Date(b.followUpDate).getTime()) : 0))
   .slice(0,3);
   const orderedApplications = applications
     .sort((a,b) => new Date(b.lastUpdate).getTime() - new Date(a.lastUpdate).getTime()).slice(0,3);
@@ -260,12 +262,12 @@ export default function Home() {
             </div>
           </div>
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700" />
-          <div className="flex flex-col md:-mt-3">
+          <div className="flex z-10 flex-col md:-mt-3">
             {followUpApplications.map((application, idx) => (
               <div
                 onClick={() => router.push(`/job/${application.id}?origin=home`)}
                 key={application.id} className={`flex px-2 cursor-pointer transition-colors gap-1 hover:bg-surface-container-lowest rounded-lg ${idx > 0 ? 'border-t border-t-surface-container-highest mt-1 pt-1' : ''}`}>
-                <h2 className="font-bold">
+                <h2 className="font-bold block line-clamp-1 truncate">
                   {application.company}
                 </h2>
                 <h2 className="block line-clamp-1 truncate">

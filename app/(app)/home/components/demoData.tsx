@@ -11,7 +11,7 @@ export const demoApplications: Application[] = [
     company: "Vercel", // Tech Industry
     employmentType: "Full-time",
     foundOn: "LinkedIn",
-    status: Status.Interview,
+    status: Status.Rejected,
     location: "Remote (US)",
     applied: daysAgo(14),
     lastUpdate: daysAgo(2),
@@ -32,7 +32,7 @@ export const demoApplications: Application[] = [
     company: "Goldman Sachs", // Finance Industry
     employmentType: "Full-time",
     foundOn: "Company Site",
-    status: Status.Rejected,
+    status: Status.Interview,
     location: "New York, NY",
     applied: daysAgo(30),
     lastUpdate: daysAgo(5),
