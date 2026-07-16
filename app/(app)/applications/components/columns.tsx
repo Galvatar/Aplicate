@@ -39,7 +39,7 @@ export var columns: ColumnConfig[] = [
             return (
                 <div className="flex items-center gap-4">
                     <div className="min-w-12 h-12 rounded-xl bg-on-tertiary flex items-center justify-center text-primary font-bold text-lg">
-                        {a.company.charAt(0)}
+                        {a.company.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex flex-col">
                         <h4 className="font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-1">
@@ -163,9 +163,21 @@ export var columns: ColumnConfig[] = [
         active: false,
         format: (a) => {
             return (
-                <h2 className="">
-                    {a.url}
-                </h2>
+                <button
+                    onClick={() => window.open(a.url, "_blank")}
+                    className="flex w-full items-center justify-center py-3 px-3 font-semibold rounded-xl bg-primary text-on-primary hover:bg-primary/70 transition-colors duration-200 gap-1"
+                >
+                    Visit
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="20px"
+                        viewBox="0 -960 960 960"
+                        width="20px"
+                        fill="currentColor"
+                    >
+                        <path d="m256-240-56-56 384-384H240v-80h480v480h-80v-344L256-240Z" />
+                    </svg>
+                </button>
             )
         }
     },
@@ -175,7 +187,7 @@ export var columns: ColumnConfig[] = [
         active: false,
         format: (a) => {
             return (
-                <h2 className="">
+                <h2 className="line-clamp-2">
                     {a.mainContact}
                 </h2>
             )
