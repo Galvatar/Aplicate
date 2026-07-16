@@ -56,7 +56,7 @@ export default function Statistics() {
   const options = ["Last 30 Days", "Last 90 Days", "Last Year", "All Time"];
   const { getApplications, loading } = useApplications();
   const ghostedDate = new Date();
-  ghostedDate.setMonth(ghostedDate.getMonth() -3);
+  ghostedDate.setMonth(ghostedDate.getMonth() - 1);
   const currentApplications = filterApplicationsBySelectedPeriod(
     applications,
     selected,
@@ -120,11 +120,9 @@ export default function Statistics() {
           total++
         }
     });
-    console.log(frequencies)
     const finalised = Array.from(frequencies.entries())
       .map(([word, count]) => ({ name: word, percentage: (count/total)*100 }));
     setSlices2(finalised)
-    console.log(finalised)
   }
 
   return (
