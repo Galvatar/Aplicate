@@ -55,6 +55,8 @@ export default function Statistics() {
   const [slices2, setSlices2] = useState([] as PieSlice[]);
   const options = ["Last 30 Days", "Last 90 Days", "Last Year", "All Time"];
   const { getApplications, loading } = useApplications();
+  const ghostedDate = new Date();
+  ghostedDate.setMonth(ghostedDate.getMonth() -3);
   const currentApplications = filterApplicationsBySelectedPeriod(
     applications,
     selected,
@@ -77,6 +79,9 @@ export default function Statistics() {
   const previousOffers = previousApplications.filter(
     (a) => a.status === Status.Offer,
   );
+  const ghosted = currentApplications.filter((a) => {
+    return new Date(a.lastUpdate) < ghostedDate; 
+  });
 
   const slices: PieSlice[] = [
     { name: "test", percentage: 30},
@@ -176,6 +181,7 @@ export default function Statistics() {
             currentApplications.length,
             previousApplications.length,
           )}
+          showChange={true}
         />
         <StatCard
           title="Interview Rate"
@@ -197,24 +203,19 @@ export default function Statistics() {
             getRate(currentInterviewRate.length, currentApplications.length),
             getRate(previousInterviewRate.length, previousApplications.length),
           )}
+          showChange={true}
         />
         <StatCard
-          title="Active Offers"
+          title="Ghosted"
           icon={
             <div className="text-primary bg-primary/10 p-2 rounded-lg">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="currentColor"
-              >
-                <path d="m387-412 35-114-92-74h114l36-112 36 112h114l-93 74 35 114-92-71-93 71ZM240-40v-309q-38-42-59-96t-21-115q0-134 93-227t227-93q134 0 227 93t93 227q0 61-21 115t-59 96v309l-240-80-240 80Zm410-350q70-70 70-170t-70-170q-70-70-170-70t-170 70q-70 70-70 170t70 170q70 70 170 70t170-70ZM320-159l160-41 160 41v-124q-35 20-75.5 31.5T480-240q-44 0-84.5-11.5T320-283v124Zm160-62Z" />
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M800-240v-560H274l-80-80h606q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240Zm20 212L606-240H240L80-80v-688l-52-52 56-56L876-84l-56 56ZM344-504Zm170-56ZM160-688v448l80-80h288L160-688Z"/>
               </svg>
             </div>
           }
-          stat={`${currentOffers.length}`}
-          change={findPercentage(currentOffers.length, previousOffers.length)}
+          stat={`${ghosted.length}`}
+          change={0}
+          showChange={false}
         />
       </div>
 
