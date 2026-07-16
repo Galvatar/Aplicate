@@ -268,7 +268,7 @@ export default function Home() {
                 <h2 className="font-bold">
                   {application.company}
                 </h2>
-                <h2>
+                <h2 className="block line-clamp-1 truncate">
                   - {application.title}
                 </h2>
               </div>

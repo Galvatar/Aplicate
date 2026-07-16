@@ -54,13 +54,16 @@ export default function ApplicationCard({
     >
       <div className="absolute inset-0 bg-linear-to-br from-white/2 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
       <h2 className="flex items-center gap-2 text-xl text-on-surface font-bold leading-tight">
-        {application.autoUpdated && <div className="w-3 h-3 aspect-square bg-primary rounded-full" />} {application.title}
+        {application.autoUpdated && <div className="w-3 h-3 aspect-square bg-primary rounded-full" />} 
+        <p className="block line-clamp-1 truncate">
+          {application.title}
+        </p>
       </h2>
-      <h3 className="flex items-center gap-2 text-on-surface-variant font-semibold text-sm">
+      <h3 className="flex items-center gap-2 text-on-surface-variant font-semibold text-sm line-clamp-1 truncate">
         {application.company}
       </h3>
       {application.location && (
-        <h4 className="w-fit px-2 py-1 rounded-md bg-surface-variant/50 text-on-surface-variant text-[11px]">
+        <h4 className="block px-2 py-1 rounded-md bg-surface-variant/50 text-on-surface-variant text-[11px] line-clamp-1 truncate">
           {application.location}
         </h4>
       )}
