@@ -59,7 +59,7 @@ export default function ApplicationCard({
           {application.title}
         </p>
       </h2>
-      <h3 className="flex items-center gap-2 text-on-surface-variant font-semibold text-sm line-clamp-1 truncate">
+      <h3 className="block items-center gap-2 text-on-surface-variant font-semibold text-sm line-clamp-1 truncate">
         {application.company}
       </h3>
       {application.location && (

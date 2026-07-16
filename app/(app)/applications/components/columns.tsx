@@ -42,10 +42,10 @@ export var columns: ColumnConfig[] = [
                         {a.company.charAt(0)}
                     </div>
                     <div className="flex flex-col">
-                        <h4 className="font-bold text-on-surface group-hover:text-primary transition-colors">
+                        <h4 className="font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-1">
                             {a.company}
                         </h4>
-                        <h5 className="text-on-surface-variant/80 text-sm font-semibold">
+                        <h5 className="text-on-surface-variant/80 text-sm font-semibold line-clamp-1">
                             {a.title}
                         </h5>
                     </div>
