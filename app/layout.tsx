@@ -7,6 +7,7 @@ import { SidebarProvider } from "@/hooks/use-sidebar";
 import MobileNavbar from "@/components/layout/mobileNavbar";
 import AnalyticsWrapper from "@/components/layout/analyticsWrapper";
 import RedditPixel from "@/components/layout/redditPixel";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -96,6 +97,19 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18329467532"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18329467532');
+          `}
+        </Script>
+
         <SidebarProvider>
           <ModalProvider>
             {/* <div className="flex w-full md:hidden items-center justify-center text-center">
