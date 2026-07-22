@@ -27,6 +27,9 @@ export default function Home() {
   const offerApplication = applications.filter(
     (app) => app.status === Status.Offer,
   );
+  const activeApplications = applications.filter(
+    (app) => app.status !== Status.Rejected
+  );
   const followUpApplications = applications.filter(
     (app) => app.followUpDate ? new Date(app.followUpDate) < new Date() : 0
   )
@@ -169,7 +172,7 @@ export default function Home() {
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-700" />
           <div className="flex gap-3 items-end">
             <h2 className="font-headline-xl font-bold text-headline-xl text-on-surface text-5xl">
-              {applications.length}
+              {activeApplications.length}
             </h2>
             {weekApplications.length > 0 && (
               <h2 className="flex gap-1 text-sm text-secondary items-center">
