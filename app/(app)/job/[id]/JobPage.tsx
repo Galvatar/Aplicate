@@ -202,7 +202,7 @@ export default function JobPage() {
                 </h3>
               </div>
               <div
-                className="whitespace-pre-wrap pl-6 space-y-2 mb-6 text-on-surface-variant outline-none font-body-lg leading-[1.8]"
+                className="whitespace-pre-wrap space-y-2 mb-6 text-on-surface-variant outline-none font-body-lg leading-[1.8]"
                 // aicop-ignore security/xss-vulnerabilities
                 dangerouslySetInnerHTML={{
                   __html:
