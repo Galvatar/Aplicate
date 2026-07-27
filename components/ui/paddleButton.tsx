@@ -41,7 +41,7 @@ export default function PaddleButton({ yearly, manage }: BuyButtonProps) {
   };
 
     const openCheckout = () => {
-        const priceId = yearly ? 'pri_01kw1626h6g1ngj91v80bysqf1' : 'pri_01kw1643fg9r3a8b8ap9ckqt90';
+        const priceId = yearly ? 'pri_01kw0kc6fff7rf8y0dqfxzj9vh' : 'pri_01kw0kd93jv2jazwb0sbewqh8n';
 
         if (!user || user == null || user == undefined) router.push('/signup');
         
