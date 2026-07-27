@@ -54,7 +54,7 @@ export default function PricingPage() {
         >
           <h2>Monthly</h2>
           <ToggleButton disabled={false} status={annual} onChange={setAnnual} />
-          <h2>One Time</h2>
+          <h2>Bi-Yearly</h2>
         </motion.div>
         <motion.div
           initial="hidden"
@@ -172,7 +172,7 @@ export default function PricingPage() {
                 </p>
                 <span className="flex items-end gap-1">
                   <h2 className="text-3xl font-semibold mt-5 text-primary">
-                    $24 AUD
+                    $10 AUD
                   </h2>
                   <h3 className="text-sm text-on-surface/50 font-semibold">
                     /mo, monthly
@@ -249,7 +249,7 @@ export default function PricingPage() {
                 </p>
                 <span className="flex items-end gap-1">
                   <h2 className="text-3xl font-semibold mt-5 text-primary">
-                    $90 AUD
+                    $36 AUD
                   </h2>
                   <h3 className="text-sm text-on-surface/50 font-semibold">
                     /for 6 months
