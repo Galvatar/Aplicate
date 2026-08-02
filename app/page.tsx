@@ -46,18 +46,16 @@ export default function Home() {
           {/** Main Title Header */}
           <motion.h2
             variants={fadeInUp}
-            className="mt-6 font-extrabold text-5xl md:text-6xl tracking-tight leading-[1.15] max-w-3xl text-on-background"
+            className="mt-10 font-extrabold text-5xl md:text-6xl tracking-tight leading-[1.15] max-w-3xl text-on-background"
           >
             Track Your Job Search<br />
-            <span className="bg-linear-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
-              On Autopilot
-            </span>
+            On Autopilot
           </motion.h2>
 
           {/** Subtitle Description */}
           <motion.div
             variants={fadeInUp}
-            className="mt-6 max-w-2xl text-lg md:text-xl text-on-surface-variant font-medium leading-relaxed"
+            className="mt-15 max-w-2xl text-lg md:text-xl text-on-surface-variant font-medium leading-relaxed"
           >
             <h1>The automated job tracker built for Australia & New Zealand.</h1>
             One click to capture job listings from major job boards like Linkedin, Seek and Trade Me,
@@ -68,7 +66,7 @@ export default function Home() {
           {/** Core Call-To-Action (CTA) */}
           <motion.div
             variants={fadeInUp}
-            className="flex flex-col items-center gap-3 mt-10 w-full"
+            className="flex flex-col items-center gap-3 mt-15 w-full"
           >
             <button
               onClick={() => router.push("/home")}
@@ -100,7 +98,7 @@ export default function Home() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.10 }}
           variants={fadeInUp}
-          className="p-5 rounded-2xl border border-surface-container-highest max-w-5xl mx-auto px-4"
+          className="p-5 mt-5 rounded-2xl border border-surface-container-highest max-w-5xl mx-auto px-4"
         >
           <Image
             src={analyticsLight}
