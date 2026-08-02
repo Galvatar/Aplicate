@@ -88,7 +88,7 @@ export default function ListCard({
 
   return (
     <div
-      className={`flex flex-col w-full bg-surface-container-lowest backdrop-blur-sm rounded-2xl p-4 gap-4 border transition-colors ${
+      className={`flex h-full flex-col w-full bg-surface-container-lowest backdrop-blur-sm rounded-2xl p-4 gap-4 border transition-colors ${
         ghostIndex !== null ? "border-primary/10" : "border-outline-variant/5"
       }`}
       onDragOver={handleContainerDragOver}
