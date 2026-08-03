@@ -24,7 +24,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
     employmentType: "full-time",
     applied: new Date(),
     lastUpdate: new Date(),
-    journey: '',
+    journey: 'Apply',
     rating: 0,
     followUpDate: future,
     autoUpdated: false
