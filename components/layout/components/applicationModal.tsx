@@ -51,8 +51,12 @@ export default function ApplicationModal({ app }: ApplicationProps) {
 
     try {
       if (app) {
-        await storage.updateApplication(application)
+        await storage.updateApplication(application);
       } else {
+        setApplication((prev) => ({
+          ...prev,
+          journey: "Apply"
+        }));
         await storage.createApplication(application);
       }
       modal.hideWithRefresh();
