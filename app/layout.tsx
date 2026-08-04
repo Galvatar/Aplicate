@@ -8,6 +8,8 @@ import MobileNavbar from "@/components/layout/mobileNavbar";
 import AnalyticsWrapper from "@/components/layout/analyticsWrapper";
 import RedditPixel from "@/components/layout/redditPixel";
 import Script from "next/script";
+import Template from "@/components/layout/template.tsx";
+import Header from "@/components/layout/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -112,16 +114,13 @@ export default function RootLayout({
 
         <SidebarProvider>
           <ModalProvider>
-            {/* <div className="flex w-full md:hidden items-center justify-center text-center">
-              <h1>
-                This website is best viewed on desktop sorry for the inconvenience.
-              </h1>
-            </div> */}
             <div className="flex h-screen w-screen overflow-hidden">
               <Sidebar />
               <div className="flex-1 flex flex-col h-full overflow-y-auto bg-background ">
                 <div className="flex-1">
-                  {children}
+                  <Template>
+                    {children}
+                  </Template>
                   <RedditPixel />
                 </div>
                 <div className="h-15 md:h-0 w-full shrink-0" aria-hidden="true" />
