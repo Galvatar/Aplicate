@@ -7,6 +7,7 @@ import { useUser } from "@/hooks/use-user";
 import { Application, Status } from "@/lib/types";
 import { useEffect, useRef, useState } from "react";
 import DeleteApplication from "./deleteApplication";
+import Dropdown from "@/components/ui/dropdown";
 
 interface ApplicationProps {
   app?: Application,
@@ -34,6 +35,7 @@ export default function ApplicationModal({ app }: ApplicationProps) {
   const [application, setApplication] = useState<Application>(app ?? defaultApplication);
   const [loading, setLoading] = useState(false);
   const isSubmitting = useRef<boolean>(false);
+  const options: string[] = ["Pre Register", "Apply", "Assessment", "Interview", "Offer", "Rejected"]
 
   const { user } = useUser();
 
@@ -63,6 +65,33 @@ export default function ApplicationModal({ app }: ApplicationProps) {
     } catch (error) {
       isSubmitting.current = false;
       setLoading(false);
+    }
+  }
+
+  function handleSelect(option: string) {
+    console.log(option)
+    switch (option) {
+      case "Pre Register":
+        setApplication(prev => prev ? { ...prev, status: Status.PreRegister } : prev);
+        break;
+      case "Apply":
+        setApplication(prev => prev ? { ...prev, status: Status.Apply } : prev);
+        break;
+      case "Assessment":
+        setApplication(prev => prev ? { ...prev, status: Status.Assessment } : prev);
+        break;
+      case "Interview":
+        setApplication(prev => prev ? { ...prev, status: Status.Interview } : prev);
+        break;
+      case "Offer":
+        setApplication(prev => prev ? { ...prev, status: Status.Offer } : prev);
+        break;
+      case "Rejected":
+        setApplication(prev => prev ? { ...prev, status: Status.Rejected } : prev);
+        break;
+      default:
+        setApplication(prev => prev ? { ...prev, status: Status.Apply } : prev);
+        break;
     }
   }
 
@@ -127,6 +156,9 @@ export default function ApplicationModal({ app }: ApplicationProps) {
         <h2 className="font-bold text-xs w-full text-left text-on-surface/50">
           Fields marked with <span className="text-red-500">*</span> are mandatory, all else are optional.
         </h2>
+        {app && <div onClick={(e) => e.preventDefault()} className="flex md:hidden w-full">
+          <Dropdown options={options} selected={application.status} onSelect={(o) => handleSelect(o)} />
+        </div>}
         {/** First line */}
         <div className="flex flex-col md:flex-row w-full gap-5">
           {/** Company */}

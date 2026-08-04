@@ -309,7 +309,7 @@ export default function Home() {
             Recent Signals
           </h2>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-3">
           {orderedApplications.map((app) => { 
             var title = "";
             switch (app.status) {
