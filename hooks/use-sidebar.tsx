@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface SidebarContextProps {
-  isOpen: boolean;
+  isOpen: boolean | null;
   setIsOpen: (open: boolean) => void;
   toggleSidebar: () => void;
 }
@@ -11,7 +11,7 @@ interface SidebarContextProps {
 const SidebarContext = createContext<SidebarContextProps | undefined>(undefined);
 
 export function SidebarProvider({ children }: { children: ReactNode }) {
-  const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
+  const [isOpen, setIsOpen] = useState<boolean | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
