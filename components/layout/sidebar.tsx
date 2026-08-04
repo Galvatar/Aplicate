@@ -12,6 +12,7 @@ import { Settings } from "@/lib/types";
 import Image from 'next/image';
 import lightLogo from '@/public/lightLogo.png';
 import darkLogo from '@/public/darkLogo.png';
+import Header from "./header";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -76,6 +77,20 @@ export default function Sidebar() {
   const shouldExclude = excludeList.some((path) => 
     pathname === path || pathname.startsWith(`${path}/`)
   );
+
+  if (pathname === "/"
+    || pathname === "/about"
+    || pathname === "/pricing"
+    || pathname === "/privacy"
+    || pathname === "/terms"
+    || pathname === "/refund"
+  ) {
+    return (
+        <div className="font-jakarta">
+            <Header />
+        </div>
+    )
+  }
 
   if (shouldExclude) return <></>;
 

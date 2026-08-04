@@ -27,8 +27,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full h-full font-jakarta bg-background text-on-background overflow-x-hidden">
-      <Header />
-
       {/** Body */}
       <div className="flex relative flex-col px-3 items-center ">
         <span className="h-15 fixed z-100 left-0 bottom-0 w-full bg-linear-to-t from-[#09090b]/60 to-transparent pointer-events-none" />

@@ -9,8 +9,6 @@ export default function TermsAndConditionsPage() {
 
     return (
         <div className="flex flex-col w-full h-full font-jakarta bg-background text-on-background overflow-x-hidden">
-            <Header />
-
             {/** Body */}
             <div className="flex flex-col relative items-center my-30 px-20 gap-5">
                 <span className="h-30 fixed z-100 left-0 bottom-0 w-full bg-linear-to-t from-[#09090b] via-transparent to-transparent pointer-events-none" />
