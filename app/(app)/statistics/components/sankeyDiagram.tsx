@@ -149,6 +149,10 @@ function isApplicationGhosted(application: Application): boolean {
   return Date.now() - lastUpdateMs > THIRTY_DAYS_MS;
 }
 
+const STAGE_COLUMN_MAP = new Map<string, number>(
+  STAGE_CONFIG.map((s) => [s.id, s.column])
+);
+
 function buildSankeyData(applications: Application[]): SankeyData {
   const nodeCounts = new Map<string, number>();
   const linkCounts = new Map<string, number>();
@@ -167,7 +171,7 @@ function buildSankeyData(applications: Application[]): SankeyData {
       lastStage === "rejected" ||
       lastStage === "ghosted";
 
-    // Append "ghosted" if inactive for over a month and not in a terminal state
+    // Auto-route to Ghosted if inactive > 30 days and not in a terminal state
     if (!isTerminal && isApplicationGhosted(application)) {
       stages.push("ghosted");
     }
@@ -179,8 +183,19 @@ function buildSankeyData(applications: Application[]): SankeyData {
     for (let index = 0; index < stages.length - 1; index += 1) {
       const source = stages[index];
       const target = stages[index + 1];
-      const key = `${source}-${target}`;
-      linkCounts.set(key, (linkCounts.get(key) ?? 0) + 1);
+
+      const sourceCol = STAGE_COLUMN_MAP.get(source);
+      const targetCol = STAGE_COLUMN_MAP.get(target);
+
+      // Only allow forward progression (strictly moving left-to-right)
+      if (
+        sourceCol !== undefined &&
+        targetCol !== undefined &&
+        targetCol > sourceCol
+      ) {
+        const key = `${source}-${target}`;
+        linkCounts.set(key, (linkCounts.get(key) ?? 0) + 1);
+      }
     }
   });
 
