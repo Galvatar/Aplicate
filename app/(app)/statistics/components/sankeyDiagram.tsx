@@ -23,6 +23,7 @@ export interface SankeyLink {
   source: string;
   target: string;
   strokeWidth: number;
+  value: number;
   color?: string;
   glow?: boolean;
 }
@@ -53,6 +54,10 @@ const VB_WIDTH = 1000;
 const VB_HEIGHT = 580;
 const NODE_W = 140;
 const NODE_H = 100;
+
+// Configurable limits for edge thickness scaling relative to node height
+const MIN_STROKE_WIDTH = 3;
+const MAX_STROKE_WIDTH = 44;
 
 const STAGE_CONFIG = [
   {
@@ -97,7 +102,7 @@ const STAGE_CONFIG = [
     row: "sub",
     color: "muted" as const,
   },
- ] as const;
+] as const;
 
 const STAGE_ALIASES: Record<string, string> = {
   preregister: "preregister",
@@ -158,13 +163,23 @@ function buildSankeyData(applications: Application[]): SankeyData {
     });
   });
 
+  const totalApps = applications.length || 1;
   const links: SankeyLink[] = [];
-  linkCounts.forEach((strokeWidth, key) => {
+
+  linkCounts.forEach((count, key) => {
     const [source, target] = key.split("-");
+    const ratio = count / totalApps;
+
+    const dynamicStroke = Math.max(
+      MIN_STROKE_WIDTH,
+      Math.round(ratio * MAX_STROKE_WIDTH)
+    );
+
     links.push({
       source,
       target,
-      strokeWidth: Math.max(6, strokeWidth * 8),
+      value: count,
+      strokeWidth: dynamicStroke,
     });
   });
 
@@ -273,6 +288,9 @@ export default function InteractiveApplicationFlow({
             const endX = targetNode.x;
             const endY = targetNode.y + NODE_H / 2;
 
+            const midX = (startX + endX) / 2;
+            const midY = (startY + endY) / 2;
+
             const controlOffset = (endX - startX) * 0.45;
             const pathData = `M ${startX} ${startY} C ${startX + controlOffset} ${startY}, ${endX - controlOffset} ${endY}, ${endX} ${endY}`;
 
@@ -295,33 +313,64 @@ export default function InteractiveApplicationFlow({
               }
             }
 
+            const labelText = link.value.toLocaleString();
+            const badgeWidth = Math.max(34, labelText.length * 8 + 14);
+            const badgeHeight = 22;
+
             return (
-              <path
-                key={`${link.source}-${link.target}-${idx}`}
-                d={pathData}
-                strokeWidth={link.strokeWidth}
-                className={`transition-all duration-300 cursor-pointer pointer-events-auto ${
-                  isHighlighted ? theme.activeLink : theme.link
-                }`}
-                style={{
-                  opacity: isDimmed ? 0.06 : isHighlighted ? 1 : 0.65,
-                }}
-                strokeLinecap="round"
-                onMouseEnter={() =>
-                  setActiveHover({
-                    type: "link",
-                    source: link.source,
-                    target: link.target,
-                  })
-                }
-                onMouseLeave={() => setActiveHover(null)}
-                filter={
-                  isHighlighted &&
-                  (theme.glow || link.glow || activeHover?.type === "link")
-                    ? `drop-shadow(0px 0px 10px ${theme.glowColor})`
-                    : undefined
-                }
-              />
+              <g key={`${link.source}-${link.target}-${idx}`}>
+                <path
+                  d={pathData}
+                  strokeWidth={link.strokeWidth}
+                  className={`transition-all duration-300 cursor-pointer pointer-events-auto ${
+                    isHighlighted ? theme.activeLink : theme.link
+                  }`}
+                  style={{
+                    opacity: isDimmed ? 0.06 : isHighlighted ? 1 : 0.65,
+                  }}
+                  strokeLinecap="round"
+                  onMouseEnter={() =>
+                    setActiveHover({
+                      type: "link",
+                      source: link.source,
+                      target: link.target,
+                    })
+                  }
+                  onMouseLeave={() => setActiveHover(null)}
+                  filter={
+                    isHighlighted &&
+                    (theme.glow || link.glow || activeHover?.type === "link")
+                      ? `drop-shadow(0px 0px 10px ${theme.glowColor})`
+                      : undefined
+                  }
+                />
+
+                {/* Hover Count Badge on Edge */}
+                {isHighlighted && (
+                  <g
+                    className="pointer-events-none transition-all duration-300"
+                    transform={`translate(${midX}, ${midY})`}
+                  >
+                    <rect
+                      x={-badgeWidth / 2}
+                      y={-badgeHeight / 2}
+                      width={badgeWidth}
+                      height={badgeHeight}
+                      rx={badgeHeight / 2}
+                      className="fill-surface-container-highest stroke-outline-variant/80 shadow-lg"
+                      strokeWidth="1.5"
+                    />
+                    <text
+                      x="0"
+                      y="4"
+                      textAnchor="middle"
+                      className="fill-on-surface text-[11px] font-bold select-none tracking-tight"
+                    >
+                      {labelText}
+                    </text>
+                  </g>
+                )}
+              </g>
             );
           })}
         </svg>
@@ -369,12 +418,18 @@ export default function InteractiveApplicationFlow({
               onMouseLeave={() => setActiveHover(null)}
             >
               <span
-                className={`font-semibold tracking-tight ${node.row === "main" ? "text-3xl" : "text-xl"}`}
+                className={`font-semibold tracking-tight ${
+                  node.row === "main" ? "text-3xl" : "text-xl"
+                }`}
               >
                 {node.value.toLocaleString()}
               </span>
               <span
-                className={`font-medium mt-1 ${node.row === "main" ? "text-xs text-on-surface-variant/80" : "text-[11px] text-on-surface-variant/60"}`}
+                className={`font-medium mt-1 ${
+                  node.row === "main"
+                    ? "text-xs text-on-surface-variant/80"
+                    : "text-[11px] text-on-surface-variant/60"
+                }`}
               >
                 {node.label}
               </span>
