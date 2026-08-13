@@ -7,7 +7,7 @@ import React, { useState, useMemo } from "react";
 // TYPES & INTERFACES
 // ==========================================
 export type ColorTheme = "primary" | "secondary" | "tertiary" | "muted";
-export type RowType = "main" | "sub";
+export type RowType = "main" | "sub" | "sub2";
 export type ColumnIndex = 0 | 1 | 2 | 3 | 4;
 
 export interface SankeyNode {
@@ -64,42 +64,49 @@ const STAGE_CONFIG = [
     id: "preregister",
     label: "Pre-register",
     column: 0,
-    row: "main",
+    row: "main" as const,
     color: "primary" as const,
   },
   {
     id: "applied",
     label: "Applied",
     column: 1,
-    row: "main",
+    row: "main" as const,
     color: "secondary" as const,
   },
   {
     id: "assessment",
     label: "Assessment",
     column: 2,
-    row: "main",
+    row: "main" as const,
     color: "secondary" as const,
   },
   {
     id: "interview",
     label: "Interview",
     column: 3,
-    row: "main",
+    row: "main" as const,
     color: "secondary" as const,
   },
   {
     id: "offer",
     label: "Offer",
     column: 4,
-    row: "main",
+    row: "main" as const,
     color: "tertiary" as const,
   },
   {
     id: "rejected",
     label: "Rejected",
     column: 4,
-    row: "sub",
+    row: "sub" as const,
+    color: "muted" as const,
+  },
+  {
+    id: "ghosted",
+    label: "Ghosted",
+    column: 4,
+    row: "sub2" as const,
     color: "muted" as const,
   },
 ] as const;
@@ -114,6 +121,9 @@ const STAGE_ALIASES: Record<string, string> = {
   offer: "offer",
   offers: "offer",
   rejected: "rejected",
+  ghosted: "ghosted",
+  ghost: "ghosted",
+  noresponse: "ghosted",
 };
 
 function normalizeStageName(value: string) {
@@ -123,6 +133,20 @@ function normalizeStageName(value: string) {
 function resolveStageId(value: string) {
   const normalized = normalizeStageName(value);
   return STAGE_ALIASES[normalized] ?? normalized;
+}
+
+/**
+ * Checks if an application has not received an update in over 30 days.
+ */
+function isApplicationGhosted(application: Application): boolean {
+  if (!application.lastUpdate) return false;
+
+  // Handles both Date objects and ISO strings from API responses
+  const lastUpdateMs = new Date(application.lastUpdate).getTime();
+  if (Number.isNaN(lastUpdateMs)) return false;
+
+  const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+  return Date.now() - lastUpdateMs > THIRTY_DAYS_MS;
 }
 
 function buildSankeyData(applications: Application[]): SankeyData {
@@ -136,6 +160,17 @@ function buildSankeyData(applications: Application[]): SankeyData {
       .filter(Boolean);
 
     if (stages.length === 0) return;
+
+    const lastStage = stages[stages.length - 1];
+    const isTerminal =
+      lastStage === "offer" ||
+      lastStage === "rejected" ||
+      lastStage === "ghosted";
+
+    // Append "ghosted" if inactive for over a month and not in a terminal state
+    if (!isTerminal && isApplicationGhosted(application)) {
+      stages.push("ghosted");
+    }
 
     stages.forEach((stage) => {
       nodeCounts.set(stage, (nodeCounts.get(stage) ?? 0) + 1);
@@ -187,11 +222,15 @@ function buildSankeyData(applications: Application[]): SankeyData {
 }
 
 const LAYOUT_GRID: Record<ColumnIndex, Record<RowType, GridCoords>> = {
-  0: { main: { x: 40, y: 240 }, sub: { x: 40, y: 240 } },
-  1: { main: { x: 235, y: 160 }, sub: { x: 235, y: 420 } },
-  2: { main: { x: 430, y: 120 }, sub: { x: 430, y: 440 } },
-  3: { main: { x: 625, y: 90 }, sub: { x: 625, y: 455 } },
-  4: { main: { x: 820, y: 50 }, sub: { x: 820, y: 470 } },
+  0: { main: { x: 40, y: 240 }, sub: { x: 40, y: 240 }, sub2: { x: 40, y: 240 } },
+  1: { main: { x: 235, y: 160 }, sub: { x: 235, y: 420 }, sub2: { x: 235, y: 420 } },
+  2: { main: { x: 430, y: 120 }, sub: { x: 430, y: 440 }, sub2: { x: 430, y: 440 } },
+  3: { main: { x: 625, y: 90 }, sub: { x: 625, y: 455 }, sub2: { x: 625, y: 455 } },
+  4: {
+    main: { x: 820, y: 40 },  // Offer
+    sub: { x: 820, y: 240 },  // Rejected
+    sub2: { x: 820, y: 440 }, // Ghosted
+  },
 };
 
 // ==========================================
