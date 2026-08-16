@@ -17,10 +17,20 @@ export default function JobPage() {
   const params = useParams();
   const id = params.id as string;
   const router = useRouter();
-  const { getApplication, loading } = useApplications();
+  const { getApplication, updateApplication, loading } = useApplications();
   const modal = useModal();
   const searchParams = useSearchParams();
   const origin = searchParams.get("origin") ?? "home";
+
+  useEffect(() => {
+    if (!application) return;
+
+    const timer = setTimeout(() => {
+      updateApplication(application);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [application])
 
   useEffect(() => {
     if (loading) return;
@@ -116,9 +126,11 @@ export default function JobPage() {
                   >
                     <path d="M324-111.5Q251-143 197-197t-85.5-127Q80-397 80-480t31.5-156Q143-709 197-763t127-85.5Q397-880 480-880t156 31.5Q709-817 763-763t85.5 127Q880-563 880-480t-31.5 156Q817-251 763-197t-127 85.5Q563-80 480-80t-156-31.5ZM440-162v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q41-45 62.5-100.5T800-480q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z" />
                   </svg>
-                  {application.location || application.location !== ""
-                    ? application.location
-                    : "Unknown"}
+                  <h5 className="line-clamp-1">
+                    {application.location || application.location !== ""
+                      ? application.location
+                      : "Unknown"}
+                  </h5>
                 </span>
               </h3>
             </div>
@@ -175,9 +187,12 @@ export default function JobPage() {
                   </div>
                 </h3>
               </div>
-              <p className="whitespace-pre-wrap text-on-surface">
-                {application.notes ?? "No notes for this application"}
-              </p>
+              <textarea 
+                value={application.notes}
+                placeholder="Notes..."
+                onChange={(e) => setApplication(prev => prev ? { ...prev, notes: e.target.value } : prev)}
+                className="whitespace-pre-wrap text-on-surface outline-none">
+              </textarea>
             </div>
           </div>
 
